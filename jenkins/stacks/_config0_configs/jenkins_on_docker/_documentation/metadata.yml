@@ -1,0 +1,13 @@
+desc: The stack installs jenkins on docker to the hostname provided
+release: 0.0.1
+categories: 
+   - ansible
+   - cloud
+tags:
+   - ansible
+   - featured
+   - feature
+   - jenkins
+   - vms
+   - cloud
+   - public_cloud

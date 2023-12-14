@@ -1,0 +1,13 @@
+desc: Creates an ec2 VM for managing AWS with Ubuntu
+release: 0.0.1
+categories: 
+   - admin
+   - aws
+   - ubuntu
+tags:
+   - vms
+   - infrastructure
+   - aws
+   - admin
+   - cloud
+   - public_cloud

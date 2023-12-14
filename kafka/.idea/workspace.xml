@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="aeebe86c-2b1a-4b94-ac57-1d3d0aee8702" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../../copy-commit-jiffy-pkgs.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../../copy-commit-jiffy-pkgs.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../jiffy-pkgs/JiffyCommon/jiffycommon/loggerly.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../jiffy-pkgs/JiffyCommon/jiffycommon/loggerly.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../jiffy-pkgs/JiffyCommon/jiffycommon/serialization.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../jiffy-pkgs/JiffyCommon/jiffycommon/serialization.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../jiffy-pkgs/jiffy-saas/builds/python3/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../jiffy-pkgs/jiffy-saas/builds/python3/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../jiffy-pkgs/jiffy-saas/jiffysaas/api/application.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../jiffy-pkgs/jiffy-saas/jiffysaas/api/application.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../jiffy-pkgs/saas_common/jiffysaascommon/auth0.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../jiffy-pkgs/saas_common/jiffysaascommon/auth0.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../jiffy-pkgs/saas_common/jiffysaascommon/callback.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../jiffy-pkgs/saas_common/jiffysaascommon/callback.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../jiffy-pkgs/saas_common/jiffysaascommon/jiffy_route.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../jiffy-pkgs/saas_common/jiffysaascommon/jiffy_route.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../jiffy-pkgs/saas_common/jiffysaascommon/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../jiffy-pkgs/saas_common/jiffysaascommon/user.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2P3CYwrSqC1b0TLg2SqvKTcPLKu" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "python3"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="aeebe86c-2b1a-4b94-ac57-1d3d0aee8702" name="Changes" comment="" />
+      <created>1682676436593</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1682676436593</updated>
+    </task>
+    <servers />
+  </component>
+</project>

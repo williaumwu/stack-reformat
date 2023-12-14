@@ -1,0 +1,2 @@
+cp -rp /root/.ssh/authorized_keys /root/authorized_keys
+#mv /root/.ssh/authorized_keys /root/authorized_keys
