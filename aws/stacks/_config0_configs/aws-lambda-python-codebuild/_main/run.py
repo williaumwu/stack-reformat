@@ -197,12 +197,10 @@ def run(stackargs):
                  'BUILD_TIMEOUT': stack.build_timeout,
                  'COMPUTE_TYPE': stack.compute_type,
                  'IMAGE_TYPE': stack.image_type,
-                 'BUILDSPEC_HASH': _get_buildspec_hash_v2(stack) }
-    
-    env_vars["CONFIG0_BUILDPARMS_HASH"] = stack.b64_encode({ "env_vars":env_vars,
-                                                             "inputargs": {"app_name":"lambda",
-                                                                           "app_dir":"var/tmp/lambda"}})
-
+                 'BUILDSPEC_HASH': _get_buildspec_hash_v2(stack),
+                 'CONFIG0_BUILDPARMS_HASH': stack.b64_encode({"env_vars": env_vars,
+                                                              "inputargs": {"app_name":"lambda",
+                                                                            "app_dir":"var/tmp/lambda"}})}
     inputargs = {"name": stack.lambda_name,
                  "env_vars": json.dumps(env_vars)}
 
