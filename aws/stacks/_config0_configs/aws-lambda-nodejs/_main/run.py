@@ -91,8 +91,8 @@ def run(stackargs):
     env_vars = stack.get_tagged_vars(tag="env_vars",
                                      output="dict")
 
-    env_vars["LAMBDA_PKG_NAME"] = stack.lambda_name
-    env_vars["WORKING_SUBDIR"] = "var/tmp/lambda"
+    env_vars.update({"LAMBDA_PKG_NAME": stack.lambda_name,
+                     "WORKING_SUBDIR": "var/tmp/lambda"})
 
     if stack.get_attr("debug"):
         env_vars["CONFIG0_ENHANCED_LOGGING"] = "True"
