@@ -138,10 +138,11 @@ def run(stackargs):
                                           "provider":"aws",
                                           "region":stack.aws_default_region})
 
-    inputargs = {"arguments": arguments}
-    inputargs["automation_phase"] = "infrastructure"
-    inputargs["human_description"] = "Parse Terraform for subnets"
-    inputargs["display"] = True
+    inputargs = {"arguments": arguments,
+                 "automation_phase": "infrastructure",
+                 "human_description": "Parse Terraform for subnets",
+                 "display": True}
+
     inputargs["display_hash"] = stack.get_hash_object(inputargs)
 
     stack.parse_terraform.insert(**inputargs)
