@@ -60,9 +60,10 @@ def run(stackargs):
 
     human_description = 'create ssh key name {}'.format(stack.name)
 
-    inputargs = {"arguments": arguments}
-    inputargs["automation_phase"] = "infrastructure"
-    inputargs["human_description"] = human_description
+    inputargs = {"arguments": arguments,
+                "automation_phase": "infrastructure",
+                "human_description": human_description}
+
 
     stack.new_ssh_key.insert(display=True, **inputargs)
 
@@ -72,9 +73,10 @@ def run(stackargs):
 
     human_description = 'upload ssh_public_key {} to DO'.format(stack.name)
 
-    inputargs = {"arguments": arguments}
-    inputargs["automation_phase"] = "infrastructure"
-    inputargs["human_description"] = human_description
+    inputargs = {"arguments": arguments,
+                "automation_phase": "infrastructure",
+                "human_description": human_description}
+
 
     stack.do_ssh_upload.insert(display=True, **inputargs)
 
