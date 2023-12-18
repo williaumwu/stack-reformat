@@ -14,11 +14,12 @@ def run(stackargs):
     stack.init_hostgroups()
 
     # install docker
-    inputargs = {"display":True}
-    inputargs["human_description"] = "Install Docker on hostname {}".format(stack.hostname)
-    inputargs["automation_phase"] = "infrastructure"
-    inputargs["hostname"] = stack.hostname
-    inputargs["groups"] = stack.install_docker
+    inputargs = {"display": True,
+                 "human_description": "Install Docker on hostname {}".format(stack.hostname),
+                 "automation_phase": "infrastructure",
+                 "hostname": stack.hostname,
+                 "groups": stack.install_docker}
+
     stack.add_groups_to_host(**inputargs)
 
     return stack.get_results()
