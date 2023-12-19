@@ -1,11 +1,13 @@
-### new string formatting
+### parser formating
 
 ```
-human_description = "Parse Terraform for {}".format("aws_security_group")
+stack.parse.add_required(key="ttl", default="7200", choices=["3600", "7200"])
 ```
 
 TO
 
 ```
-human_description = f"Parse Terraform for {aws_security_group}"
+stack.parse.add_required(key="ttl", 
+                         default="7200", 
+                         choices=["3600", "7200"])
 ```
