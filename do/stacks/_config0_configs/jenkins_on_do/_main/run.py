@@ -81,9 +81,10 @@ class Main(newSchedStack):
         self.stack.logger.json(arguments)
         self.stack.logger.debug('b'*32)
 
-        inputargs = {"arguments": arguments,
-                    "automation_phase": "infrastructure",
-                    "human_description": 'Create and upload ssh key name {}'.format(self.stack.ssh_key_name)}
+        inputargs = {"arguments": arguments}
+        inputargs["automation_phase"] = "infrastructure"
+        inputargs["human_description"] = 'Create and upload ssh key name {}'.format(
+            self.stack.ssh_key_name)
 
         return self.stack.new_do_ssh_key.insert(display=True,
                                                 **inputargs)
@@ -103,10 +104,10 @@ class Main(newSchedStack):
         arguments = self.stack.get_tagged_vars(tag="droplet",
                                                output="dict")
 
-        inputargs = {"arguments": arguments,
-                    "automation_phase": "infrastructure",
-                    "human_description": 'Create droplet hostname {}'.format(self.stack.hostname)}
-
+        inputargs = {"arguments": arguments}
+        inputargs["automation_phase"] = "infrastructure"
+        inputargs["human_description"] = 'Create droplet hostname {}'.format(
+            self.stack.hostname)
 
         return self.stack.droplet.insert(display=True, **inputargs)
 
@@ -120,10 +121,10 @@ class Main(newSchedStack):
         arguments = self.stack.get_tagged_vars(tag="jenkins",
                                                output="dict")
 
-        inputargs = {"arguments": arguments,
-                    "automation_phase": "infrastructure",
-                    "human_description": 'Install Jenkins on hostname {}'.format(self.stack.hostname)}
-
+        inputargs = {"arguments": arguments}
+        inputargs["automation_phase"] = "infrastructure"
+        inputargs["human_description"] = 'Install Jenkins on hostname {}'.format(
+            self.stack.hostname)
 
         return self.stack.jenkins_on_docker.insert(display=True,
                                                    **inputargs)

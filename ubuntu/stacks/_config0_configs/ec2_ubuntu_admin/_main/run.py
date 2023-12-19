@@ -126,14 +126,14 @@ def run(stackargs):
                         "availability_zone",
                         "aws_default_region" ] 
 
-    arguments = {"resource_type": stack.resource_type,
-                 "name": stack.hostname,
-                 "publish_keys_hash": stack.b64_encode(keys_to_publish),
-                 "prefix_key": "ec2-ubuntu-admin"}
+    arguments = { "resource_type":stack.resource_type }
+    arguments["name"] = stack.hostname
+    arguments["publish_keys_hash"] = stack.b64_encode(keys_to_publish)
+    arguments["prefix_key"] = "ec2-ubuntu-admin"
 
-    inputargs = {"arguments": arguments,
-                 "automation_phase": "infrastructure",
-                 "human_description": 'Publish resource info for {}'.format(stack.resource_type)}
+    inputargs = {"arguments":arguments}
+    inputargs["automation_phase"] = "infrastructure"
+    inputargs["human_description"] = 'Publish resource info for {}'.format(stack.resource_type)
 
     stack.publish_resource.insert(display=True,**inputargs)
 

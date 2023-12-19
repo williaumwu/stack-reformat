@@ -63,11 +63,10 @@ class Main(newSchedStack):
 
         for src_group in self.stack.to_list(self.stack.src_build_groups):
 
-            inputargs = {"arguments": arguments,
-                         "automation_phase": "infrastructure",
-                         "display": True,
-                         "default_values": default_values,
-                         "overide_values": {"build_src_group": src_group}}
+            overide_values["build_src_group"] = src_group
+
+            inputargs = {"default_values": default_values,
+                         "overide_values": overide_values}
 
             self.stack.docker_build_ssh.insert(display=True, **inputargs)
 
@@ -83,9 +82,11 @@ class Main(newSchedStack):
         default_values = {"aws_default_region": self.stack.aws_default_region}
 
         inputargs = {"default_values": default_values,
-                     "overide_values": overide_values,
-                     "automation_phase": "infrastructure",
-                     "human_description": f'Create and upload ssh key name {ssh_key_name}'}
+                     "overide_values": overide_values}
+
+        inputargs["automation_phase"] = "infrastructure"
+        inputargs["human_description"] = 'Create and upload ssh key name {}'.format(
+            ssh_key_name)
 
         return self.stack.new_ec2_ssh_key.insert(display=True, **inputargs)
 
@@ -110,9 +111,11 @@ class Main(newSchedStack):
         default_values = {"aws_default_region": self.stack.aws_default_region}
 
         inputargs = {"default_values": default_values,
-                     "overide_values": overide_values,
-                     "automation_phase": "infrastructure",
-                     "human_description": f'Create IAM role for {self.stack.docker_host}'}
+                     "overide_values": overide_values}
+
+        inputargs["automation_phase"] = "infrastructure"
+        inputargs["human_description"] = 'Create IAM role for {}'.format(
+            self.stack.docker_host)
 
         return self.stack.aws_iam_role.insert(display=True, **inputargs)
 
@@ -143,9 +146,11 @@ class Main(newSchedStack):
                           }
 
         inputargs = {"default_values": default_values,
-                     "overide_values": overide_values,
-                     "automation_phase": "infrastructure",
-                     "human_description": f'Create EC2 admin {self.stack.docker_host}'}
+                     "overide_values": overide_values}
+
+        inputargs["automation_phase"] = "infrastructure"
+        inputargs["human_description"] = 'Create EC2 admin {}'.format(
+            self.stack.docker_host)
 
         return self.stack.ec2_ubuntu_admin.insert(display=True, **inputargs)
 

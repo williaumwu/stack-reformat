@@ -169,9 +169,10 @@ class Main(newSchedStack):
                       "clobber": True,
                       "aws_default_region": self.stack.aws_default_region }
 
-        inputargs = {"arguments": arguments,
-                     "automation_phase": "infrastructure",
-                     "human_description": 'Create and upload ssh key name {}'.format(self.stack.ssh_key_name)}
+        inputargs = {"arguments": arguments}
+        inputargs["automation_phase"] = "infrastructure"
+        inputargs["human_description"] = 'Create and upload ssh key name {}'.format(
+            self.stack.ssh_key_name)
 
         return self.stack.new_ec2_ssh_key.insert(display=True,
                                                  **inputargs)
@@ -233,9 +234,9 @@ class Main(newSchedStack):
         human_description = "Creating bastion config hostname {} on ec2".format(
             self.stack.bastion_hostname)
 
-        inputargs = {"arguments": arguments,
-                     "automation_phase": "infrastructure",
-                     "human_description": human_description}
+        inputargs = {"arguments": arguments }
+        inputargs["automation_phase"] = "infrastructure"
+        inputargs["human_description"] = human_description
 
         return self.stack.ec2_ubuntu.insert(display=True,
                                             **inputargs)

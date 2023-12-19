@@ -279,8 +279,8 @@ gitlab-runner restart
         except:
             cloud_tags = {}
 
-        cloud_tags = {"ci_environment": self.stack.ci_environment,
-                      "aws_default_region": self.stack.aws_default_region}
+        cloud_tags["ci_environment"] = self.stack.ci_environment
+        cloud_tags["aws_default_region"] = self.stack.aws_default_region
 
         return self.stack.b64_encode(cloud_tags)
 
@@ -306,11 +306,12 @@ gitlab-runner restart
         overide_values = { "key_name":ssh_key_name }
         default_values = { "aws_default_region":self.stack.aws_default_region }
 
-        inputargs = {"default_values": default_values,
-                     "overide_values": overide_values,
-                     "automation_phase": "infrastructure",
-                     "human_description": 'Create and upload ssh key name {}'.format(ssh_key_name)}
-
+        inputargs = {"default_values":default_values,
+                     "overide_values":overide_values}
+    
+        inputargs["automation_phase"] = "infrastructure"
+        inputargs["human_description"] = 'Create and upload ssh key name {}'.format(ssh_key_name)
+    
         return self.stack.new_ec2_ssh_key.insert(display=True,**inputargs)
 
     def run_iam(self):
@@ -328,11 +329,12 @@ gitlab-runner restart
 
         default_values = { "aws_default_region":self.stack.aws_default_region }
 
-        inputargs = {"default_values": default_values,
-                     "overide_values": overide_values,
-                     "automation_phase": "infrastructure",
-                     "human_description": 'Create IAM role for {}'.format(self.stack.ci_environment)}
-
+        inputargs = {"default_values":default_values,
+                     "overide_values":overide_values}
+    
+        inputargs["automation_phase"] = "infrastructure"
+        inputargs["human_description"] = 'Create IAM role for {}'.format(self.stack.ci_environment)
+    
         return self.stack.aws_iam.insert(display=True,**inputargs)
 
     def run_s3(self):
@@ -350,11 +352,12 @@ gitlab-runner restart
                            "cloud_tags_hash":cloud_tags_hash,
                            "force_destroy": "true" }
 
-        inputargs = {"default_values": default_values,
-                     "overide_values": overide_values,
-                     "automation_phase": "infrastructure",
-                     "human_description": 'Create s3 bucket {}'.format(s3_bucket)}
-
+        inputargs = { "default_values":default_values,
+                      "overide_values":overide_values }
+    
+        inputargs["automation_phase"] = "infrastructure"
+        inputargs["human_description"] = 'Create s3 bucket {}'.format(s3_bucket)
+    
         return self.stack.aws_s3_bucket.insert(display=True,**inputargs)
 
     def run_subgroup(self):
@@ -366,11 +369,12 @@ gitlab-runner restart
         overide_values = { "group_name": self._get_gitlab_group_name(),
                            "visibility_level":self.stack.visibility_level }
 
-        inputargs = {"default_values": default_values,
-                     "overide_values": overide_values,
-                     "automation_phase": "infrastructure",
-                     "human_description": 'Add subgroup {}'.format(overide_values["group_name"])}
+        inputargs = { "default_values":default_values,
+                      "overide_values":overide_values }
 
+        inputargs["automation_phase"] = "infrastructure"
+        inputargs["human_description"] = 'Add subgroup {}'.format(overide_values["group_name"])
+    
         return self.stack.gitlab_subgroup.insert(display=True,**inputargs)
 
     def run(self):

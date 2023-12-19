@@ -94,8 +94,8 @@ def run(stackargs):
 
     human_description = f'Create lambda function for {stack.lambda_name}'
     inputargs.update({"arguments": arguments,
-                      "automation_phase": "infrastructure",
-                      "human_description": human_description })
+                 "automation_phase": "infrastructure",
+                 "human_description": human_description })
 
     stack.aws_lambda.insert(display=True, **inputargs)
 

@@ -214,13 +214,13 @@ def run(stackargs):
     inputargs = stack.get_tagged_vars(tag="ec2_server",
                                    output="dict")
 
-    inputargs = {"display": True,
-                 "human_description": 'Create an EC2 server hostname "{}"'.format(stack.hostname),
-                 "env_vars": json.dumps(stack.env_vars),
-                 "automation_phase": "infrastructure",
-                 "retries": 2,
-                 "timeout": 300,
-                 "wait_last_run": 2}
+    inputargs["display"] = True
+    inputargs["human_description"] = 'Create a ec2 server hostname "{}"'.format(stack.hostname)
+    inputargs["env_vars"] = json.dumps(stack.env_vars)
+    inputargs["automation_phase"] = "infrastructure"
+    inputargs["retries"] = 2
+    inputargs["timeout"] = 300
+    inputargs["wait_last_run"] = 2
 
     stack.ec2_server.resource_exec(**inputargs)
 

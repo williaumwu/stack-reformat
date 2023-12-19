@@ -37,9 +37,8 @@ def _get_mongodb_hosts(stack):
     private_ips = []
     mongodb_hosts_info = []
 
-    _lookup = {"must_exists": True,
-               "must_be_one": True,
-               "resource_type": "server"}
+    _lookup = {"must_exists":True,"must_be_one":True}
+    _lookup["resource_type"] = "server"
 
     mongodb_hosts = stack.to_list(stack.mongodb_hosts)
 
@@ -159,16 +158,17 @@ def run(stackargs):
     # create and mount volumes
     for mongodb_host_info in mongodb_hosts_info:
 
-        override_values = {"device_name": stack.device_name,
-                           "docker_exec_env": stack.terraform_docker_exec_env,
-                           "aws_default_region": stack.aws_default_region,
-                           "volume_name": mongodb_host_info["volume_name"],
-                           "hostname": mongodb_host_info["hostname"]}
+        overide_values = { "device_name":stack.device_name,
+                           "docker_exec_env":stack.terraform_docker_exec_env,
+                           "aws_default_region":stack.aws_default_region }
+
+        overide_values["volume_name"] = mongodb_host_info["volume_name"]
+        overide_values["hostname"] = mongodb_host_info["hostname"]
 
         if stack.get_attr("cloud_tags_hash"):
             overide_values["cloud_tags_hash"] = stack.cloud_tags_hash
 
-        inputargs = {"overide_values": override_values,
+        inputargs = {"overide_values": overide_values,
                      "automation_phase": "infrastructure",
                      "human_description": 'Attaches ebs volume'}
 

@@ -64,8 +64,8 @@ class Main(newSchedStack):
         except:
             cloud_tags = {}
 
-        cloud_tags.update({"ci_environment": self.stack.ci_environment,
-                           "aws_default_region": self.stack.aws_default_region})
+        cloud_tags["ci_environment"] = self.stack.ci_environment
+        cloud_tags["aws_default_region"] = self.stack.aws_default_region
 
         return self.stack.b64_encode(cloud_tags)
 
@@ -91,14 +91,15 @@ class Main(newSchedStack):
 
         self._set_ec2_params()
 
-        overide_values = {"key_name": self.stack.ssh_key_name}
-        default_values = {"aws_default_region": self.stack.aws_default_region}
+        overide_values = { "key_name":self.stack.ssh_key_name }
+        default_values = { "aws_default_region":self.stack.aws_default_region }
 
-        inputargs = {"default_values": default_values,
-                     "overide_values": overide_values,
-                     "automation_phase": "infrastructure",
-                     "human_description": 'Create and upload ssh key name {}'.format(self.stack.ssh_key_name)}
-
+        inputargs = {"default_values":default_values,
+                     "overide_values":overide_values}
+    
+        inputargs["automation_phase"] = "infrastructure"
+        inputargs["human_description"] = 'Create and upload ssh key name {}'.format(self.stack.ssh_key_name)
+    
         return self.stack.new_ec2_ssh_key.insert(display=True,**inputargs)
 
     def run_s3(self):
@@ -115,12 +116,13 @@ class Main(newSchedStack):
                            "acl": self.stack.bucket_acl,
                            "cloud_tags_hash":cloud_tags_hash,
                            "force_destroy": "true" }
- 
-        inputargs = {"default_values": default_values,
-                     "overide_values": overide_values,
-                     "automation_phase": "infrastructure",
-                     "human_description": 'Create s3 bucket {}'.format(s3_bucket)}
 
+        inputargs = { "default_values":default_values,
+                      "overide_values":overide_values }
+    
+        inputargs["automation_phase"] = "infrastructure"
+        inputargs["human_description"] = 'Create s3 bucket {}'.format(s3_bucket)
+    
         return self.stack.aws_s3_bucket.insert(display=True,**inputargs)
 
     def run_subgroup(self):
@@ -132,11 +134,12 @@ class Main(newSchedStack):
         overide_values = { "group_name": self._get_gitlab_group_name(),
                            "visibility_level":self.stack.visibility_level }
 
-        inputargs = {"default_values": default_values,
-                     "overide_values": overide_values,
-                     "automation_phase": "infrastructure",
-                     "human_description": 'Add subgroup {}'.format(overide_values["group_name"])}
+        inputargs = { "default_values":default_values,
+                      "overide_values":overide_values }
 
+        inputargs["automation_phase"] = "infrastructure"
+        inputargs["human_description"] = 'Add subgroup {}'.format(overide_values["group_name"])
+    
         return self.stack.gitlab_subgroup.insert(display=True,**inputargs)
 
     def _get_gitlab_runner_toml(self):
@@ -167,16 +170,20 @@ LogFormat = "text"
         #enable_public_ip
         #ecs_name
     
-        values = {"LogLevel": "info",
-                  "LogFormat": "text",
-                  "TaskMetadata": {"Directory": "/opt/gitlab-runner/metadata"},
-                  "SSH": {"Username": "root","Port": 22},
-                  "Fargate": {"Cluster": self.stack.ecs_name,
+        values = { "LogLevel": "info",
+                   "LogFormat": "text" }
+
+        values["TaskMetadata"] = { "Directory":"/opt/gitlab-runner/metadata"}
+
+        values["SSH"] = { "Username":"root",
+                          "Port": 22 }
+
+        values["Fargate"] = { "Cluster": self.stack.ecs_name,
                               "Region": self.stack.aws_default_region,
                               "Subnet": self.stack.subnet_ids.split(",")[0],
                               "SecurityGroup": self.stack.ecs_task_definition,
-                              "EnablePublicIP": self.stack.enable_public_ip}}
-
+                              "EnablePublicIP": self.stack.enable_public_ip }
+    
         with open(_config_file,"w") as _f:
             toml.dump(values,_f )
     
@@ -186,13 +193,15 @@ LogFormat = "text"
 
     def _cleanup(self):
 
-        override_values = {"must_exists": True,
-                           "hostname": self.stack.docker_host,
-                           "resource_type": "server"}
+        overide_values = {"must_exists":True}
+        overide_values["hostname"] = self.stack.docker_host
+        overide_values["resource_type"] = "server"
 
-        inputargs = {"override_values": override_values,
-                     "automation_phase": "infrastructure",
-                     "human_description": 'Destroying docker_host {}'.format(self.stack.docker_host)}
+        inputargs = {"overide_values":overide_values}
+
+        human_description = "Destroying docker_host docker_host {}".format(self.stack.docker_host)
+        inputargs["automation_phase"] = "infrastructure"
+        inputargs["human_description"] = human_description
 
         return self.stack.delete_resource.insert(display=True,**inputargs)
 
@@ -259,11 +268,12 @@ LogFormat = "text"
 
         default_values = { "aws_default_region":self.stack.aws_default_region }
 
-        inputargs = {"default_values": default_values,
-                     "override_values": override_values,
-                     "automation_phase": "infrastructure",
-                     "human_description": 'Create IAM role for {}'.format(self.stack.docker_host)}
-
+        inputargs = {"default_values":default_values,
+                     "overide_values":overide_values}
+    
+        inputargs["automation_phase"] = "infrastructure"
+        inputargs["human_description"] = 'Create IAM role for {}'.format(self.stack.docker_host)
+    
         return self.stack.aws_iam_role.insert(display=True,**inputargs)
 
     def run_docker_host(self):
@@ -274,7 +284,7 @@ LogFormat = "text"
 
         user_data_hash = self.stack.b64_encode('echo "cloud-init done"')
 
-        override_values = { "hostname":self.stack.docker_host,
+        overide_values = { "hostname":self.stack.docker_host,
                            "spot": True,
                            "ip_key": "public_ip",
                            "user_data_hash": user_data_hash,
@@ -291,11 +301,12 @@ LogFormat = "text"
                            "sg_id":self.stack.bastion_sg_id,
                            }
 
-        inputargs = {"default_values": default_values,
-                     "override_values": override_values,
-                     "automation_phase": "infrastructure",
-                     "human_description": 'Create EC2 admin {}'.format(self.stack.docker_host)}
-
+        inputargs = {"default_values":default_values,
+                     "overide_values":overide_values}
+    
+        inputargs["automation_phase"] = "infrastructure"
+        inputargs["human_description"] = 'Create EC2 admin {}'.format(self.stack.docker_host)
+    
         return self.stack.ec2_ubuntu_admin.insert(display=True,**inputargs)
 
     #def run_fargate_runner_manager(self):

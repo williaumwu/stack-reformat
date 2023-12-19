@@ -73,8 +73,8 @@ class Main(newSchedStack):
         except:
             cloud_tags = {}
 
-        cloud_tags = {"ci_environment": self.stack.ci_environment,
-                     "aws_default_region": self.stack.aws_default_region}
+        cloud_tags["ci_environment"] = self.stack.ci_environment
+        cloud_tags["aws_default_region"] = self.stack.aws_default_region
 
         return self.stack.b64_encode(cloud_tags)
 
@@ -86,10 +86,10 @@ class Main(newSchedStack):
 
         # this setting is for
         # processing the webhook
-        env_vars = {"DEBUG_LAMBDA": "true",
-                    "BUILD_TTL": "60",
-                    "DISABLE_BRANCH_CHECK": "false",
-                    "DISABLE_EVENT_CHECK": "false"}
+        env_vars["DEBUG_LAMBDA"] = "true"
+        env_vars["BUILD_TTL"] = "60"
+        env_vars["DISABLE_BRANCH_CHECK"] = "false"
+        env_vars["DISABLE_EVENT_CHECK"] = "false"
 
         webhook_hash = self.stack.b64_encode(env_vars)
 
@@ -135,10 +135,10 @@ class Main(newSchedStack):
                      "lambda_name": lambda_name,
                      "aws_default_region": self.stack.aws_default_region}
 
-        inputargs = {"arguments": arguments,
-                     "automation_phase": "infrastructure",
-                     "human_description": 'Create API gateway {}'.format(apigateway_name)}
-
+        inputargs = {"arguments": arguments}
+        inputargs["automation_phase"] = "infrastructure"
+        inputargs["human_description"] = 'Create API gateway {}'.format(
+            apigateway_name)
 
         return self.stack.apigw.insert(display=True, 
                                        **inputargs)
@@ -185,11 +185,11 @@ class Main(newSchedStack):
                      "force_destroy": "true",
                      "enable_lifecycle": "true",
                      "aws_default_region": self.stack.aws_default_region}
-        
-        inputargs = {"arguments": arguments,
-                     "automation_phase": "infrastructure",
-                     "human_description": 'Create s3 bucket {}'.format(s3_bucket)}
 
+        inputargs = {"arguments": arguments}
+        inputargs["automation_phase"] = "infrastructure"
+        inputargs["human_description"] = 'Create s3 bucket {}'.format(
+            s3_bucket)
 
         return self.stack.aws_s3_bucket.insert(display=True, 
                                                **inputargs)
@@ -210,10 +210,11 @@ class Main(newSchedStack):
             arguments = {"dynamodb_name": dynamodb_name,
                          "cloud_tags_hash": cloud_tags_hash,
                          "aws_default_region": self.stack.aws_default_region}
-            
-            inputargs = {"arguments": arguments,
-                         "automation_phase": "infrastructure",
-                         "human_description": 'Create dynamodb {}'.format(dynamodb_name)}
+
+            inputargs = {"arguments": arguments}
+            inputargs["automation_phase"] = "infrastructure"
+            inputargs["human_description"] = 'Create dynamodb {}'.format(
+                dynamodb_name)
 
             results = self.stack.aws_dynamodb.insert(display=True, **inputargs)
 
@@ -442,11 +443,11 @@ class Main(newSchedStack):
         s3_key = "{}.zip".format(lambda_name)
 
         arguments = base_arguments.copy()
-        arguments = {"lambda_env_vars_hash": webhook_env_vars_hash,   # this is special for the processing of the webhook
-                     "lambda_name": lambda_name,
-                     "handler": handler,
-                     "s3_key": s3_key,
-                     "config0_lambda_execgroup_name": self.stack.lambda_webhook.name}
+        arguments["lambda_env_vars_hash"] = webhook_env_vars_hash   # this is special for the processing of the webhook
+        arguments["lambda_name"] = lambda_name
+        arguments["handler"] = handler
+        arguments["s3_key"] = s3_key
+        arguments["config0_lambda_execgroup_name"] = self.stack.lambda_webhook.name
 
         inputargs = {"arguments": arguments,
                      "automation_phase": "infrastructure",
@@ -466,10 +467,10 @@ class Main(newSchedStack):
         for lambda_name, params in lambda_params.items():
 
             arguments = base_arguments.copy()
-            arguments = {"lambda_name": lambda_name,
-                        "handler": params[0],
-                        "s3_key": "{}.zip".format(lambda_name),
-                        "config0_lambda_execgroup_name": params[1]}
+            arguments["lambda_name"] = lambda_name
+            arguments["handler"] = params[0]
+            arguments["s3_key"] = "{}.zip".format(lambda_name)
+            arguments["config0_lambda_execgroup_name"] = params[1]
 
             inputargs = {"arguments": arguments,
                          "automation_phase": "infrastructure",

@@ -15,14 +15,14 @@ def run(stackargs):
     stack.init_variables()
     stack.init_shelloutconfigs()
 
-    env_vars = {"NAME": stack.basename,
-                "METHOD": "create_ssl"}
+    # Create mongodb.pem for MongoDb SSL
+    env_vars = {"NAME":stack.basename}
+    env_vars["METHOD"] = "create_ssl"
 
-    inputargs = {"display": True,
-                 "human_description": 'Create mongodb.pem for MongoDb SSL',
-                 "env_vars": json.dumps(env_vars),
-                 "automation_phase": "infrastructure"}
-
+    inputargs = {"display":True}
+    inputargs["human_description"] = 'Create mongodb.pem for MongoDb SSL'
+    inputargs["env_vars"] = json.dumps(env_vars)
+    inputargs["automation_phase"] = "infrastructure"
     stack.create_keys.resource_exec(**inputargs)
 
     return stack.get_results()

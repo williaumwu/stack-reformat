@@ -47,10 +47,11 @@ def run(stackargs):
 
     env_vars["DOCKER_ENV_FIELDS"] = ",".join(docker_env_fields_keys)
 
-    inputargs = {"display": True,
-                 "env_vars": json.dumps(env_vars),
-                 "stateful_id": stack.stateful_id,
-                 "human_description": 'Creating project "{}"'.format(stack.gitlab_project_name)}
+    inputargs = {"display":True}
+    inputargs["env_vars"] = json.dumps(env_vars)
+    inputargs["display"] = True
+    inputargs["stateful_id"] = stack.stateful_id
+    inputargs["human_description"] = 'Creating project "{}"'.format(stack.gitlab_project_name)
     stack.project.insert(**inputargs)
 
     if not stack.get_attr("publish_to_saas"): 
@@ -63,11 +64,15 @@ def run(stackargs):
                         "resource_type",
                         "namespace_id" ]
 
-    inputargs = {"default_values": {"resource_type": stack.resource_type,
-                                    "publish_keys_hash": stack.b64_encode(keys_to_publish)},
-                 "overide_values": {"name": stack.name},
-                 "automation_phase": "infrastructure",
-                 "human_description": 'Publish resource info for {}'.format(stack.resource_type)}
+    overide_values = { "name":stack.name }
+    default_values = { "resource_type":stack.resource_type }
+    default_values["publish_keys_hash"] = stack.b64_encode(keys_to_publish)
 
+    inputargs = { "default_values":default_values,
+                  "overide_values":overide_values }
+
+    inputargs["automation_phase"] = "infrastructure"
+    inputargs["human_description"] = 'Publish resource info for {}'.format(stack.resource_type)
     stack.publish_resource.insert(display=True,**inputargs)
+
     return stack.get_results()

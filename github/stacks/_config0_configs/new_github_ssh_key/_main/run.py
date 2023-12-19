@@ -62,9 +62,11 @@ def run(stackargs):
     arguments = stack.get_tagged_vars(tag="new_key",
                                       output="dict")
 
-    inputargs = {"arguments": arguments,
-                 "automation_phase": "infrastructure",
-                 "human_description": human_description = 'create ssh key name {}'.format(stack.key_name)}
+    human_description = 'create ssh key name {}'.format(stack.key_name)
+
+    inputargs = {"arguments":arguments}
+    inputargs["automation_phase"] = "infrastructure"
+    inputargs["human_description"] = human_description
 
     stack.new_ssh_key.insert(display=True, **inputargs)
 
@@ -72,9 +74,12 @@ def run(stackargs):
     arguments = stack.get_tagged_vars(tag="upload_key",
                                       output="dict")
 
-    inputargs = {"arguments": arguments,
-                 "automation_phase": "infrastructure",
-                 "human_description": 'pubkey {} to {}'.format(stack.key_name, stack.repo)}
+    human_description = 'pubkey {} to {}'.format(stack.key_name,
+                                                 stack.repo)
+
+    inputargs = {"arguments": arguments}
+    inputargs["automation_phase"] = "infrastructure"
+    inputargs["human_description"] = human_description
 
     stack.github_ssh_upload.insert(display=True, **inputargs)
 
