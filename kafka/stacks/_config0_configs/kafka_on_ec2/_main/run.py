@@ -36,9 +36,9 @@ def _vm_create(server_type, num, stack):
 
         human_description = "Creating hostname {} on ec2".format(hostname)
 
-        inputargs = {"arguments": arguments}
-        inputargs["automation_phase"] = "infrastructure"
-        inputargs["human_description"] = human_description
+        inputargs = {"arguments": arguments,
+                     "automation_phase": "infrastructure",
+                     "human_description": human_description}
 
         stack.ec2_ubuntu.insert(display=True, 
                                 **inputargs)
@@ -180,10 +180,9 @@ class Main(newSchedStack):
                       "clobber": True,
                       "aws_default_region": self.stack.aws_default_region }
 
-        inputargs = {"arguments": arguments}
-        inputargs["automation_phase"] = "infrastructure"
-        inputargs["human_description"] = 'Create and upload ssh key name {}'.format(
-            self.stack.ssh_key_name)
+        inputargs = {"arguments": arguments,
+                     "automation_phase": "infrastructure",
+                     "human_description": 'Create and upload ssh key name {}'.format(stack.ssh_key_name)}
 
         return self.stack.new_ec2_ssh_key.insert(display=True,
                                                  **inputargs)
@@ -243,7 +242,7 @@ class Main(newSchedStack):
         human_description = "Creating bastion config hostname {} on ec2".format(
             self.stack.bastion_hostname)
 
-        inputargs = {"arguments": arguments }
+        # inputargs = {"arguments": arguments }
 
         # testtest777
         try:
@@ -251,8 +250,9 @@ class Main(newSchedStack):
         except:
             self.stack.logger.debug(arguments)
 
-        inputargs["automation_phase"] = "infrastructure"
-        inputargs["human_description"] = human_description
+        inputargs = {"arguments": arguments,
+                     "automation_phase": "infrastructure",
+                     "human_description": human_description}
 
         return self.stack.ec2_ubuntu.insert(display=True,
                                             **inputargs)
@@ -319,10 +319,9 @@ class Main(newSchedStack):
         if self.stack.publish_to_saas:
             arguments["publish_to_saas"] = True
 
-        inputargs = {"arguments": arguments}
-        inputargs["automation_phase"] = "infrastructure"
-        inputargs["human_description"] = "Create Kafka Cluster {}".format(
-            self.stack.kafka_cluster)
+        inputargs = {"arguments": arguments,
+                     "automation_phase": "infrastructure",
+                     "human_description": "Create Kafka Cluster {}".format(stack.kafka_cluster)}
 
         return self.stack.kafka_cluster_on_ubuntu.insert(display=True,
                                                          **inputargs)
@@ -343,10 +342,9 @@ class Main(newSchedStack):
             human_description = "Destroying bastion config hostname {} on ec2".format(
                 self.stack.bastion_hostname)
 
-            inputargs = {"arguments": arguments}
-            inputargs["automation_phase"] = "infrastructure"
-            inputargs["human_description"] = human_description
-
+            inputargs = {"arguments": arguments,
+                         "automation_phase": "infrastructure",
+                         "human_description": human_description}
             return self.stack.delete_resource.insert(display=True,
                                                      **inputargs)
 

@@ -138,10 +138,10 @@ class Main(newSchedStack):
         apigateway_name = "config0-codebuild-shared-{}".format(
             self.stack.ci_environment)
 
-        _lookup = {"must_be_one": True}
-        _lookup["resource_type"] = "apigateway_restapi_lambda"
-        _lookup["provider"] = "aws"
-        _lookup["name"] = apigateway_name
+        _lookup = {"must_be_one": True,
+                   "resource_type": "apigateway_restapi_lambda",
+                   "provider": "aws",
+                   "name": apigateway_name}
 
         results = self.stack.get_resource(**_lookup)[0]
 
@@ -151,10 +151,10 @@ class Main(newSchedStack):
 
         key_name = "{}-codebuild-deploy-key".format(self.stack.codebuild_name)
 
-        _lookup = {"must_be_one": True}
-        _lookup["resource_type"] = "ssh_key_pair"
-        _lookup["provider"] = "config0"
-        _lookup["name"] = key_name
+        _lookup = {"must_be_one": True,
+                   "resource_type": "ssh_key_pair",
+                   "provider": "config0",
+                   "name": key_name}
 
         results = self.stack.get_resource(decrypt=True, **_lookup)[0]
 
@@ -194,15 +194,14 @@ class Main(newSchedStack):
 
         arguments = {"aws_default_region": self.stack.aws_default_region,
                      "repo": self.stack.git_repo,
-                     "secret": self.stack.secret}
+                     "secret": self.stack.secret,
+                     "name": _name,
+                     "url": _url}
 
-        arguments["name"] = _name
-        arguments["url"] = _url
+        inputargs = {"arguments": arguments,
+                     "automation_phase": "continuous_delivery",
+                     "human_description": 'Create Github webhook for codebuild "{}"'.format(self.stack.codebuild_name)}
 
-        inputargs = {"arguments": arguments}
-        inputargs["automation_phase"] = "continuous_delivery"
-        inputargs["human_description"] = 'Create Github webhook for codebuild "{}"'.format(
-            self.stack.codebuild_name)
 
         return self.stack.github_webhook.insert(display=True, **inputargs)
 
@@ -239,17 +238,16 @@ class Main(newSchedStack):
                      "acl": self.stack.bucket_acl,
                      "expire_days": self.stack.bucket_expire_days,
                      "force_destroy": "true",
-                     "enable_lifecycle": "true"}
+                     "enable_lifecycle": "true",
+                     "aws_default_region": self.stack.aws_default_region}
 
-        arguments["aws_default_region"] = self.stack.aws_default_region
 
         if self.stack.get_attr("cloud_tags_hash"):
             arguments["cloud_tags_hash"] = self.stack.cloud_tags_hash
 
-        inputargs = {"arguments": arguments}
-        inputargs["automation_phase"] = "continuous_delivery"
-        inputargs["human_description"] = 'Create s3 bucket "{}" cache'.format(
-            self.s3_bucket_cache)
+        inputargs = {"arguments": arguments,
+                     "automation_phase": "continuous_delivery",
+                     "human_description": 'Create s3 bucket "{}" cache'.format(self.s3_bucket_cache)}
 
         self.stack.aws_s3_bucket.insert(display=True, **inputargs)
 
@@ -257,17 +255,15 @@ class Main(newSchedStack):
                      "acl": self.stack.bucket_acl,
                      "expire_days": self.stack.bucket_expire_days,
                      "force_destroy": "true",
-                     "enable_lifecycle": "true"}
-
-        arguments["aws_default_region"] = self.stack.aws_default_region
+                     "enable_lifecycle": "true",
+                     "aws_default_region": self.stack.aws_default_region}
 
         if self.stack.get_attr("cloud_tags_hash"):
             arguments["cloud_tags_hash"] = self.stack.cloud_tags_hash
 
-        inputargs = {"arguments": arguments}
-        inputargs["automation_phase"] = "continuous_delivery"
-        inputargs["human_description"] = 'Create s3 bucket "{}" output'.format(
-            self.s3_bucket_output)
+        inputargs = {"arguments": arguments,
+                     "automation_phase": "continuous_delivery",
+                     "human_description": 'Create s3 bucket "{}" output'.format(self.s3_bucket_output)}
 
         return self.stack.aws_s3_bucket.insert(display=True, **inputargs)
 
@@ -275,13 +271,13 @@ class Main(newSchedStack):
 
         key_name = "{}-codebuild-deploy-key".format(self.stack.codebuild_name)
 
-        arguments = {"key_name": key_name}
-        arguments["aws_default_region"] = self.stack.aws_default_region
-        arguments["repo"] = self.stack.git_repo
+        arguments = {"key_name": key_name,
+                     "aws_default_region": self.stack.aws_default_region,
+                     "repo": self.stack.git_repo}
 
-        inputargs = {"arguments": arguments}
-        inputargs["automation_phase"] = "continuous_delivery"
-        inputargs["human_description"] = 'Create deploy key "{}"'.format(key_name)
+        inputargs = {"arguments": arguments,
+                     "automation_phase": "continuous_delivery",
+                     "human_description": 'Create deploy key "{}"'.format(key_name)}
 
         return self.stack.new_github_ssh_key.insert(display=True, **inputargs)
 
@@ -318,51 +314,47 @@ class Main(newSchedStack):
 
         # add config0 token
         arguments = {"ssm_key": self.stack.ssm_callback_token,
-                     "ssm_value": self._get_token()}
+                     "ssm_value": self._get_token(),
+                     "aws_default_region": self.stack.aws_default_region}
 
-        arguments["aws_default_region"] = self.stack.aws_default_region
-
-        inputargs = {"arguments": arguments}
-        inputargs["automation_phase"] = "continuous_delivery"
-        inputargs["human_description"] = 'Config0 callback token to ssm'
+        inputargs = {"arguments": arguments,
+                     "automation_phase": "continuous_delivery",
+                     "human_description": 'Config0 callback token to ssm'}
 
         self.stack.aws_ssm_param.insert(display=True, **inputargs)
-
+  
         # add ssh key
         arguments = {"ssm_key": self.stack.ssm_ssh_key,
-                     "ssm_value": self._get_ssh_private_key()}
+                     "ssm_value": self._get_ssh_private_key(),
+                     "aws_default_region": self.stack.aws_default_region}
 
-        arguments["aws_default_region"] = self.stack.aws_default_region
-
-        inputargs = {"arguments": arguments}
-        inputargs["automation_phase"] = "continuous_delivery"
-        inputargs["human_description"] = 'Upload private ssh key to ssm'
+        inputargs = {"arguments": arguments,
+                     "automation_phase": "continuous_delivery",
+                     "human_description": 'Upload private ssh key to ssm'}
 
         self.stack.aws_ssm_param.insert(display=True, **inputargs)
 
         if self.stack.get_attr("docker_token"):
 
             arguments = {"ssm_key": self.stack.ssm_docker_token,
-                         "ssm_value": self.stack.docker_token}
+                         "ssm_value": self.stack.docker_token,
+                         "aws_default_region": self.stack.aws_default_region}
 
-            arguments["aws_default_region"] = self.stack.aws_default_region
-
-            inputargs = {"arguments": arguments}
-            inputargs["automation_phase"] = "continuous_delivery"
-            inputargs["human_description"] = 'Upload docker token to ssm'
+            inputargs = {"arguments": arguments,
+                         "automation_phase": "continuous_delivery",
+                         "human_description": 'Upload docker token to ssm'}
 
             self.stack.aws_ssm_param.insert(display=True, **inputargs)
 
         if self.stack.get_attr("slack_webhook_hash"):
 
             arguments = {"ssm_key": self.stack.ssm_slack_webhook_hash,
-                         "ssm_value": self.stack.slack_webhook_hash}
+                         "ssm_value": self.stack.slack_webhook_hash,
+                         "aws_default_region": self.stack.aws_default_region}
 
-            arguments["aws_default_region"] = self.stack.aws_default_region
-
-            inputargs = {"arguments": arguments}
-            inputargs["automation_phase"] = "continuous_delivery"
-            inputargs["human_description"] = 'Upload slack webhook url to ssm'
+            inputargs = {"arguments": arguments,
+                         "automation_phase": "continuous_delivery",
+                         "human_description": 'Upload slack webhook url to ssm'}
 
             self.stack.aws_ssm_param.insert(display=True, **inputargs)
 
@@ -514,10 +506,10 @@ class Main(newSchedStack):
 
     def _get_token(self):
 
-        _lookup = {"must_be_one": True}
-        _lookup["resource_type"] = "config0_token"
-        _lookup["provider"] = "config0"
-        _lookup["name"] = self.stack.codebuild_name
+        _lookup = {"must_be_one": True,
+                   "resource_type": "config0_token",
+                   "provider": "config0",
+                   "name": self.stack.codebuild_name}
 
         return str(self.stack.get_resource(**_lookup)[0]["token"])
 
@@ -534,14 +526,12 @@ class Main(newSchedStack):
 
         arguments = {"table_name": table_name,
                      "hash_key": "_id",
-                     "item_hash": item_hash}
+                     "item_hash": item_hash,
+                     "aws_default_region": self.stack.aws_default_region}
 
-        arguments["aws_default_region"] = self.stack.aws_default_region
-
-        inputargs = {"arguments": arguments}
-        inputargs["automation_phase"] = "continuous_delivery"
-        inputargs["human_description"] = 'Add setting item for codebuild name {}'.format(
-            self.stack.codebuild_name)
+        inputargs = {"arguments": arguments,
+                     "automation_phase": "continuous_delivery",
+                     "human_description": 'Add setting item for codebuild name {}'.format(self.stack.codebuild_name)}
 
         return self.stack.dynamodb.insert(display=True, **inputargs)
 
@@ -564,11 +554,11 @@ class Main(newSchedStack):
 
         codebuild_env_vars = {"GIT_URL": self.stack.git_url}
 
-        arguments = {"docker_registry": self.stack.docker_registry}
-        arguments["ssm_params_hash"] = self.stack.b64_encode(ssm_params)
-        arguments["codebuild_env_vars_hash"] = self.stack.b64_encode(codebuild_env_vars)
-        arguments["aws_default_region"] = self.stack.aws_default_region
-        arguments["codebuild_name"] = self.stack.codebuild_name
+        arguments = {"docker_registry": self.stack.docker_registry,
+                     "ssm_params_hash": self.stack.b64_encode(ssm_params),
+                     "codebuild_env_vars_hash": self.stack.b64_encode(codebuild_env_vars),
+                     "aws_default_region": self.stack.aws_default_region,
+                     "codebuild_name": self.stack.codebuild_name}
 
         if self.stack.get_attr("cloud_tags_hash"):
             arguments["cloud_tags_hash"] = self.stack.cloud_tags_hash
@@ -576,14 +566,14 @@ class Main(newSchedStack):
         # using tmp bucket for logs
         self._set_codebuild_buckets()
 
-        arguments["s3_bucket"] = "{}-tmp".format(self._get_s3_bucket())
-        arguments["s3_bucket_cache"] = self.s3_bucket_cache
-        arguments["s3_bucket_output"] = self.s3_bucket_output
-        arguments["aws_default_region"] = self.stack.aws_default_region
+        arguments = {"s3_bucket": "{}-tmp".format(self._get_s3_bucket()),
+                     "s3_bucket_cache": self.s3_bucket_cache,
+                     "s3_bucket_output": self.s3_bucket_output,
+                     "aws_default_region": self.stack.aws_default_region}
 
-        inputargs = {"arguments": arguments}
-        inputargs["automation_phase"] = "continuous_delivery"
-        inputargs["human_description"] = 'Create Codebuild project "{}"'.format(self.stack.codebuild_name)
+        inputargs = {"arguments": arguments,
+                     "automation_phase": "continuous_delivery",
+                     "human_description": 'Create Codebuild project "{}"'.format(self.stack.codebuild_name)}
 
         return self.stack.aws_codebuild.insert(display=True, **inputargs)
 

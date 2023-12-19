@@ -1,4 +1,5 @@
 def default():
+
     task = {
         'method': 'shelloutconfig',
         'metadata': {
@@ -6,4 +7,5 @@ def default():
             'shelloutconfigs': ['config0-hub:::aws::codebuild-srcfile']
         }
     }
+
     return task

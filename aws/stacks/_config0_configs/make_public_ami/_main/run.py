@@ -23,17 +23,16 @@ def run(stackargs):
                             region=stack.aws_default_region,
                             config_env=stack.config_env)
 
-    env_vars = {"AWS_DEFAULT_REGION": stack.aws_default_region}
-    env_vars["METHOD"] = "make_public"
-    env_vars["IMAGE_ID"] = image
+    env_vars = {"AWS_DEFAULT_REGION": stack.aws_default_region,
+                "METHOD": "make_public",
+                "IMAGE_ID": image}
 
-    inputargs = {"display": True}
-    inputargs["human_description"] = 'Making image_id {} public with shelloutconfig "{}"'.format(
-        image, stack.shelloutconfig)
-    inputargs["env_vars"] = json.dumps(env_vars)
-    inputargs["retries"] = stack.retries
-    inputargs["timeout"] = stack.timeout
-    inputargs["wait_last_run"] = stack.wait_last_run
+    inputargs = {"display": True,
+                "human_description": 'Making image_id {} public with shelloutconfig "{}"'.format(image, stack.shelloutconfig),
+                "env_vars": json.dumps(env_vars),
+                "retries": stack.retries,
+                "timeout": stack.timeout,
+                "wait_last_run": stack.wait_last_run}
     stack.ec2_ami.run(**inputargs)
 
     return stack.get_results()
