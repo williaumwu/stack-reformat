@@ -203,14 +203,6 @@ def run(stackargs):
     private_key = _get_private_key(stack)
     host_info = _get_host_info(stack)
 
-    # env_vars = {"STATEFUL_ID": stack.random_id(size=10)}
-    # env_vars["DOCKER_EXEC_ENV"] = stack.ansible_docker_runtime
-    # env_vars["ANS_VAR_volume_fstype"] = stack.volume_fstype
-    # env_vars["ANS_VAR_volume_mountpoint"] = stack.volume_mountpoint
-    # env_vars["ANS_VAR_private_key"] = private_key
-    # env_vars["METHOD"] = "create"
-    # env_vars["ANS_VAR_exec_ymls"] = "entry_point/20-format.yml,entry_point/30-mount.yml"
-
     env_vars = { "STATEFUL_ID": stack.random_id(size=10),
         "DOCKER_EXEC_ENV" : stack.ansible_docker_runtime,
         "ANS_VAR_volume_fstype" : stack.volume_fstype,
@@ -219,25 +211,18 @@ def run(stackargs):
         "METHOD" : "create",
         "ANS_VAR_exec_ymls": "entry_point/20-format.yml,entry_point/30-mount.yml"}
 
-
     if stack.get_attr("config_network") == "private":
         env_vars["ANS_VAR_host_ips"] = host_info["private_ip"]
     else:
         env_vars["ANS_VAR_host_ips"] = host_info["public_ip"]
 
-    # inputargs = {"display": True}
-    # inputargs["human_description"] = 'format/mount vol on instance_id "{}" fstype {} mountpoint {}'.format(stack.instance_id,stack.volume_fstype,stack.volume_mountpoint)
-    # inputargs["env_vars"] = json.dumps(env_vars)
-    # inputargs["stateful_id"] = env_vars["STATEFUL_ID"]
-    # inputargs["automation_phase"] = "infrastructure"
-
     human_description = 'format/mount vol on instance_id "{}" fstype {} mountpoint {}'.format(stack.instance_id,stack.volume_fstype,stack.volume_mountpoint)
 
     inputargs = { "display": True,
-        "human_description" : human_description,
-        "env_vars" : json.dumps(env_vars),
-        "stateful_id" : env_vars["STATEFUL_ID"],
-        "automation_phase" : "infrastructure"}
+                  "human_description" : human_description,
+                  "env_vars" : json.dumps(env_vars),
+                  "stateful_id" : env_vars["STATEFUL_ID"],
+                  "automation_phase" : "infrastructure"}
 
     stack.config_vol.insert(**inputargs)
 

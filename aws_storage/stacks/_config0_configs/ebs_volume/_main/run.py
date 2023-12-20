@@ -8,12 +8,8 @@ def _determine_avail_zone(stack):
 
     # we lookup instance_id or hostname
     # and use the available zone from the instance
-
-    # _lookup = {"must_be_one":True}
-    # _lookup["resource_type"] ="server"
-
     _lookup = {"must_be_one": True,
-                "resource_type" : "server"}
+               "resource_type" : "server"}
 
     if stack.get_attr("aws_default_region"):
         _lookup["region"] = stack.aws_default_region

@@ -44,7 +44,7 @@ def run(stackargs):
 
     if not stack.get_attr("ssm_description"):
         stack.set_variable("ssm_description",
-                            "The ssm parameter for key = {}".format(stack.ssm_key))
+                           "The ssm parameter for key = {}".format(stack.ssm_key))
 
     # use the terraform constructor (helper)
     # but this is optional

@@ -3,17 +3,11 @@ from config0_publisher.terraform import TFConstructor
 
 def _get_instance_id(stack):
 
-    # _lookup = {"must_exists": True}
-    # _lookup["must_be_one"] = True
-    # _lookup["resource_type"] = "server"
-    # _lookup["hostname"] = stack.hostname
-    # _lookup["region"] = stack.aws_default_region
-
     _lookup ={ "must_exists": True,
-                "must_be_one" : True,
-                "resource_type" : "server",
-                "hostname" : stack.hostname,
-                "region" : stack.aws_default_region}
+               "must_be_one" : True,
+               "resource_type" : "server",
+               "hostname" : stack.hostname,
+               "region" : stack.aws_default_region}
 
     _info = list(stack.get_resource(**_lookup))[0]
 
@@ -21,12 +15,6 @@ def _get_instance_id(stack):
 
 
 def _get_volume_id(stack):
-
-    # _lookup = {"must_exists": True}
-    # _lookup["must_be_one"] = True
-    # _lookup["name"] = stack.volume_name
-    # _lookup["resource_type"] = "ebs_volume"
-    # _lookup["region"] = stack.aws_default_region
 
     _lookup = { "must_exists": True,
                 "must_be_one" : True,
