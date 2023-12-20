@@ -1,11 +1,13 @@
 def run(stackargs):
-
+    #fixfix777
     #from time import sleep
 
     stack = newStack(stackargs)
 
-    stack.parse.add_required(key="destroy_resources", default="null")
-    stack.parse.add_required(key="keep_resources", default="null")
+    stack.parse.add_required(key="destroy_resources", 
+                             default="null")
+    stack.parse.add_required(key="keep_resources", 
+                             default="null")
     stack.parse.add_required(key="ref_schedule_id")
 
     # Initialize Variables in stack
@@ -13,7 +15,9 @@ def run(stackargs):
 
     # If there are no resources for the schedule id, we completed
     if not stack.get_resource(ref_schedule_id=stack.ref_schedule_id):
-        stack.logger.warn("There are no resources to delete for schedule {}".format(stack.ref_schedule_id))
+        stack.logger.warn("There are no resources to delete for schedule {}"\
+                          .format(stack.ref_schedule_id))
+        
         return stack.get_results(None)
 
     # Delete destroy resources as specified and in order
@@ -21,7 +25,8 @@ def run(stackargs):
 
         destroy_resources = stack.to_json(stack.destroy_resources)
 
-        stack.logger.debug("destroy resources include {}".format(destroy_resources))
+        stack.logger.debug("destroy resources include {}"\
+                           .format(destroy_resources))
 
         for destroy_resource in destroy_resources:
 
@@ -35,7 +40,8 @@ def run(stackargs):
             for resource in resources:
 
                 # put this in as an order so it's no blocking?
-                stack.logger.debug("removing resource {}".format(resource))
+                stack.logger.debug("removing resource {}"\
+                                   .format(resource))
 
                 stack.remove_resource(ref_only=None, 
                                       **resource)
@@ -44,8 +50,9 @@ def run(stackargs):
     all_resources = stack.get_resource(ref_schedule_id=stack.ref_schedule_id)
 
     if not all_resources:
-        stack.logger.warn("There are no other resources to delete for schedule {}".format(
-            stack.ref_schedule_id))
+        stack.logger.warn("There are no other resources to delete for schedule {}"\
+                          .format(stack.ref_schedule_id))
+        
         return stack.get_results(None)
 
     # See if there are any keep resources
@@ -54,11 +61,13 @@ def run(stackargs):
     # Gather the id for the keep resources
     if stack.get_attr("keep_resources"):
         keep_resources = stack.to_json(stack.keep_resources)
-        stack.logger.debug("keep resources first include {}".format(keep_resources))
+        stack.logger.debug("keep resources first include {}"\
+                           .format(keep_resources))
 
         for keep_resource in keep_resources:
             keep_resource["ref_schedule_id"] = stack.ref_schedule_id
-            stack.logger.debug("searching for keep resource {}".format(keep_resource))
+            stack.logger.debug("searching for keep resource {}"\
+                               .format(keep_resource))
             resources = stack.get_resource(**keep_resource)
 
             if not resources:
@@ -66,11 +75,13 @@ def run(stackargs):
 
             for resource in resources:
 
-                stack.logger.debug("keep resource id {}".format(resource["_id"]))
+                stack.logger.debug("keep resource id {}"\
+                                   .format(resource["_id"]))
 
                 keep_resource_ids.append(resource["_id"])
 
-    stack.logger.debug("keep resource ids {}".format(keep_resource_ids))
+    stack.logger.debug("keep resource ids {}"\
+                       .format(keep_resource_ids))
 
     # Remove keep resource ids
     # we ignore ones with a parent, since
@@ -81,7 +92,8 @@ def run(stackargs):
 
         if resource.get("parent"):
             stack.logger.debug(
-                "resource name {} has a parent ...skipping".format(resource.get("name")))
+                "resource name {} has a parent ...skipping"\
+                    .format(resource.get("name")))
             continue
 
         if resource["_id"] in keep_resource_ids:
@@ -89,11 +101,13 @@ def run(stackargs):
 
         remaining_resources.append(resource)
 
-    stack.logger.debug("remaining_resources {}".format(remaining_resources))
+    stack.logger.debug("remaining_resources {}"\
+                       .format(remaining_resources))
 
     if not remaining_resources:
-        stack.logger.warn("There are no other remaining resources to delete for schedule {}".format(
-            stack.ref_schedule_id))
+        stack.logger.warn("There are no other remaining resources to delete for schedule {}"\
+                          .format(stack.ref_schedule_id))
+        
         return stack.get_results(None)
 
     # Delete remaining resources if any exists

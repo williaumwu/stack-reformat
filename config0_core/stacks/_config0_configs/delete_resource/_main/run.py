@@ -2,11 +2,16 @@ def run(stackargs):
 
     stack = newStack(stackargs)
 
-    stack.parse.add_optional(key="resource_type", default="null")
-    stack.parse.add_optional(key="name", default="null")
-    stack.parse.add_optional(key="hostname", default="null")
-    stack.parse.add_optional(key="ref_schedule_id", default="null")
-    stack.parse.add_optional(key="must_exists", default="null")
+    stack.parse.add_optional(key="resource_type", 
+                             default="null")
+    stack.parse.add_optional(key="name", 
+                             default="null")
+    stack.parse.add_optional(key="hostname", 
+                             default="null")
+    stack.parse.add_optional(key="ref_schedule_id", 
+                             default="null")
+    stack.parse.add_optional(key="must_exists", 
+                             default="null")
 
     # Initialize Variables in stack
     stack.init_variables()
@@ -39,7 +44,8 @@ def run(stackargs):
         stack.remove_resource(ref_only=None, **_dinputargs[0])
 
     elif _dinputargs and len(_dinputargs) > 1:
-        error_msg = "More than resource found for {}".format(_destroy_match)
+        error_msg = "More than resource found for {}"\
+            .format(_destroy_match)
         stack.logger.error(error_msg)
         raise Exception(error_msg)
 

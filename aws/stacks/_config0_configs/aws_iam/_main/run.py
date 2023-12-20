@@ -71,7 +71,8 @@ def run(stackargs):
     stack.parse.add_optional(key="allows_hash")
     stack.parse.add_optional(key="denies_hash")
 
-    stack.add_execgroup("config0-hub:::aws::iam-keys", "tf_execgroup")
+    stack.add_execgroup("config0-hub:::aws::iam-keys",
+                        "tf_execgroup")
 
     # Add substack
     stack.add_substack('config0-hub:::tf_executor')
@@ -104,9 +105,7 @@ def run(stackargs):
     tf.include(values={"cred_type":"aws"})
 
     tf.include(maps={"values": {"AWS_ACCESS_KEY_ID": "id",
-                                "AWS_SECRET_ACCESS_KEY": "secret"}
-                     }
-               )
+                                "AWS_SECRET_ACCESS_KEY": "secret"}})
 
     tf.exclude(keys=["ses_smtp_password_v4"])
 
@@ -115,55 +114,3 @@ def run(stackargs):
                              **tf.get())
 
     return stack.get_results()
-
-# "apigatewaymanagementapi:*",
-# "dynamodbstreams:*",
-# "events:*",
-# "route53domains:*",
-# "s3control:*",
-# "sagemaker-a2i-runtime:*",
-# "sms-voice:*",
-# "s3api:*",
-# "route53resolver:*",
-# "elbv2:*",
-# "kafka-cluster:*",
-# "execute-api-general",
-# "appmesh",
-# "cognito-identity",
-# "cloudformation:*",
-# "cloud9:*",
-# "cloudtrail:*",
-# "devicefarm:*",
-# "discovery:*",
-# "efs:*",
-# "elb:*",
-# "emr:*",
-# "glacier:*",
-# "glue:*",
-# "kafka:*",
-# "kinesis:*",
-# "logs:*",
-# "redshift:*",
-# "securityhub:*",
-# "servicediscovery:*",
-# "sns:*",
-# "acm:*",
-# "apigatewayv2:*",
-# "appmesh:*",
-# "cloudfront:*",
-# "cloudwatch:*",
-# "codecommit:*",
-# "codestar:*",
-# "docdb:*",
-# "ebs:*",
-# "ecs:*",
-# "route53:*",
-# "sagemaker:*",
-# "sqs:*",
-# "apigateway:*",
-# "execute-api:*",
-# "iam:*",
-# "stepfunctions:*"]
-# "codepipeline:*",
-# "codebuild:*",
-# "dynamodb:*" ]

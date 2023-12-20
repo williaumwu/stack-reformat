@@ -7,6 +7,7 @@ def run(stackargs):
 
     # Initialize Variables in stack
     stack.init_variables()
-    stack.add_groups_to_host(groups=stack.groups, hostname=stack.hostname)
+    stack.add_groups_to_host(groups=stack.groups,
+                              hostname=stack.hostname)
 
     return stack.get_results()

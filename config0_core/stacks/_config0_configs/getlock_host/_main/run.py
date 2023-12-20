@@ -8,11 +8,15 @@ def run(stackargs):
     stack.parse.add_required(key="docker_guest")
     stack.parse.add_required(key="sched_type")
     stack.parse.add_required(key="sched_name")
-    stack.parse.add_required(key="add_env_var",default="true")
-    stack.parse.add_required(key="destroy_instance",default="null")
+    stack.parse.add_required(key="add_env_var",
+                             default="true")
+    stack.parse.add_required(key="destroy_instance",
+                             default="null")
 
-    stack.parse.add_optional(key="publish2pipeline",default="null")
-    stack.parse.add_optional(key="add_groups",default="null")
+    stack.parse.add_optional(key="publish2pipeline",
+                             default="null")
+    stack.parse.add_optional(key="add_groups",
+                             default="null")
 
     #stack.add_substack('config0-hub:::config0-core::register_config_container')
     stack.add_substack('config0-hub:::config0-core::publish_info')
@@ -86,12 +90,13 @@ def run(stackargs):
 
     # publish 2 pipeline
     if stack.get_attr("publish2pipeline"):
-        overide_values = {}
-        overide_values["hostname"] = stack.docker_guest
-        overide_values["add_env_var"] = stack.add_env_var
-        inputargs = {"overide_values":overide_values}
-        inputargs["automation_phase"] = "continuous_delivery"
-        inputargs["human_description"] = 'Publish info for dock_guest"{}"'.format(stack.docker_guest)
+        overide_values = {"hostname": stack.docker_guest,
+                          "add_env_var": stack.add_env_var }
+        
+        human_description = 'Publish info for dock_guest "{}"'.format(stack.docker_guest)
+        inputargs = {"overide_values": overide_values,
+                     "automation_phase": "continuous_delivery",
+                     "human_description": human_description }
         stack.publish_info.insert(display=True,**inputargs)
 
     # remove request_lock
@@ -101,8 +106,8 @@ def run(stackargs):
 
     default_values = {}
     default_values["hostname"] = stack.docker_host
-    human_description = 'Removing lock docker_guest "{}" on "{}"'.format(stack.docker_guest,
-                                                                         stack.docker_host)
+    human_description = 'Removing lock docker_guest "{}" on "{}"'\
+        .format(stack.docker_guest,stack.docker_host)
 
     stack.insert_builtin_cmd(cmd,
                              order_type=order_type,

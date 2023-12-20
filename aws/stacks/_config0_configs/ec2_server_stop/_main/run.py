@@ -3,7 +3,9 @@ def run(stackargs):
     stack = newStack(stackargs)
 
     stack.parse.add_required(key="hostname")
-    stack.parse.add_required(key="time_increment", default=30)
+
+    stack.parse.add_required(key="time_increment",
+                             default=30)
 
     # init the stack namespace
     stack.init_variables()
@@ -16,8 +18,7 @@ def run(stackargs):
 
     # Stop the server when done to save money
     stack.modify_resource(resource_type="server",
-                          human_description='Stopping resource server hostname "{}"'.format(
-                              stack.hostname),
+                          human_description='Stopping resource server hostname "{}"'.format(stack.hostname),
                           provider="ec2",
                           name=stack.hostname,
                           method="stop")
@@ -25,8 +26,7 @@ def run(stackargs):
     # sleep to make sure the server stopped
     stack.add_external_cmd(cmd="sleep {0}".format(stack.time_increment),
                            order_type="sleep::shellout",
-                           human_description="sleeping {}".format(
-                               stack.time_increment),
+                           human_description="sleeping {}".format(stack.time_increment),
                            display=True,
                            role="external/cli/execute")
 

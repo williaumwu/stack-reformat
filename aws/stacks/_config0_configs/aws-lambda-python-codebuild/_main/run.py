@@ -1,13 +1,17 @@
 def _set_codebuild_image(stack):
 
     if stack.runtime == "python3.9":
-        stack.set_variable("build_image",'aws/codebuild/standard:5.0')
+        stack.set_variable("build_image",
+                           'aws/codebuild/standard:5.0')
     elif stack.runtime == "python3.10":
-        stack.set_variable("build_image",'aws/codebuild/standard:6.0')
+        stack.set_variable("build_image",
+                           'aws/codebuild/standard:6.0')
     elif stack.runtime == "python3.11":
-        stack.set_variable("build_image",'aws/codebuild/standard:7.0')
+        stack.set_variable("build_image",
+                           'aws/codebuild/standard:7.0')
     else:
-        stack.set_variable("build_image",'aws/codebuild/standard:7.0')
+        stack.set_variable("build_image",
+                           'aws/codebuild/standard:7.0')
 
 def _get_buildspec_hash_v1(stack):
 
@@ -122,25 +126,42 @@ def run(stackargs):
     stack.parse.add_required(key="s3_bucket")
     stack.parse.add_optional(key="s3_key")
 
-    stack.parse.add_optional(key="handler", default="app.handler")
-    stack.parse.add_optional(key="runtime", default="python3.8")
-    stack.parse.add_optional(key="memory_size", default="256")
-    stack.parse.add_optional(key="lambda_timeout", default="900")
+    stack.parse.add_optional(key="handler",
+                             default="app.handler")
+
+    stack.parse.add_optional(key="runtime",
+                             default="python3.8")
+
+    stack.parse.add_optional(key="memory_size",
+                             default="256")
+
+    stack.parse.add_optional(key="lambda_timeout",
+                             default="900")
+
     stack.parse.add_optional(key="lambda_layers")
     stack.parse.add_optional(key="policy_template_hash")
 
-    stack.parse.add_optional(key="aws_default_region", default="us-east-1")
+    stack.parse.add_optional(key="aws_default_region",
+                             default="us-east-1")
+
     stack.parse.add_optional(key="lambda_env_vars_hash")
-    stack.parse.add_optional(key="cloud_tags_hash",default='null')
 
-    stack.parse.add_optional(key="stateful_id", default="_random")
-    stack.parse.add_optional(key="share_dir", default="/var/tmp/share")
-    stack.parse.add_optional(key="script_name", default="docker-to-lambda.sh")  # script name to run in codebuild
-    stack.parse.add_optional(key="codebuild_role", default="config0-assume-poweruser")
+    stack.parse.add_optional(key="cloud_tags_hash",
+                             default='null')
 
-    # testtest333
-    # codebuild params
-    # use selectors later
+    stack.parse.add_optional(key="stateful_id",
+                             default="_random")
+
+    stack.parse.add_optional(key="share_dir",
+                             default="/var/tmp/share")
+
+    stack.parse.add_optional(key="script_name",
+                             default="docker-to-lambda.sh")  # script name to run in codebuild
+
+    stack.parse.add_optional(key="codebuild_role",
+                             default="config0-assume-poweruser")
+
+    # codebuild params use selectors later
     stack.parse.add_optional(key="codebuild_basename",
                             types="str",
                             default="config0-iac")
@@ -181,7 +202,8 @@ def run(stackargs):
 
     # set more stack vars
     stack.set_variable("run_share_dir",
-                       os.path.join(stack.share_dir,stack.stateful_id))
+                       os.path.join(stack.share_dir,
+                                    stack.stateful_id))
 
     env_vars = { 'LAMBDA_PKG_NAME': stack.lambda_name,
                  'PYTHON_VERSION': stack.runtime.split("python")[1],

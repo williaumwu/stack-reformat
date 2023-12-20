@@ -46,10 +46,11 @@ def run(stackargs):
                              types="str")
 
     # add execgroup
-    stack.add_execgroup("config0-hub:::aws_storage::buckets", "tf_execgroup")
+    stack.add_execgroup("config0-hub:::aws_storage::buckets",
+                        "tf_execgroup")
 
     # Add substack
-    stack.add_substack('config0-hub:::tf_executor')
+    stack.add_substack("config0-hub:::tf_executor")
 
     # initialize Variables in stack
     stack.init_variables()
@@ -58,7 +59,7 @@ def run(stackargs):
 
     # use the terraform constructor (helper)
     # but this is optional
-    tf = TFConstructor(stack=stack,
+    tf = TFConstructor(stack= stack,
                        execgroup_name=stack.tf_execgroup.name,
                        provider="aws",
                        resource_name=stack.bucket,
@@ -71,7 +72,7 @@ def run(stackargs):
                      "arn",
                      "id"])
 
-    tf.include(maps={"id": "arn"})
+    tf.include(maps={"id":"arn"})
 
     tf.output(keys=["arn",
                     "name",

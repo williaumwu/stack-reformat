@@ -10,7 +10,9 @@ def run(stackargs):
     stack.parse.add_optional(key="run_id")
     stack.parse.add_optional(key="job_instance_id")
     stack.parse.add_optional(key="job_id")
-    stack.parse.add_optional(key="aws_default_region", default="us-east-1")
+
+    stack.parse.add_optional(key="aws_default_region",
+                             default="us-east-1")
 
     # declare execution groups
     stack.add_substack("config0-hub:::new_ssh_key")
@@ -21,7 +23,8 @@ def run(stackargs):
     stack.init_substacks()
 
     if not stack.get_attr("key_name") and stack.get_attr("name"):
-        stack.set_variable("key_name", stack.name)
+        stack.set_variable("key_name",
+                           stack.name)
 
     if not stack.get_attr("key_name"):
         msg = "key_name or name variable has to be set"
@@ -38,7 +41,8 @@ def run(stackargs):
                 "automation_phase": "infrastructure",
                 "human_description": 'create ssh key name {}'.format(stack.key_name)}
 
-    stack.new_ssh_key.insert(display=True, **inputargs)
+    stack.new_ssh_key.insert(display=True,
+                             **inputargs)
 
     # upload ssh key
     arguments = {"key_name": stack.key_name,
@@ -52,6 +56,7 @@ def run(stackargs):
                  "automation_phase": "infrastructure",
                  "human_description": 'upload ssh_public_key {} to EC2'.format(stack.key_name)}
 
-    stack.ec2_ssh_upload.insert(display=True, **inputargs)
+    stack.ec2_ssh_upload.insert(display=True,
+                                **inputargs)
 
     return stack.get_results()

@@ -4,13 +4,20 @@ def run(stackargs):
     stack = newStack(stackargs)
 
     # Add default variables
-    stack.parse.add_optional(key="name",default='null')
-    stack.parse.add_optional(key="key_name",default='null')
-    stack.parse.add_optional(key="schedule_id",default="null")
-    stack.parse.add_optional(key="run_id",default="null")
-    stack.parse.add_optional(key="job_instance_id",default="null")
-    stack.parse.add_optional(key="job_id",default="null")
-    stack.parse.add_optional(key="clobber",default="null")
+    stack.parse.add_optional(key="name",
+                             default='null')
+    stack.parse.add_optional(key="key_name",
+                             default='null')
+    stack.parse.add_optional(key="schedule_id",
+                             default="null")
+    stack.parse.add_optional(key="run_id",
+                             default="null")
+    stack.parse.add_optional(key="job_instance_id",
+                             default="null")
+    stack.parse.add_optional(key="job_id",
+                             default="null")
+    stack.parse.add_optional(key="clobber",
+                             default="null")
 
     # Initialize Variables in stack
     stack.init_variables()
@@ -29,7 +36,8 @@ def run(stackargs):
         role = "cloud/ssh_keys"
 
         overide_values = {"name":stack.key_name}
-        human_description = "Deletes ssh_key {} if it exists".format(stack.key_name)
+        human_description = "Deletes ssh_key {} if it exists"\
+            .format(stack.key_name)
 
         stack.insert_builtin_cmd(cmd,
                                  order_type=order_type,
@@ -58,7 +66,8 @@ def run(stackargs):
     if stack.get_attr("job_id"): 
         default_values["job_id"] = stack.job_id
 
-    human_description = "Generate new ssh_key {} if it does not exists".format(stack.key_name)
+    human_description = "Generate new ssh_key {} if it does not exists"\
+        .format(stack.key_name)
 
     stack.insert_builtin_cmd(cmd,
                              order_type=order_type,

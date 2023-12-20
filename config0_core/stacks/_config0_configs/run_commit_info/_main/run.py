@@ -8,6 +8,7 @@ def run(stackargs):
     # Add default variables
     stack.parse.add_required(key="run_id")
     stack.parse.add_required(key="commit_info")
+    #fixfix777
     # stack.parse.add_required(key="job_name")
     # stack.parse.add_required(key="sched_name")
 
@@ -35,10 +36,12 @@ def run(stackargs):
     stack.logger.aggmsg("commit_info")
     stack.logger.aggmsg("type {}".format(type(stack.commit_info)))
     stack.logger.aggmsg(stack.commit_info)
-    stack.logger.aggmsg("", prt=True, cmethod="debug_highlight")
+    stack.logger.aggmsg("", prt=True, 
+                        cmethod="debug_highlight")
 
     # Parse the commit info to place in the run metadata
-    inserts = stack.dict_to_dict(keys2pass, {}, stack.commit_info)
+    inserts = stack.dict_to_dict(keys2pass, {}, 
+                                 stack.commit_info)
 
     commit_url = stack.commit_info.get("url")
     if commit_url:
@@ -77,9 +80,10 @@ def run(stackargs):
         inserts["sha"] = inserts["commit_hash"]
 
     # Direct insert to run
-    inputargs = {"run_id": stack.run_id}
-    inputargs["data"] = {"commit": inserts}
-    inputargs["mkey"] = "code"
+    inputargs = {"run_id": stack.run_id,
+                 "data": {"commit": inserts},
+                 "mkey": "code" }
+
     stack.run_metadata.add(**inputargs)
 
     return stack.get_results()

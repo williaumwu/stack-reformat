@@ -40,7 +40,8 @@ def run(stackargs):
         stack.logger.debug("The http_port assigned is {}".format(stack.http_port))
 
     if stack.get_attr("ssh_port") and stack.ports: 
-        stack.ports = "{},{}:22".format(stack.ports,stack.ssh_port)
+        stack.ports = "{},{}:22".format(stack.ports,
+                                        stack.ssh_port)
 
     if stack.get_attr("ssh_port") and not stack.get_attr("ports"): 
         stack.ports = "{}:22".format(stack.ssh_port)
@@ -57,23 +58,24 @@ def run(stackargs):
     order_type = "remote_shelloutconfig::api"
     role = "host/execute"
 
-    default_values = {}
-    default_values["hostname"] = stack.docker_host
-    default_values["shelloutconfigs"] = "gary:::public::docker/docker_guest_cp_template"
-    default_values["ip_key"] = "private_ip"
-    default_values["env_file"] = "{}.env".format(stack.docker_host)
+    default_values = {"hostname": stack.docker_host,
+                      "shelloutconfigs": "gary:::public::docker/docker_guest_cp_template",
+                      "ip_key": "private_ip",
+                      "env_file": "{}.env".format(stack.docker_host) }
 
-    custom_envs = "CLUSTER={} SCHED_TYPE={} DOCKER_HOSTNAME={} DOCKER_PORTS={} SSH_PORT={} SCHED_NAME={}".format(stack.cluster,
-                                                                                                                 stack.sched_type,
-                                                                                                                 stack.docker_guest,
-                                                                                                                 stack.ports,
-                                                                                                                 stack.ssh_port,
-                                                                                                                 stack.sched_name)
+    custom_envs = "CLUSTER={} SCHED_TYPE={} DOCKER_HOSTNAME={} DOCKER_PORTS={} SSH_PORT={} SCHED_NAME={}"\
+        .format(stack.cluster,
+                stack.sched_type,
+                stack.docker_guest,
+                stack.ports,
+                stack.ssh_port,
+                stack.sched_name)
 
     stack.logger.debug("custom_envs:\n {}".format(custom_envs))
 
     default_values["custom_envs"] = custom_envs
-    human_description = "Creating Docker Guest for sched_name = {}".format(stack.sched_name)
+    human_description = "Creating Docker Guest for sched_name = {}"\
+        .format(stack.sched_name)
 
     stack.insert_builtin_cmd(cmd,
                              order_type=order_type,
@@ -95,18 +97,20 @@ def run(stackargs):
     order_type = "register-docker_guest::api"
     role = "cloud/server"
 
-    default_values = {}
-    default_values["docker_host"] = stack.docker_host
-    default_values["docker_guest"] = stack.docker_guest
-    default_values["ports"] = stack.ports
-    default_values["build_dir"] = "{}/{}/{}/{}".format("/var/tmp/docker/build",
-                                                       stack.cluster,
-                                                       stack.sched_type,
-                                                       stack.sched_name)
+    default_values = {"docker_host": stack.docker_host,
+                      "docker_guest": stack.docker_guest,
+                      "ports": stack.ports,
+                      "build_dir": "{}/{}/{}/{}".format("/var/tmp/docker/build",
+                                                    stack.cluster,
+                                                    stack.sched_type,
+                                                    stack.sched_name) }
+
 
     stack.insert_builtin_cmd(cmd,
                              order_type=order_type,
-                             human_description='Registering docker_guest "{}" on "{}".'.format(stack.docker_guest,stack.docker_host),
+                             human_description='Registering docker_guest "{}" on "{}".'\
+                                .format(stack.docker_guest,
+                                        stack.docker_host),
                              display=True,
                              default_values=default_values,
                              role=role)
@@ -116,9 +120,9 @@ def run(stackargs):
     order_type = "add-host::api"
     role = "host/add"
 
-    overide_values = {"tags":None}
-    overide_values["hostname"] = stack.docker_guest
-    overide_values["docker_guest"] = True
+    overide_values = {"tags": None,
+                      "hostname": stack.docker_guest,
+                      "docker_guest": True }
 
     human_description = 'Adding/Recording host "{}"'.format(stackargs["docker_guest"])
     long_description = "Adds host = {} to Jiffy".format(stackargs["docker_guest"])

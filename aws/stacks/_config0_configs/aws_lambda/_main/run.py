@@ -8,8 +8,7 @@ def _default_policy():
                                         "logs:CreateLogStream",
                                         "logs:PutLogEvents"],
                              "Resource": "arn:aws:logs:*:*:*",
-                             "Effect": "Allow"}]
-              }
+                             "Effect": "Allow"}]}
 
     return policy
 
@@ -20,8 +19,7 @@ def _assume_default_policy():
               "Statement": [{"Action": "sts:AssumeRole",
                              "Principal": {"Service": "lambda.amazonaws.com"},
                              "Effect": "Allow",
-                             "Sid": ""}]
-              }
+                             "Sid": ""}]}
 
     return policy
 
@@ -82,7 +80,8 @@ def run(stackargs):
                              types="str")
 
     # Add execgroup
-    stack.add_execgroup("config0-hub:::aws::add_lambda", "tf_execgroup")
+    stack.add_execgroup("config0-hub:::aws::add_lambda",
+                        "tf_execgroup")
 
     # Add substack
     stack.add_substack('config0-hub:::tf_executor')

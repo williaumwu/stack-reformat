@@ -2,7 +2,8 @@ def run(stackargs):
 
     stack = newStack(stackargs)
 
-    stack.parse.add_required(key="description", default="null")
+    stack.parse.add_required(key="description", 
+                             default="null")
 
     # Initialize Variables in stack
     stack.init_variables()

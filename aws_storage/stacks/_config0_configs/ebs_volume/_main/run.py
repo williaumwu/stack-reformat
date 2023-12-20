@@ -8,9 +8,8 @@ def _determine_avail_zone(stack):
 
     # we lookup instance_id or hostname
     # and use the available zone from the instance
-
-    _lookup = {"must_be_one": True}
-    _lookup["resource_type"] = "server"
+    _lookup = {"must_be_one": True,
+               "resource_type" : "server"}
 
     if stack.get_attr("aws_default_region"):
         _lookup["region"] = stack.aws_default_region
@@ -70,10 +69,11 @@ def run(stackargs):
                              types="str")
 
     # Add execgroup
-    stack.add_execgroup("config0-hub:::aws_storage::ebs_volume", "tf_execgroup")
+    stack.add_execgroup("config0-hub:::aws_storage::ebs_volume",
+                        "tf_execgroup")
 
     # Add substack
-    stack.add_substack('config0-hub:::tf_executor')
+    stack.add_substack("config0-hub:::tf_executor")
 
     # Initialize Variables in stack
     stack.init_variables()
@@ -98,7 +98,7 @@ def run(stackargs):
                      "arn",
                      "id"])
 
-    tf.include(maps={"volume_id": "id"})
+    tf.include(maps={"volume_id":"id"})
 
     # finalize the tf_executor
     stack.tf_executor.insert(display=True,
