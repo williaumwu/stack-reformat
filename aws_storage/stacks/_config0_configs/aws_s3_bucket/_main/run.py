@@ -7,43 +7,43 @@ def run(stackargs):
     stack = newStack(stackargs)
 
     # Add default variables
-    stack.parse.add_required(key= "bucket",
-                             tags= "resource, db, tfvar",
-                             types= "str")
+    stack.parse.add_required(key="bucket",
+                             tags="resource,db,tfvar",
+                             types="str")
 
-    stack.parse.add_required(key= "acl",
-                             default= "_random",
-                             tags= "tfvar",
-                             types= "str")
+    stack.parse.add_required(key="acl",
+                             default="_random",
+                             tags="tfvar",
+                             types="str")
 
-    stack.parse.add_optional(key= "versioning",
-                             tags= "resource, tfvar",
-                             default= None,
-                             types= "bool")
+    stack.parse.add_optional(key="versioning",
+                             tags="resource,tfvar",
+                             default=None,
+                             types="bool")
 
-    stack.parse.add_optional(key= "force_destroy",
-                             tags= "resource, tfvar",
-                             default= None,
-                             types= "bool")
+    stack.parse.add_optional(key="force_destroy",
+                             tags="resource,tfvar",
+                             default=None,
+                             types="bool")
 
-    stack.parse.add_optional(key= "enable_lifecycle",
-                             tags= "resource, tfvar",
-                             default= None,
-                             types= "bool")
+    stack.parse.add_optional(key="enable_lifecycle",
+                             tags="resource,tfvar",
+                             default=None,
+                             types="bool")
 
-    stack.parse.add_optional(key= "noncurrent_version_expiration",
-                             tags= "resource, tfvar",
-                             default= None,
-                             types= "bool")
+    stack.parse.add_optional(key="noncurrent_version_expiration",
+                             tags="resource,tfvar",
+                             default=None,
+                             types="bool")
 
-    stack.parse.add_optional(key= "expire_days",
-                             tags= "resource, db, tfvar",
-                             types= "int")
+    stack.parse.add_optional(key="expire_days",
+                             tags="resource,db,tfvar",
+                             types="int")
 
-    stack.parse.add_optional(key= "aws_default_region",
-                             default= "eu-west-1",
-                             tags= "tfvar, db, resource, runtime_settings",
-                             types= "str")
+    stack.parse.add_optional(key="aws_default_region",
+                             default="eu-west-1",
+                             tags="tfvar,db,resource,runtime_settings",
+                             types="str")
 
     # add execgroup
     stack.add_execgroup("config0-hub:::aws_storage::buckets",
@@ -60,11 +60,11 @@ def run(stackargs):
     # use the terraform constructor (helper)
     # but this is optional
     tf = TFConstructor(stack= stack,
-                       execgroup_name= stack.tf_execgroup.name,
-                       provider= "aws",
-                       resource_name= stack.bucket,
-                       resource_type= "cloud_storage",
-                       terraform_type= "aws_s3_bucket")
+                       execgroup_name=stack.tf_execgroup.name,
+                       provider="aws",
+                       resource_name=stack.bucket,
+                       resource_type="cloud_storage",
+                       terraform_type="aws_s3_bucket")
 
     tf.include(keys=["server_side_encryption_configuration",
                      "lifecycle_rule",
@@ -72,7 +72,7 @@ def run(stackargs):
                      "arn",
                      "id"])
 
-    tf.include(maps={"id": "arn"})
+    tf.include(maps={"id":"arn"})
 
     tf.output(keys=["arn",
                     "name",
@@ -83,7 +83,7 @@ def run(stackargs):
                     "resource_type"])
 
     # finalize the tf_executor
-    stack.tf_executor.insert(display= True,
+    stack.tf_executor.insert(display=True,
                              **tf.get())
 
     return stack.get_results()

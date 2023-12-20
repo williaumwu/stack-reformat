@@ -7,23 +7,23 @@ def run(stackargs):
     stack = newStack(stackargs)
 
     # Add default variables
-    stack.parse.add_required(key= "table_name",
-                             tags= "tfvar, db",
-                             types= "str")
+    stack.parse.add_required(key="table_name",
+                             tags="tfvar,db",
+                             types="str")
 
-    stack.parse.add_required(key= "item_hash",
-                             tags= "tfvar",
-                             types= "str")
+    stack.parse.add_required(key="item_hash",
+                             tags="tfvar",
+                             types="str")
 
-    stack.parse.add_optional(key= "hash_key",
-                             default= "_id",
-                             tags= "tfvar",
-                             types= "str")
+    stack.parse.add_optional(key="hash_key",
+                             default="_id",
+                             tags="tfvar",
+                             types="str")
 
-    stack.parse.add_optional(key= "aws_default_region",
-                             default= "eu-west-1",
-                             tags= "tfvar, db, resource, runtime_settings",
-                             types= "str")
+    stack.parse.add_optional(key="aws_default_region",
+                             default="eu-west-1",
+                             tags="tfvar,db,resource,runtime_settings",
+                             types="str")
 
     # Add execgroup
     stack.add_execgroup(
@@ -40,21 +40,21 @@ def run(stackargs):
 
     # use the terraform constructor (helper)
     # but this is optional
-    tf = TFConstructor(stack= stack,
-                       execgroup_name= stack.tf_execgroup.name,
-                       provider= "aws",
-                       resource_name= stack.table_name,
-                       resource_type= "db_item",
-                       terraform_type= "aws_dynamodb_table_item")
+    tf = TFConstructor(stack=stack,
+                       execgroup_name=stack.tf_execgroup.name,
+                       provider="aws",
+                       resource_name=stack.table_name,
+                       resource_type="db_item",
+                       terraform_type="aws_dynamodb_table_item")
 
     tf.include(keys=["table_name",
                      "id",
                      "timeout"])
 
-    tf.include(maps={"name": "table_name"})
+    tf.include(maps={"name":"table_name"})
 
     # finalize the tf_executor
-    stack.tf_executor.insert(display= True,
+    stack.tf_executor.insert(display=True,
                              **tf.get())
 
     return stack.get_results()

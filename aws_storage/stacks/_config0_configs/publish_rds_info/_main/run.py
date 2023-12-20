@@ -4,32 +4,32 @@ def run(stackargs):
     stack = newStack(stackargs)
 
     # add variables
-    stack.parse.add_required(key= "db_instance_name")
+    stack.parse.add_required(key="db_instance_name")
 
-    stack.parse.add_required(key= "db_root_user",
-                             default= "null")
+    stack.parse.add_required(key="db_root_user",
+                             default="null")
 
-    stack.parse.add_required(key= "db_root_password",
-                             default= "null")
+    stack.parse.add_required(key="db_root_password",
+                             default="null")
 
-    stack.parse.add_optional(key= "db_name",
-                             default= "null")
+    stack.parse.add_optional(key="db_name",
+                             default="null")
 
-    stack.parse.add_optional(key= "db_user",
-                             default= "null")
+    stack.parse.add_optional(key="db_user",
+                             default="null")
 
-    stack.parse.add_optional(key= "db_password",
-                             default= "null")
+    stack.parse.add_optional(key="db_password",
+                             default="null")
 
-    stack.parse.add_optional(key= "publish_creds",
-                             default= "null")
+    stack.parse.add_optional(key="publish_creds",
+                             default="null")
 
     # init the stack namespace
     stack.init_variables()
 
-    _info = stack.get_resource(name= stack.db_instance_name,
-                               resource_type= "rds",
-                               must_be_one= True)[0]
+    _info = stack.get_resource(name=stack.db_instance_name,
+                               resource_type="rds",
+                               must_be_one=True)[0]
 
     engine = _info.get("engine")
 

@@ -7,27 +7,28 @@ def run(stackargs):
     stack = newStack(stackargs)
 
     # Add default variables
-    stack.parse.add_required(key= "dynamodb_name",
-                             tags= "resource, runtime_settings, db, tfvar",
-                             types= "str")
+    stack.parse.add_required(key="dynamodb_name",
+                             tags="resource,runtime_settings,db,tfvar",
+                             types="str")
 
-    stack.parse.add_optional(key= "hash_key",
-                             default= "_id",
-                             tags= "resource, db, tfvar",
-                             types= "str")
+    stack.parse.add_optional(key="hash_key",
+                             default="_id",
+                             tags="resource,db,tfvar",
+                             types="str")
 
-    stack.parse.add_optional(key= "billing_mode",
-                             default= "PAY_PER_REQUEST",
-                             tags= "resource, db, tfvar",
-                             types= "str")
+    stack.parse.add_optional(key="billing_mode",
+                             default="PAY_PER_REQUEST",
+                             tags="resource,db,tfvar",
+                             types="str")
 
-    stack.parse.add_optional(key= "aws_default_region",
-                             default= "eu-west-1",
-                             tags= "tfvar, db, resource, runtime_settings",
-                             types= "str")
+    stack.parse.add_optional(key="aws_default_region",
+                             default="eu-west-1",
+                             tags="tfvar,db,resource,runtime_settings",
+                             types="str")
 
     # Add execgroup
-    stack.add_execgroup("config0-hub:::aws_storage::dynamodb", "tf_execgroup")
+    stack.add_execgroup("config0-hub:::aws_storage::dynamodb",
+                        "tf_execgroup")
 
     # Add substack
     stack.add_substack("config0-hub:::tf_executor")
@@ -39,12 +40,12 @@ def run(stackargs):
 
     # use the terraform constructor (helper)
     # but this is optional
-    tf = TFConstructor(stack= stack,
-                       execgroup_name= stack.tf_execgroup.name,
-                       provider= "aws",
-                       resource_name= stack.dynamodb_name,
-                       resource_type= "aws_dynamodb",
-                       terraform_type= "aws_dynamodb_table")
+    tf = TFConstructor(stack=stack,
+                       execgroup_name=stack.tf_execgroup.name,
+                       provider="aws",
+                       resource_name=stack.dynamodb_name,
+                       resource_type="aws_dynamodb",
+                       terraform_type="aws_dynamodb_table")
 
     tf.include(keys=["billing_mode",
                      "arn",
@@ -52,7 +53,7 @@ def run(stackargs):
                      "name",
                      "ttl"])
 
-    tf.include(maps={"id": "arn"})
+    tf.include(maps={"id":"arn"})
 
     tf.output(keys=["billing_mode",
                     "arn",

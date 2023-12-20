@@ -6,17 +6,17 @@ def run(stackargs):
     stack = newStack(stackargs)
 
     # Add default variables
-    stack.parse.add_required(key= "name",
-                             default= "null",
-                             types= "str")
+    stack.parse.add_required(key="name",
+                             default="null",
+                             types="str")
 
-    stack.parse.add_required(key= "docker_repo",
-                             default= "null",
-                             types= "str")
+    stack.parse.add_required(key="docker_repo",
+                             default="null",
+                             types="str")
 
-    stack.parse.add_optional(key= "aws_default_region",
-                             default= "eu-west-1",
-                             types= "str")
+    stack.parse.add_optional(key="aws_default_region",
+                             default="eu-west-1",
+                             types="str")
 
     # Add shelloutconfig dependencies
     stack.add_shelloutconfig(
@@ -36,9 +36,9 @@ def run(stackargs):
         stack.ehandle.NeedRtInput(message= msg)
 
     # Check if ECR repo exists for docker images
-    docker_repo = stack.check_resource(name= name,
-                                       resource_type= "ecr_repo",
-                                       provider= "aws")
+    docker_repo = stack.check_resource(name=name,
+                                       resource_type="ecr_repo",
+                                       provider="aws")
 
     if not docker_repo:
 
@@ -77,10 +77,10 @@ def run(stackargs):
         stack.logger.debug(msg)
 
         cmd = "sleep 1"
-        stack.add_external_cmd(cmd= cmd,
-                               order_type= "report::shellout",
-                               human_description= msg,
-                               display= True,
-                               role= "external/cli/execute")
+        stack.add_external_cmd(cmd=cmd,
+                               order_type="report::shellout",
+                               human_description=msg,
+                               display=True,
+                               role="external/cli/execute")
 
     return stack.get_results()

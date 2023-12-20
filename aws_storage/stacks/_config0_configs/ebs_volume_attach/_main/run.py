@@ -45,24 +45,24 @@ def run(stackargs):
     stack = newStack(stackargs)
 
     # Add default variables
-    stack.parse.add_required(key= "hostname",
-                             tags= "resource,db",
-                             types= "str")
+    stack.parse.add_required(key="hostname",
+                             tags="resource,db",
+                             types="str")
 
-    stack.parse.add_optional(key= "volume_name",
-                             tags= "resource,db",
-                             default= None,
-                             types= "str")
+    stack.parse.add_optional(key="volume_name",
+                             tags="resource,db",
+                             default=None,
+                             types="str")
 
-    stack.parse.add_optional(key= "device_name",
-                             tags= "tfvars, db, resource",
-                             default= "/dev/xvdc",
-                             types= "str")
+    stack.parse.add_optional(key="device_name",
+                             tags="tfvars,db,resource",
+                             default="/dev/xvdc",
+                             types="str")
 
-    stack.parse.add_optional(key= "aws_default_region",
-                             default= "eu-west-1",
-                             tags= "tfvar, db, resource, runtime_settings",
-                             types= "str")
+    stack.parse.add_optional(key="aws_default_region",
+                             default="eu-west-1",
+                             tags="tfvar,db,resource,runtime_settings",
+                             types="str")
 
     # Add execgroup
     stack.add_execgroup("config0-hub:::aws_storage::attach_volume_to_ec2",
@@ -83,27 +83,27 @@ def run(stackargs):
 
     stack.set_variable("instance_id",
                        _get_instance_id(stack),
-                       tags= "resource, tfvar")
+                       tags="resource,tfvar")
 
     stack.set_variable("volume_id",
                        _get_volume_id(stack),
-                       tags= "resource, tfvar")
+                       tags="resource,tfvar")
 
     # use the terraform constructor (helper)
     # but this is optional
-    tf = TFConstructor(stack= stack,
-                       execgroup_name= stack.tf_execgroup.name,
-                       provider= "aws",
-                       resource_name= "attachment_{}".format(stack.volume_name),
-                       resource_type= "ebs_volume_attach",
-                       terraform_type= "aws_volume_attachment")
+    tf = TFConstructor(stack=stack,
+                       execgroup_name=stack.tf_execgroup.name,
+                       provider="aws",
+                       resource_name="attachment_{}".format(stack.volume_name),
+                       resource_type="ebs_volume_attach",
+                       terraform_type="aws_volume_attachment")
 
-    tf.include(keys= ["arn"])
+    tf.include(keys=["arn"])
 
-    tf.include(maps= {"id": "arn"})
+    tf.include(maps= {"id":"arn"})
 
     # finalize the tf_executor
-    stack.tf_executor.insert(display= True,
+    stack.tf_executor.insert(display=True,
                              **tf.get())
 
     return stack.get_results()
