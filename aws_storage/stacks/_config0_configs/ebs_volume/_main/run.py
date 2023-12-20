@@ -27,8 +27,8 @@ def _determine_avail_zone(stack):
 
     stack.set_variable("availability_zone",
                        server_info["availability_zone"],
-                       tags="tfvar",
-                       types="str")
+                       tags= "tfvar",
+                       types= "str")
 
     return
 
@@ -42,38 +42,39 @@ def run(stackargs):
     stack = newStack(stackargs)
 
     # Add default variables
-    stack.parse.add_required(key="volume_name",
-                             tags="tfvar,db",
-                             types="str")
+    stack.parse.add_required(key= "volume_name",
+                             tags= "tfvar, db",
+                             types= "str")
 
-    stack.parse.add_required(key="volume_size",
-                             default=10,
-                             tags="tfvar,db",
+    stack.parse.add_required(key= "volume_size",
+                             default= 10,
+                             tags= "tfvar, db",
                              types="int")
 
-    stack.parse.add_optional(key="availability_zone",
-                             default="null",
-                             tags="tfvar,db",
-                             types="str")
+    stack.parse.add_optional(key= "availability_zone",
+                             default= "null",
+                             tags= "tfvar, db",
+                             types= "str")
 
-    stack.parse.add_optional(key="hostname",
-                             default="null",
-                             types="str,db")
+    stack.parse.add_optional(key= "hostname",
+                             default= "null",
+                             types= "str, db")
 
-    stack.parse.add_optional(key="instance_id",
-                             default="null",
-                             types="str,db")
+    stack.parse.add_optional(key= "instance_id",
+                             default= "null",
+                             types= "str, db")
 
-    stack.parse.add_optional(key="aws_default_region",
-                             default="eu-west-1",
-                             tags="tfvar,db,resource,runtime_settings",
+    stack.parse.add_optional(key= "aws_default_region",
+                             default= "eu-west-1",
+                             tags= "tfvar, db, resource, runtime_settings",
                              types="str")
 
     # Add execgroup
-    stack.add_execgroup("config0-hub:::aws_storage::ebs_volume", "tf_execgroup")
+    stack.add_execgroup("config0-hub:::aws_storage::ebs_volume",
+                        "tf_execgroup")
 
     # Add substack
-    stack.add_substack('config0-hub:::tf_executor')
+    stack.add_substack("config0-hub:::tf_executor")
 
     # Initialize Variables in stack
     stack.init_variables()
@@ -87,12 +88,12 @@ def run(stackargs):
 
     # use the terraform constructor (helper)
     # but this is optional
-    tf = TFConstructor(stack=stack,
-                       execgroup_name=stack.tf_execgroup.name,
-                       provider="aws",
-                       resource_name=stack.volume_name,
-                       resource_type="ebs_volume",
-                       terraform_type="aws_ebs_volume")
+    tf = TFConstructor(stack= stack,
+                       execgroup_name= stack.tf_execgroup.name,
+                       provider= "aws",
+                       resource_name= stack.volume_name,
+                       resource_type= "ebs_volume",
+                       terraform_type= "aws_ebs_volume")
 
     tf.include(keys=["availability_zone",
                      "arn",
@@ -101,7 +102,7 @@ def run(stackargs):
     tf.include(maps={"volume_id": "id"})
 
     # finalize the tf_executor
-    stack.tf_executor.insert(display=True,
+    stack.tf_executor.insert(display= True,
                              **tf.get())
 
     return stack.get_results()
