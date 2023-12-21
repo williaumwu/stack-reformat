@@ -150,11 +150,11 @@ class ResourceSettings(object):
         human_description = "Creating name {} type {}".format(self.name,
                                                               self.type)
         
-        inputargs = {"display": True,
-                     "env_vars": json.dumps(self.env_vars),
-                     "name": self.name,
-                     "human_description": human_description,
-                     "stateful_id": self.stack.stateful_id }
+        inputargs = {"display":True}
+        inputargs["env_vars"] = json.dumps(self.env_vars)
+        inputargs["name"] = self.name
+        inputargs["human_description"] = human_description
+        inputargs["stateful_id"] = self.stack.stateful_id
 
         if self.stack.get_attr("ssm_name"):
             inputargs["ssm_name"] = self.stack.ssm_name
@@ -174,19 +174,18 @@ class ResourceSettings(object):
         if not self.output_keys:
             return
 
-        overide_values = {"name":self.name,
-                          "resource_type":self.type,
-                          "ref_schedule_id":self.stack.schedule_id,
-                          "publish_keys_hash":self.stack.b64_encode(self.output_keys) }
+        overide_values = { "name":self.name,
+                           "resource_type":self.type,
+                           "ref_schedule_id":self.stack.schedule_id,
+                           "publish_keys_hash":self.stack.b64_encode(self.output_keys) }
 
         if self.output_prefix_key:
             overide_values["prefix_key"] = self.output_prefix_key
 
-        human_description = 'Output resource name "{}" type "{}"'.format(self.name, self.type)
-
         inputargs = {"overide_values": overide_values,
                      "automation_phase": "infrastructure",
-                     "human_description": human_description }
+                     "human_description": 'Output resource name "{}" type "{}"'.format(self.name,
+                                                                                       self.type)}
 
         return inputargs
 
@@ -216,21 +215,20 @@ class TFExecutor(object):
 
         if self.stack.get_attr("cloud_tags_hash"):
 
-            self.tf_vars["cloud_tags"] = {"value":json.dumps(self.stack.b64_decode(self.stack.cloud_tags_hash)), 
-                                          "type": "dict",
-                                          "key": "cloud_tags" }
+            self.tf_vars["cloud_tags"] = { "value":json.dumps(self.stack.b64_decode(self.stack.cloud_tags_hash)), 
+                                           "type": "dict",
+                                           "key": "cloud_tags" }
 
-        tf_settings = {"tf_vars":self.tf_vars,
-                       "terraform_type":self.type,
-                       "resource_params": self.resource_params }
+        tf_settings = { "tf_vars":self.tf_vars,
+                        "terraform_type":self.type,
+                        "resource_params": self.resource_params }
 
         return tf_settings
 
     def get_config0_resource_settings(self):
 
-        self.resource.runtime_settings.settings["env_vars"]["RESOURCE_TAGS"] = "{},{}"\
-            .format(self.resource.type, 
-            self.resource.name)
+        self.resource.runtime_settings.settings["env_vars"]["RESOURCE_TAGS"] = "{},{}".format(self.resource.type, 
+                                                                                    self.resource.name)
 
         expression = "self.resource.set_{}()".format(self.resource.provider)
 
@@ -358,14 +356,14 @@ def run(stackargs):
     stack.add_execgroup(stack.execgroup_ref,"cloud_resource")  
     stack.reset_execgroups()
 
-    inputargs = {"docker_runtime":stack.docker_runtime,
-                 "provider": stack.provider,
-                 "stateful_id": stack.stateful_id,
-                 "execgroup_ref": stack.execgroup_ref,
-                 "resource_name": stack.resource_name,
-                 "resource_type": stack.resource_type,
-                 "terraform_type": stack.terraform_type,
-                 "stack":stack }
+    inputargs = { "docker_runtime":stack.docker_runtime,
+                  "provider": stack.provider,
+                  "stateful_id": stack.stateful_id,
+                  "execgroup_ref": stack.execgroup_ref,
+                  "resource_name": stack.resource_name,
+                  "resource_type": stack.resource_type,
+                  "terraform_type": stack.terraform_type,
+                  "stack":stack }
 
     if stack.get_attr("remote_stateful_bucket") not in ["null", None]:
         inputargs["remote_stateful_bucket"] = stack.remote_stateful_bucket

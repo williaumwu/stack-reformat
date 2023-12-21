@@ -6,8 +6,7 @@ def run(stackargs):
 
     stack.parse.add_required(key="run_id")
     stack.parse.add_required(key="data")
-    stack.parse.add_required(key="mkey", 
-                             default="default")
+    stack.parse.add_required(key="mkey", default="default")
 
     # Initialize Variables in stack
     stack.init_variables()

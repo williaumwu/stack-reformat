@@ -3,14 +3,10 @@ def run(stackargs):
     stack = newStack(stackargs)
 
     # Add required arguments
-    stack.parse.add_required(key="parallel_ids",
-                             default="null")
-    stack.parse.add_required(key="sequential_ids",
-                             default="null")
-    stack.parse.add_required(key="destroy_instance",
-                             default="null")
-    stack.parse.add_optional(key="parallel_overide",
-                             default="null")
+    stack.parse.add_required(key="parallel_ids",default="null")
+    stack.parse.add_required(key="sequential_ids",default="null")
+    stack.parse.add_required(key="destroy_instance",default="null")
+    stack.parse.add_optional(key="parallel_overide",default="null")
 
     # Initialize Variables in stack
     stack.init_variables()
@@ -44,8 +40,7 @@ def run(stackargs):
 
         for num,parallel_id in enumerate(all_schedule_ids):
             default_values["ref_schedule_id"] = parallel_id
-            human_description = 'Delete schedule_id "{}"'\
-                .format(parallel_id)
+            human_description = 'Delete schedule_id "{}"'.format(parallel_id)
 
             stack.insert_builtin_cmd(cmd,
                                      order_type=order_type,
@@ -54,7 +49,6 @@ def run(stackargs):
                                      role=role,
                                      default_values=default_values)
 
-            #fixfix777
             # We need a reference for the dependencies for parallelism
             # if num == 0: stack.set_parallel()
 
@@ -65,8 +59,7 @@ def run(stackargs):
 
         for num,parallel_id in enumerate(stack.parallel_ids):
             default_values["ref_schedule_id"] = parallel_id
-            human_description = 'Delete schedule_id "{}"'\
-                .format(parallel_id)
+            human_description = 'Delete schedule_id "{}"'.format(parallel_id)
 
             stack.insert_builtin_cmd(cmd,
                                      order_type=order_type,
@@ -74,7 +67,7 @@ def run(stackargs):
                                      display=None,
                                      role=role,
                                      default_values=default_values)
-            #fixfix777
+
             # We need a reference for the dependencies for parallelism
             # if num == 0: stack.set_parallel()
 

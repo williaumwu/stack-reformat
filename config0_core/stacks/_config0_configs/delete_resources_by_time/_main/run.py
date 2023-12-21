@@ -16,9 +16,7 @@ def sorted_keystr(items,key,reverse=None):
 
     return new_items
 
-def _get_delete_resources(stack, 
-                          stackargs, 
-                          keep_resource_ids=None):
+def _get_delete_resources(stack, stackargs, keep_resource_ids=None):
 
     parallel_overides = []
     parallel_resources = []
@@ -54,15 +52,13 @@ def _get_delete_resources(stack,
 
             sequentialize_resources.append(_resource)
 
-    stack.logger.debug("parallel_resources ids {}"\
-                       .format([_r["_id"] for _r in parallel_resources]))
-    
-    stack.logger.debug("sequentialize_resources ids {}"\
-                       .format([_r["_id"] for _r in sequentialize_resources]))
+    stack.logger.debug("parallel_resources ids {}".format(
+        [_r["_id"] for _r in parallel_resources]))
+    stack.logger.debug("sequentialize_resources ids {}".format(
+        [_r["_id"] for _r in sequentialize_resources]))
 
     if parallel_resources:
         parallel_overides.extend(parallel_resources)
-
     if sequentialize_resources:
         parallel_overides.extend(sequentialize_resources)
 
@@ -71,7 +67,7 @@ def _get_delete_resources(stack,
                "sequentialize_resources": sorted_keystr(sequentialize_resources, 
                                                         key="checkin", 
                                                         reverse=True),
-               "added_ids": added_ids }
+               "added_ids": added_ids}
 
     return results
 
@@ -83,44 +79,37 @@ def _get_keep_resources(stack, stackargs):
         return
 
     _resources = stack.to_json(stack.keep_resources)
-    stack.logger.debug("keep resources first include {}"\
-                       .format(_resources))
+    stack.logger.debug("keep resources first include {}".format(_resources))
 
     _resource_ids = []
 
     for _resource in _resources:
         for ref_schedule_id in stack.ref_schedule_ids:
             _resource["ref_schedule_id"] = ref_schedule_id
-            stack.logger.debug("searching for keep resource {}"\
-                               .format(_resource))
+            stack.logger.debug("searching for keep resource {}".format(_resource))
             resources = stack.get_resource(**_resource)
             if not resources:
                 continue
 
             for resource in resources:
-                stack.logger.debug("keep resource id {}"\
-                                   .format(resource["_id"]))
+                stack.logger.debug("keep resource id {}".format(resource["_id"]))
                 _resource_ids.append(resource["_id"])
 
-    stack.logger.debug("keep resource ids {}"\
-                       .format(_resource_ids))
+    stack.logger.debug("keep resource ids {}".format(_resource_ids))
 
     return _resource_ids
 
 
 def run(stackargs):
 
-    #fixfix777
     #from time import sleep
 
     stack = newStack(stackargs)
 
     # required stack args
-    stack.parse.add_required(key="keep_resources", 
-                             default="null")
+    stack.parse.add_required(key="keep_resources", default="null")
     stack.parse.add_required(key="ref_schedule_ids")
-    stack.parse.add_optional(key="parallel_overide", 
-                             default="null")
+    stack.parse.add_optional(key="parallel_overide", default="null")
 
     # Initialize Variables in stack
     stack.init_variables()
@@ -142,8 +131,7 @@ def run(stackargs):
 
         for resource in all_resources["parallel_overides"]:
 
-            stack.logger.debug("removing resource {}"\
-                               .format(resource))
+            stack.logger.debug("removing resource {}".format(resource))
 
             stack.remove_resource(ref_only=None, 
                                   **resource)
@@ -155,8 +143,7 @@ def run(stackargs):
 
         for resource in all_resources["parallel_resources"]:
 
-            stack.logger.debug("removing resource {}"\
-                               .format(resource))
+            stack.logger.debug("removing resource {}".format(resource))
 
             stack.remove_resource(ref_only=None, 
                                   **resource)
@@ -169,8 +156,7 @@ def run(stackargs):
 
     for resource in all_resources["sequentialize_resources"]:
 
-        stack.logger.debug("removing resource {}"\
-                           .format(resource))
+        stack.logger.debug("removing resource {}".format(resource))
 
         stack.remove_resource(ref_only=None, 
                               **resource)

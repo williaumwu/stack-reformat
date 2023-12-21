@@ -67,8 +67,7 @@ def run(stackargs):
         data = resource_info
 
     if not data:
-        raise Exception("resource not found for match {}"\
-                        .format(match))
+        raise Exception("resource not found for match {}".format(match))
 
     resource = data
 

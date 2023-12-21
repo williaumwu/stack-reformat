@@ -41,7 +41,6 @@ def run(stackargs):
 
     if stack.get_attr("labels_hash"):
 
-        #fixfix777
         # testtest456
         stack.logger.debug("r1"*32)
         stack.logger.debug("r1"*32)
@@ -65,7 +64,6 @@ def run(stackargs):
 
     if stack.get_attr("publish_keys_hash"):
 
-        #fixfix777
         # testtest456
         stack.logger.debug("s1"*32)
         stack.logger.debug("s1"*32)
@@ -77,7 +75,6 @@ def run(stackargs):
 
         resource = data
 
-    #fixfix777
     # testtest456
     stack.logger.debug("a1"*32)
     stack.logger.debug("a1"*32)
@@ -86,7 +83,6 @@ def run(stackargs):
         stack.logger.warn("resource to publish is empty")
         return stack.get_results()
 
-    #fixfix777
     stack.logger.debug("a2"*32)
     stack.logger.debug("a2"*32)
 
@@ -94,7 +90,6 @@ def run(stackargs):
 
     if stack.get_attr("map_keys_hash"):
 
-        #fixfix777
         # testtest456
         stack.logger.debug("t1"*32)
         stack.logger.debug("t1"*32)
@@ -106,7 +101,6 @@ def run(stackargs):
 
         resource = data
 
-    #fixfix777
     # testtest456
     stack.logger.debug("a1"*32)
     stack.logger.debug("a1"*32)
@@ -115,21 +109,18 @@ def run(stackargs):
         stack.logger.warn("resource to publish is empty")
         return stack.get_results()
 
-    #fixfix777
     stack.logger.debug("a2"*32)
     stack.logger.debug("a2"*32)
 
     copied_dict = copy.deepcopy(resource)
 
     if stack.get_attr("map_keys_hash"):
-        #fixfix777
         # testtest456
         stack.logger.debug("u1"*32)
         stack.logger.debug("u1"*32)
 
         for _key, _map_key in stack.b64_decode(stack.map_keys_hash).items():
 
-            #fixfix777
             stack.logger.debug("b"*32)
             stack.logger.debug(_key,_map_key)
             stack.logger.debug("b"*32)
@@ -140,7 +131,6 @@ def run(stackargs):
             resource[_map_key] = copied_dict[_key]
             del resource[_key]
 
-    #fixfix777
     stack.logger.debug("a3"*32)
     stack.logger.debug("a3"*32)
 
@@ -148,7 +138,6 @@ def run(stackargs):
 
         for _key,_value in copied_dict.items():
 
-            #fixfix777
             stack.logger.debug("b"*32)
             stack.logger.debug(_key,_map_key)
             stack.logger.debug("b"*32)
@@ -159,7 +148,6 @@ def run(stackargs):
             resource[_map_key] = copied_dict[_key]
             del resource[_key]
 
-    #fixfix777
     stack.logger.debug("a3"*32)
     stack.logger.debug("a3"*32)
 
@@ -167,7 +155,6 @@ def run(stackargs):
 
         for _key,_value in copied_dict.items():
 
-            #fixfix777
             stack.logger.debug("c"*32)
             stack.logger.debug(_key,_value)
             stack.logger.debug("c"*32)
@@ -175,7 +162,6 @@ def run(stackargs):
             resource["{}/{}".format(stack.prefix_key, _key)] = _value
             del resource[_key]
 
-    #fixfix777
     stack.logger.debug("a4"*32)
     stack.logger.debug("a4"*32)
 

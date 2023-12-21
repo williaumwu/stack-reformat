@@ -1,27 +1,19 @@
 def run(stackargs):
 
-    # fixfix777
     #from time import sleep
     #import json
 
     stack = newStack(stackargs)
 
-    stack.parse.add_required(key="parallel_ids", 
-                             default="null")
-    stack.parse.add_required(key="sequential_ids", 
-                             default="null")
-    stack.parse.add_required(key="destroy_instance", 
-                             default="null")
-    stack.parse.add_required(key="destroy_resources", 
-                             default="null")
-    stack.parse.add_required(key="keep_resources", 
-                             default='[ {"provider":"aws", \
-                             "resource_type":"ecr_repo"} ]')
-    stack.parse.add_required(key="last_resources", 
-                             default='[ {"resource_type":"vpc"}, \
-                             {"resource_type":"private_network"} ]')
-    stack.parse.add_required(key="time_increment", 
-                             default=1)
+    stack.parse.add_required(key="parallel_ids", default="null")
+    stack.parse.add_required(key="sequential_ids", default="null")
+    stack.parse.add_required(key="destroy_instance", default="null")
+    stack.parse.add_required(key="destroy_resources", default="null")
+    stack.parse.add_required(
+        key="keep_resources", default='[ {"provider":"aws","resource_type":"ecr_repo"} ]')
+    stack.parse.add_required(
+        key="last_resources", default='[ {"resource_type":"vpc"}, {"resource_type":"private_network"} ]')
+    stack.parse.add_required(key="time_increment", default=1)
 
     # Add substacks
     stack.add_substack('config0-hub:::config0-core::delete_schedules')
@@ -40,23 +32,21 @@ def run(stackargs):
         input_values["destroy_resources"] = stack.destroy_resources
 
     if stack.get_attr("last_resources"):
-        stack.set_variable("last_resources", 
-                           stack.to_json(stack.last_resources))
+        stack.set_variable(
+            "last_resources", stack.to_json(stack.last_resources))
 
     # if we have last_resources, we set keep resources initially to include this
     _keep_resources = []
 
     if stack.get_attr("keep_resources"):
-        stack.set_variable("keep_resources", 
-                           stack.to_json(stack.keep_resources))
+        stack.set_variable(
+            "keep_resources", stack.to_json(stack.keep_resources))
         _keep_resources = stack.keep_resources[:]
 
     # we place the last_resources in the keep resources in the initally, but we
     # use the original keep resources later at ref 532098605435
-        
     if stack.get_attr("last_resources"):
         _keep_resources.extend(stack.last_resources)
-
     if _keep_resources:
         input_values["keep_resources"] = _keep_resources
 
@@ -69,12 +59,10 @@ def run(stackargs):
             stack.set_parallel()
 
             input_values["ref_schedule_id"] = parallel_id
-
-            human_description = 'Delete schedule_id "{}"'.format(parallel_id)
-            inputargs = {"input_values": input_values,
-                         "automation_phase": "destroying_resources",
-                         "human_description": human_description }
-
+            inputargs = {"input_values": input_values}
+            inputargs["automation_phase"] = "destroying_resources"
+            inputargs["human_description"] = 'Delete schedule_id "{}"'.format(
+                parallel_id)
             stack.delete_resources.insert(display=None, **inputargs)
 
     # Set unset_parallel
@@ -87,12 +75,13 @@ def run(stackargs):
     if stack.get_attr("sequential_ids"):
         for sequential_id in stack.sequential_ids:
             input_values["ref_schedule_id"] = sequential_id
-            human_description = 'Delete schedule_id "{}"'.format(sequential_id)
-            inputargs = {"input_values": input_values,
-                         "automation_phase": "destroying_resources",
-                         "human_description": human_description }
+            inputargs = {"input_values": input_values}
+            inputargs["automation_phase"] = "destroying_resources"
+            inputargs["human_description"] = 'Delete schedule_id "{}"'.format(
+                sequential_id)
 
-            stack.logger.debug("deleting the sequential schedule_id {}".format(sequential_id))
+            stack.logger.debug(
+                "deleting the sequential schedule_id {}".format(sequential_id))
             stack.delete_resources.insert(display=None, **inputargs)
 
     # if there are last_resources, we delete them now since the
@@ -116,10 +105,10 @@ def run(stackargs):
         for finalize_id in finalize_ids:
             stack.logger.debug("input_values {}".format(input_values))
             input_values["ref_schedule_id"] = finalize_id
-            human_description = 'Delete ref_schedule_id "{}"'.format(finalize_id)
-            inputargs = {"input_values": input_values,
-                         "automation_phase": "destroying_resources",
-                         "human_description": human_description }
+            inputargs = {"input_values": input_values}
+            inputargs["automation_phase"] = "destroying_resources"
+            inputargs["human_description"] = 'Delete ref_schedule_id "{}"'.format(
+                finalize_id)
             stack.delete_resources.insert(display=None, **inputargs)
 
     # Destroy the schedules
@@ -129,10 +118,9 @@ def run(stackargs):
     if stack.get_attr("sequential_ids"):
         input_values["sequential_ids"] = stack.sequential_ids
 
-    human_description = 'Delete schedules stack'
-    inputargs = {"input_values": input_values,
-                 "automation_phase": "destroying_schedules",
-                 "human_description": human_description }
-
+    inputargs = {"input_values": input_values}
+    inputargs["automation_phase"] = "destroying_schedules"
+    inputargs["human_description"] = 'Delete schedules stack'
     stack.delete_schedules.insert(display=None, **inputargs)
+
     return stack.get_results(stack.destroy_instance)
