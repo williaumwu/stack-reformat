@@ -1,9 +1,10 @@
 #!/bin/bash
 
-#CONTAINER_FILES is a file expected by the Dockerfile
-#that copies it into the container.  It allows 
-#a single file such as a environmental one 
-#to be copied to be dynamic.
+# CONTAINER_FILES is a file expected by the Dockerfile
+# that copies it into the container.  It allows 
+# a single file such as a environmental one 
+# to be copied to be dynamic.
+
 export DOCKER_BUILD_DIR=${DOCKER_BUILD_DIR:=/var/tmp/docker/build}
 export CONTAINER_FILES=${CONTAINER_FILES:=/root/.env}
 
@@ -33,8 +34,8 @@ fi
 
 export DOCKER_REGISTRY=${DOCKER_REGISTRY:=docker.io}
 
-#If DOCKER_USERNAME exists, we login.  otherwise, we assume config.json
-#has the correct credentials
+# If DOCKER_USERNAME exists, we login.  otherwise, we assume config.json
+# has the correct credentials
 
 if [ ! -z "$DOCKER_USERNAME" ]
 then
