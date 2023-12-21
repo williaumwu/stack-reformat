@@ -98,17 +98,17 @@ def run(stackargs):
                         "tf_execgroup")
 
     # Add substack
-    stack.add_substack('config0-hub:::tf_executor')
+    stack.add_substack("config0-hub:::tf_executor")
 
     # Add shelloutconfig dependencies
-    stack.add_shelloutconfig('config0-hub:::aws::map-role-aws-to-eks',
+    stack.add_shelloutconfig("config0-hub:::aws::map-role-aws-to-eks",
                              "map_role")
 
-    stack.add_shelloutconfig('config0-hub:::aws::shellout-with-codebuild',
+    stack.add_shelloutconfig("config0-hub:::aws::shellout-with-codebuild",
                              "shellout_codebuild")
 
     # add substacks
-    stack.add_substack('config0-hub:::publish_eks_info')
+    stack.add_substack("config0-hub:::publish_eks_info")
 
     # Initialize
     stack.init_variables()
@@ -116,7 +116,8 @@ def run(stackargs):
     stack.init_substacks()
     stack.init_shelloutconfigs()
 
-    stack.set_variable("subnet_ids", stack.to_list(stack.subnet_ids),
+    stack.set_variable("subnet_ids",
+                       stack.to_list(stack.subnet_ids),
                        tags="tfvar",
                        types="list")
 
@@ -133,7 +134,7 @@ def run(stackargs):
                        types="str")
 
     stack.set_variable("build_image",
-                       'aws/codebuild/standard:7.0')
+                       "aws/codebuild/standard:7.0")
 
     # use the terraform constructor (helper)
     # but this is optional
@@ -164,12 +165,12 @@ def run(stackargs):
                      "kubernetes_network_config",
                      "endpoint"])
 
-    tf.output(keys=['endpoint',
-                    'arn',
-                    'cluster_security_group_ids',
-                    'cluster_subnet_ids',
-                    'cluster_role_arn',
-                    'cluster_node_role_arn'])
+    tf.output(keys=["endpoint",
+                    "arn",
+                    "cluster_security_group_ids",
+                    "cluster_subnet_ids",
+                    "cluster_role_arn",
+                    "cluster_node_role_arn"])
 
     # finalize the tf_executor
     stack.tf_executor.insert(display=True,
@@ -209,7 +210,7 @@ def run(stackargs):
         stack.logger.debug("c"*32)
 
         inputargs = {"display": True,
-                     "human_description": 'Mapping AWS IAM to EKS role with Codebuild',
+                     "human_description": "Mapping AWS IAM to EKS role with Codebuild",
                      "env_vars": json.dumps(env_vars)}
 
         stack.shellout_codebuild.run(**inputargs)
@@ -225,7 +226,7 @@ def run(stackargs):
         _env_vars["DOCKER_EXEC"] = "weaveworks/eksctl:0.82.0"
 
         inputargs = {"display": True,
-                     "human_description": 'Mapping AWS IAM to EKS role',
+                     "human_description": "Mapping AWS IAM to EKS role",
                      "env_vars": json.dumps(_env_vars)}
 
         stack.map_role.run(**inputargs)

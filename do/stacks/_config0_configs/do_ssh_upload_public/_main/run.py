@@ -18,7 +18,7 @@ def run(stackargs):
                         "tf_execgroup")
 
     # Add substack
-    stack.add_substack('config0-hub:::tf_executor')
+    stack.add_substack("config0-hub:::tf_executor")
 
     # Initialize Variables in stack
     stack.init_variables()

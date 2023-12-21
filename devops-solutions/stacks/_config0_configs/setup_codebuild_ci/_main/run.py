@@ -39,16 +39,16 @@ class Main(newSchedStack):
                                 default="arn:aws:lambda:eu-west-1:553035198032:layer:git-lambda2:8")
 
         # Add substack
-        self.stack.add_substack('config0-hub:::aws_s3_bucket')
-        self.stack.add_substack('config0-hub:::aws_dynamodb')
-        self.stack.add_substack('config0-hub:::aws-lambda-python-codebuild', 'py_lambda')
-        self.stack.add_substack('config0-hub:::apigw_lambda-integ', 'apigw')
+        self.stack.add_substack("config0-hub:::aws_s3_bucket")
+        self.stack.add_substack("config0-hub:::aws_dynamodb")
+        self.stack.add_substack("config0-hub:::aws-lambda-python-codebuild","py_lambda")
+        self.stack.add_substack("config0-hub:::apigw_lambda-integ","apigw")
 
         # fixfix777
         #self.stack.add_substack('config0-hub:::aws-lambda-python', 'py_lambda')
 
-        self.stack.add_substack('config0-hub:::codebuild_complete_trigger',
-                                'sns_subscription')
+        self.stack.add_substack("config0-hub:::codebuild_complete_trigger",
+                                "sns_subscription")
 
         # this is lock versioning of execgroups
         self.stack.add_execgroup("config0-hub:::github::lambda_codebuild")
@@ -111,9 +111,11 @@ class Main(newSchedStack):
                      "topic_name": topic_name,
                      "aws_default_region": self.stack.aws_default_region}
 
+        human_description = "Create Codebuild SNS subscription for {}".format(self.stack.ci_environment)
+
         inputargs = {"arguments": arguments,
                      "automation_phase": "infrastructure",
-                     "human_description": 'Create Codebuild SNS subscription for {}'.format(self.stack.ci_environment)}
+                     "human_description": human_description}
 
         return self.stack.sns_subscription.insert(display=True, 
                                                   **inputargs)
@@ -135,9 +137,10 @@ class Main(newSchedStack):
                      "lambda_name": lambda_name,
                      "aws_default_region": self.stack.aws_default_region}
 
+        human_description= 'Create API gateway {}'.format(apigateway_name)
         inputargs = {"arguments": arguments,
                      "automation_phase": "infrastructure",
-                     "human_description": 'Create API gateway {}'.format(apigateway_name)}
+                     "human_description": human_description}
 
 
         return self.stack.apigw.insert(display=True, 
@@ -167,9 +170,11 @@ class Main(newSchedStack):
                      "enable_lifecycle": "false",
                      "aws_default_region": self.stack.aws_default_region}
 
+        human_description= "Create s3 bucket {}".format(s3_bucket)
+
         inputargs = {"arguments": arguments,
                      "automation_phase": "infrastructure",
-                     "human_description": 'Create s3 bucket {}'.format(s3_bucket)}
+                     "human_description": human_description}
 
         self.stack.aws_s3_bucket.insert(display=True, 
                                         **inputargs)
@@ -185,10 +190,12 @@ class Main(newSchedStack):
                      "force_destroy": "true",
                      "enable_lifecycle": "true",
                      "aws_default_region": self.stack.aws_default_region}
-        
+
+        human_description= "Create s3 bucket {}".format(s3_bucket)
+
         inputargs = {"arguments": arguments,
                      "automation_phase": "infrastructure",
-                     "human_description": 'Create s3 bucket {}'.format(s3_bucket)}
+                     "human_description": human_description}
 
 
         return self.stack.aws_s3_bucket.insert(display=True, 
@@ -210,10 +217,12 @@ class Main(newSchedStack):
             arguments = {"dynamodb_name": dynamodb_name,
                          "cloud_tags_hash": cloud_tags_hash,
                          "aws_default_region": self.stack.aws_default_region}
-            
+
+            human_description= "Create dynamodb {}".format(dynamodb_name)
+
             inputargs = {"arguments": arguments,
                          "automation_phase": "infrastructure",
-                         "human_description": 'Create dynamodb {}'.format(dynamodb_name)}
+                         "human_description": human_description}
 
             results = self.stack.aws_dynamodb.insert(display=True, **inputargs)
 
@@ -448,9 +457,10 @@ class Main(newSchedStack):
                      "s3_key": s3_key,
                      "config0_lambda_execgroup_name": self.stack.lambda_webhook.name}
 
+        human_description= "Create lambda function {}".format(lambda_name)
         inputargs = {"arguments": arguments,
                      "automation_phase": "infrastructure",
-                     "human_description": 'Create lambda function {}'.format(lambda_name)}
+                     "human_description": human_description}
 
         self.stack.py_lambda.insert(display=True, 
                                     **inputargs)
@@ -471,9 +481,10 @@ class Main(newSchedStack):
                         "s3_key": "{}.zip".format(lambda_name),
                         "config0_lambda_execgroup_name": params[1]}
 
+            human_description= 'Create lambda function {}'.format(lambda_name)
             inputargs = {"arguments": arguments,
                          "automation_phase": "infrastructure",
-                         "human_description": 'Create lambda function {}'.format(lambda_name)}
+                         "human_description": human_description}
 
             self.stack.py_lambda.insert(display=True, 
                                         **inputargs)

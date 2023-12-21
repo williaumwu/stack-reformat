@@ -201,8 +201,9 @@ def run(stackargs):
             values["source_method"] = "parse_terraform"
 
             _results["values"] = values
-            _results["human_description"] = 'Adding resource_type "{}" id "{}"'.format(values.get("resource_type"),
-                                                                                       _id)
+
+            human_description = 'Adding resource_type "{}" id "{}"'.format(values.get("resource_type"),_id)
+            _results["human_description"] = human_description
 
             if stack.get_attr("labels"):
                 _results["labels"] = stack.labels

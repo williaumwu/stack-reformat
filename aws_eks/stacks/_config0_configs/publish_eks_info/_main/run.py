@@ -13,17 +13,17 @@ def run(stackargs):
     #                           resource_type="eks",
     #                           must_exists=True)[0]
 
-    keys2pass = ['endpoint',
-                 'arn',
-                 'role_arn']
+    keys2pass = ["endpoint",
+                 "arn",
+                 "role_arn"]
 
     _vars = stack.dict_to_dict(
         keys2pass, {}, _info, addNone=None, ignoreNone=True)
 
     _vpc_info = _info["vpc_config"][0]
 
-    keys2pass = ['cluster_security_group_id',
-                 'vpc_id']
+    keys2pass = ["cluster_security_group_id'",
+                 "vpc_id"]
 
     stack.dict_to_dict(keys2pass, _vars, _vpc_info,
                        addNone=None, ignoreNone=True)
