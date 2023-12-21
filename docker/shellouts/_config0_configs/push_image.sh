@@ -1,10 +1,9 @@
 #!/bin/bash
 
-#DOCKER_REGISTRY=${DOCKER_REGISTRY:=docker.io}
-#REPO_NAME=$DOCKER_REGISTRY/$DOCKER_USERNAME/$DOCKER_REPO
-#DOCKER_IMAGE=$REPO_NAME:$DOCKER_REPO_TAG
-#DOCKER_IMAGE=$DOCKER_REGISTRY/$DOCKER_USERNAME/$DOCKER_REPO:$DOCKER_REPO_TAG
-#DOCKER_IMAGE="docker.io/signup3000/sample-flask
+# DOCKER_IMAGE=$DOCKER_REGISTRY/$DOCKER_USERNAME/$DOCKER_REPO:$DOCKER_REPO_TAG
+# REPO_NAME=$DOCKER_REGISTRY/$DOCKER_USERNAME/$DOCKER_REPO
+# DOCKER_REGISTRY=${DOCKER_REGISTRY:=docker.io}
+# DOCKER_IMAGE=$REPO_NAME:$DOCKER_REPO_TAG
 
 export DOCKER_IMAGE=`echo "$DOCKER_IMAGE" | sed -e 's/ //g'`
 export REPO_NAME=`echo $DOCKER_IMAGE | cut -d ":" -f 1`
@@ -21,10 +20,9 @@ echo "Logging into $DOCKER_REGISTRY with user=$DOCKER_USERNAME and password=$DOC
 echo ""
 echo ""
 
-#Changed the endpoint to reflect below
-#https://index.docker.io/v1/
+# Changed the endpoint to reflect below
+# https://index.docker.io/v1/
 
-# docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD -e ${EMAIL-no-email@test.com} $DOCKER_REGISTRY
 docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD https://index.$DOCKER_REGISTRY/v1/
 
 echo "docker tag $DOCKER_REPO $REPO_NAME:latest"

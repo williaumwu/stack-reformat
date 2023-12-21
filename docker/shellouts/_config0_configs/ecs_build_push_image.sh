@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # Expects REPOSITORY_URI, REPO_NAME, ECR_LOGIN, DOCKER_IMAGE_TAG
-
 export DOCKER_BUILD_DIR=${DOCKER_BUILD_DIR:=/var/tmp/docker/build}
 export DOCKER_ENV_FILE=${DOCKER_ENV_FILE:=${DOCKER_BUILD_DIR}/.env}
 
