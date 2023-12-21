@@ -49,17 +49,11 @@ def run(stackargs):
 
     stack.verify_variables()
 
-    # testtest777
-    stack.logger.debug("a"*32)
-    stack.logger.debug(stack.name)
-    stack.logger.debug("b"*32)
-
     # create new ssh key pair
     arguments = stack.get_tagged_vars(tag="create",
                                       output="dict")
 
     human_description = "create ssh key name {}".format(stack.name)
-
     inputargs = {"arguments": arguments,
                 "automation_phase": "infrastructure",
                 "human_description": human_description}
@@ -72,7 +66,6 @@ def run(stackargs):
                                       output="dict")
 
     human_description = "upload ssh_public_key {} to DO".format(stack.name)
-
     inputargs = {"arguments": arguments,
                 "automation_phase": "infrastructure",
                 "human_description": human_description}

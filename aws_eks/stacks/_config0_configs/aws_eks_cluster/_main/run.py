@@ -176,6 +176,7 @@ def run(stackargs):
     stack.tf_executor.insert(display=True,
                              **tf.get())
 
+    # fixfix777
     #if stack.get_attr("publish_to_saas"):
     #    default_values = {"eks_cluster": stack.eks_cluster}
     #    inputargs = {"default_values": default_values}
@@ -188,7 +189,6 @@ def run(stackargs):
     # the AWS role will be able to run kubectl
     # the AWS* credentials should be root or referenced iam
 
-    # continue4567
     if stack.get_attr("role_name") and stack.use_codebuild:
 
         buildparams = { "codebuild_basename":stack.codebuild_basename,
@@ -201,13 +201,6 @@ def run(stackargs):
                                             "EKS_ROLENAME":stack.role_name } }
 
         env_vars = { "CONFIG0_BUILDPARMS_HASH": stack.b64_encode({ "buildparams":buildparams }) }
-
-        # testtest456
-        stack.logger.debug("a"*32)
-        stack.logger.json(env_vars)
-        stack.logger.debug("b"*32)
-        stack.logger.debug(json.dumps(env_vars))
-        stack.logger.debug("c"*32)
 
         inputargs = {"display": True,
                      "human_description": "Mapping AWS IAM to EKS role with Codebuild",

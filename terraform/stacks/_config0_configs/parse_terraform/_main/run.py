@@ -197,9 +197,7 @@ def run(stackargs):
                 values[main_stateful_id] = True
 
             _insert_standard_resource_labels(values)
-
             values["source_method"] = "parse_terraform"
-
             _results["values"] = values
 
             human_description = 'Adding resource_type "{}" id "{}"'.format(values.get("resource_type"),_id)

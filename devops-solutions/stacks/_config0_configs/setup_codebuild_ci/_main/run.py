@@ -44,9 +44,6 @@ class Main(newSchedStack):
         self.stack.add_substack("config0-hub:::aws-lambda-python-codebuild","py_lambda")
         self.stack.add_substack("config0-hub:::apigw_lambda-integ","apigw")
 
-        # fixfix777
-        #self.stack.add_substack('config0-hub:::aws-lambda-python', 'py_lambda')
-
         self.stack.add_substack("config0-hub:::codebuild_complete_trigger",
                                 "sns_subscription")
 
@@ -112,7 +109,6 @@ class Main(newSchedStack):
                      "aws_default_region": self.stack.aws_default_region}
 
         human_description = "Create Codebuild SNS subscription for {}".format(self.stack.ci_environment)
-
         inputargs = {"arguments": arguments,
                      "automation_phase": "infrastructure",
                      "human_description": human_description}
@@ -171,7 +167,6 @@ class Main(newSchedStack):
                      "aws_default_region": self.stack.aws_default_region}
 
         human_description= "Create s3 bucket {}".format(s3_bucket)
-
         inputargs = {"arguments": arguments,
                      "automation_phase": "infrastructure",
                      "human_description": human_description}
@@ -192,11 +187,9 @@ class Main(newSchedStack):
                      "aws_default_region": self.stack.aws_default_region}
 
         human_description= "Create s3 bucket {}".format(s3_bucket)
-
         inputargs = {"arguments": arguments,
                      "automation_phase": "infrastructure",
                      "human_description": human_description}
-
 
         return self.stack.aws_s3_bucket.insert(display=True, 
                                                **inputargs)
@@ -219,7 +212,6 @@ class Main(newSchedStack):
                          "aws_default_region": self.stack.aws_default_region}
 
             human_description= "Create dynamodb {}".format(dynamodb_name)
-
             inputargs = {"arguments": arguments,
                          "automation_phase": "infrastructure",
                          "human_description": human_description}

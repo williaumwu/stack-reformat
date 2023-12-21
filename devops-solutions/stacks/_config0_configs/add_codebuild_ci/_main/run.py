@@ -199,11 +199,9 @@ class Main(newSchedStack):
                      "url": _url}
 
         human_description = 'Create Github webhook for codebuild "{}"'.format(self.stack.codebuild_name)
-
         inputargs = {"arguments": arguments,
                      "automation_phase": "continuous_delivery",
                      "human_description": human_description}
-
 
         return self.stack.github_webhook.insert(display=True, **inputargs)
 
@@ -578,7 +576,6 @@ class Main(newSchedStack):
                      "aws_default_region": self.stack.aws_default_region}
 
         human_description = 'Create Codebuild project "{}"'.format(self.stack.codebuild_name)
-
         inputargs = {"arguments": arguments,
                      "automation_phase": "continuous_delivery",
                      "human_description": human_description}

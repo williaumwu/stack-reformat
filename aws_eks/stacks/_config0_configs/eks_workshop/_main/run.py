@@ -181,8 +181,8 @@ class Main(newSchedStack):
 
         self.stack.init_variables()
         # ssh public key to insert into ec2 admin
-        self.stack.set_variable(
-            "ssh_key_name", "{}-public-key".format(self.stack.workshop_name))
+        self.stack.set_variable("ssh_key_name",
+                                "{}-public-key".format(self.stack.workshop_name))
 
         overide_values = {"key_name": self.stack.ssh_key_name}
         default_values = {"aws_default_region": self.stack.aws_default_region}

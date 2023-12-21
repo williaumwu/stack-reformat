@@ -33,7 +33,7 @@ class Main(newSchedStack):
 
         # add execgroup
         self.stack.add_execgroup("config0-hub:::aws_eks::eks-cluster",
-                                "cloud_resource")
+                                 "cloud_resource")
 
         # add shelloutconfig dependencies
         self.stack.add_shelloutconfig("config0-hub:::aws::map-role-aws-to-eks",
