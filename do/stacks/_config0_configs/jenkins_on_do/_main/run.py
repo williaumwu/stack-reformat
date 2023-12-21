@@ -76,14 +76,10 @@ class Main(newSchedStack):
         arguments = self.stack.get_tagged_vars(tag="ssh_key",
                                                output="dict")
     
-        # testtest777
-        self.stack.logger.debug('a'*32)
-        self.stack.logger.json(arguments)
-        self.stack.logger.debug('b'*32)
-
+        human_description = "Create and upload ssh key name {}".format(self.stack.ssh_key_name)
         inputargs = {"arguments": arguments,
                     "automation_phase": "infrastructure",
-                    "human_description": 'Create and upload ssh key name {}'.format(self.stack.ssh_key_name)}
+                    "human_description": human_description}
 
         return self.stack.new_do_ssh_key.insert(display=True,
                                                 **inputargs)
@@ -103,9 +99,10 @@ class Main(newSchedStack):
         arguments = self.stack.get_tagged_vars(tag="droplet",
                                                output="dict")
 
+        human_description = 'Create droplet hostname {}'.format(self.stack.hostname)
         inputargs = {"arguments": arguments,
                     "automation_phase": "infrastructure",
-                    "human_description": 'Create droplet hostname {}'.format(self.stack.hostname)}
+                    "human_description": human_description}
 
 
         return self.stack.droplet.insert(display=True, **inputargs)
@@ -120,9 +117,10 @@ class Main(newSchedStack):
         arguments = self.stack.get_tagged_vars(tag="jenkins",
                                                output="dict")
 
+        human_description = "Install Jenkins on hostname {}".format(self.stack.hostname)
         inputargs = {"arguments": arguments,
                     "automation_phase": "infrastructure",
-                    "human_description": 'Install Jenkins on hostname {}'.format(self.stack.hostname)}
+                    "human_description": human_description}
 
 
         return self.stack.jenkins_on_docker.insert(display=True,

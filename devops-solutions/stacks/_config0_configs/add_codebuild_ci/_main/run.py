@@ -117,7 +117,7 @@ class Main(newSchedStack):
         # Add substack
         self.stack.add_substack('config0-hub:::aws_s3_bucket')
         self.stack.add_substack('config0-hub:::new_github_ssh_key')
-        self.stack.add_substack('config0-hub:::aws_dynamodb_item', 'dynamodb')
+        self.stack.add_substack('config0-hub:::aws_dynamodb_item','dynamodb')
         self.stack.add_substack('config0-hub:::aws_ssm_param')
         self.stack.add_substack('config0-hub:::aws_codebuild')
         self.stack.add_substack('config0-hub:::github_webhook')
@@ -198,10 +198,10 @@ class Main(newSchedStack):
                      "name": _name,
                      "url": _url}
 
+        human_description = 'Create Github webhook for codebuild "{}"'.format(self.stack.codebuild_name)
         inputargs = {"arguments": arguments,
                      "automation_phase": "continuous_delivery",
-                     "human_description": 'Create Github webhook for codebuild "{}"'.format(self.stack.codebuild_name)}
-
+                     "human_description": human_description}
 
         return self.stack.github_webhook.insert(display=True, **inputargs)
 
@@ -245,9 +245,10 @@ class Main(newSchedStack):
         if self.stack.get_attr("cloud_tags_hash"):
             arguments["cloud_tags_hash"] = self.stack.cloud_tags_hash
 
+        human_description = 'Create s3 bucket "{}" cache'.format(self.s3_bucket_cache)
         inputargs = {"arguments": arguments,
                      "automation_phase": "continuous_delivery",
-                     "human_description": 'Create s3 bucket "{}" cache'.format(self.s3_bucket_cache)}
+                     "human_description": human_description}
 
         self.stack.aws_s3_bucket.insert(display=True, **inputargs)
 
@@ -261,9 +262,10 @@ class Main(newSchedStack):
         if self.stack.get_attr("cloud_tags_hash"):
             arguments["cloud_tags_hash"] = self.stack.cloud_tags_hash
 
+        human_description = 'Create s3 bucket "{}" output'.format(self.s3_bucket_output)
         inputargs = {"arguments": arguments,
                      "automation_phase": "continuous_delivery",
-                     "human_description": 'Create s3 bucket "{}" output'.format(self.s3_bucket_output)}
+                     "human_description": human_description}
 
         return self.stack.aws_s3_bucket.insert(display=True, **inputargs)
 
@@ -275,9 +277,10 @@ class Main(newSchedStack):
                      "aws_default_region": self.stack.aws_default_region,
                      "repo": self.stack.git_repo}
 
+        human_description= 'Create deploy key "{}"'.format(key_name)
         inputargs = {"arguments": arguments,
                      "automation_phase": "continuous_delivery",
-                     "human_description": 'Create deploy key "{}"'.format(key_name)}
+                     "human_description": human_description}
 
         return self.stack.new_github_ssh_key.insert(display=True, **inputargs)
 
@@ -319,7 +322,7 @@ class Main(newSchedStack):
 
         inputargs = {"arguments": arguments,
                      "automation_phase": "continuous_delivery",
-                     "human_description": 'Config0 callback token to ssm'}
+                     "human_description": "Config0 callback token to ssm"}
 
         self.stack.aws_ssm_param.insert(display=True, **inputargs)
   
@@ -330,7 +333,7 @@ class Main(newSchedStack):
 
         inputargs = {"arguments": arguments,
                      "automation_phase": "continuous_delivery",
-                     "human_description": 'Upload private ssh key to ssm'}
+                     "human_description": "Upload private ssh key to ssm"}
 
         self.stack.aws_ssm_param.insert(display=True, **inputargs)
 
@@ -342,7 +345,7 @@ class Main(newSchedStack):
 
             inputargs = {"arguments": arguments,
                          "automation_phase": "continuous_delivery",
-                         "human_description": 'Upload docker token to ssm'}
+                         "human_description": "Upload docker token to ssm"}
 
             self.stack.aws_ssm_param.insert(display=True, **inputargs)
 
@@ -354,7 +357,7 @@ class Main(newSchedStack):
 
             inputargs = {"arguments": arguments,
                          "automation_phase": "continuous_delivery",
-                         "human_description": 'Upload slack webhook url to ssm'}
+                         "human_description": "Upload slack webhook url to ssm"}
 
             self.stack.aws_ssm_param.insert(display=True, **inputargs)
 
@@ -529,9 +532,10 @@ class Main(newSchedStack):
                      "item_hash": item_hash,
                      "aws_default_region": self.stack.aws_default_region}
 
+        human_description = 'Add setting item for codebuild name {}'.format(self.stack.codebuild_name)
         inputargs = {"arguments": arguments,
                      "automation_phase": "continuous_delivery",
-                     "human_description": 'Add setting item for codebuild name {}'.format(self.stack.codebuild_name)}
+                     "human_description": human_description}
 
         return self.stack.dynamodb.insert(display=True, **inputargs)
 
@@ -571,9 +575,10 @@ class Main(newSchedStack):
                      "s3_bucket_output": self.s3_bucket_output,
                      "aws_default_region": self.stack.aws_default_region}
 
+        human_description = 'Create Codebuild project "{}"'.format(self.stack.codebuild_name)
         inputargs = {"arguments": arguments,
                      "automation_phase": "continuous_delivery",
-                     "human_description": 'Create Codebuild project "{}"'.format(self.stack.codebuild_name)}
+                     "human_description": human_description}
 
         return self.stack.aws_codebuild.insert(display=True, **inputargs)
 
@@ -604,7 +609,7 @@ class Main(newSchedStack):
         sched.archive.timeout = 1800
         sched.archive.timewait = 120
         sched.automation_phase = "continuous_delivery"
-        sched.human_description = 'Upload deploy key to ssm'
+        sched.human_description = "Upload deploy key to ssm"
         sched.on_success = ["codebuild"]
         self.add_schedule()
 
@@ -613,7 +618,7 @@ class Main(newSchedStack):
         sched.archive.timeout = 1800
         sched.archive.timewait = 120
         sched.automation_phase = "continuous_delivery"
-        sched.human_description = 'Create Codebuild Project'
+        sched.human_description = "Create Codebuild Project"
         self.add_schedule()
 
         return self.get_schedules()
