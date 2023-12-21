@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#DOCKER_ENV_FILE is a file expected by the Dockerfile
-#that copies it into the container.  It allows 
-#files to be copied to be dynamic.
+# DOCKER_ENV_FILE is a file expected by the Dockerfile
+# that copies it into the container.  It allows 
+# files to be copied to be dynamic.
 
 # Most commont is to specify the DOCKER_REPO environmental variable
 # which is in the format: <REPO_NAME:TAG>.  if tag is absent, then 
@@ -15,8 +15,6 @@
 
 export DOCKER_BUILD_DIR=${DOCKER_BUILD_DIR:=/var/tmp/docker/build}
 export DOCKER_ENV_FILE=${DOCKER_ENV_FILE:=${DOCKER_BUILD_DIR}/.env}
-#export BUILD_BASEDIR="`dirname $DOCKER_ENV_FILE`"
-#export DEST_ENV_DIR=${DOCKER_BUILD_DIR}/${BUILD_BASEDIR}
 
 if [ -f "$DOCKER_ENV_FILE" ]
 then
@@ -28,7 +26,6 @@ else
     echo ""
     echo "WARNING: $DOCKER_ENV_FILE not found."
     echo ""
-    #exit 1
 fi
 
 if [ -z ${DOCKER_REPO+x} ]
