@@ -6,9 +6,9 @@ def _determine_instance_id(stack):
     if stack.get_attr("instance_id") and stack.get_attr("aws_default_region"):
         return
 
-    _lookup = {"must_exists":True,
-               "must_be_one":True,
-               "resource_type":"server"}
+    _lookup = {"must_exists": True,
+               "must_be_one": True,
+               "resource_type": "server"}
 
     if stack.get_attr("aws_default_region"):
         _lookup["region"] = stack.aws_default_region
@@ -40,13 +40,13 @@ def _determine_volume_id(stack):
     if not stack.get_attr("volume_name"):
         return
 
-    _lookup = {"must_exists":True,
-               "must_be_one":True,
-               "name":stack.volume_name,
-               "resource_type":"ebs_volume"}
+    _lookup = {"must_exists": True,
+               "must_be_one": True,
+               "name": stack.volume_name,
+               "resource_type": "ebs_volume"}
 
     if stack.get_attr("aws_default_region"):
-        _lookup["region"]=stack.aws_default_region
+        _lookup["region"] = stack.aws_default_region
 
     _info = list(stack.get_resource(**_lookup))[0]
 
@@ -61,11 +61,11 @@ def _determine_volume_id(stack):
 def _get_private_key(stack):
 
     # get ssh_key
-    _lookup = {"must_be_one":True,
-               "resource_type":"ssh_key_pair",
-               "name":stack.ssh_key_name,
-               "serialize":True,
-               "serialize_fields":["private_key"]}
+    _lookup = {"must_be_one": True,
+               "resource_type": "ssh_key_pair",
+               "name": stack.ssh_key_name,
+               "serialize": True,
+               "serialize_fields": ["private_key"]}
 
     return stack.get_resource(decrypt=True, **_lookup)["private_key"]
 
@@ -73,9 +73,9 @@ def _get_private_key(stack):
 def _get_host_info(stack):
 
     # get server info
-    _lookup = {"must_be_one":True,
-               "resource_type":"server",
-               "hostname":stack.hostname}
+    _lookup = {"must_be_one": True,
+               "resource_type": "server",
+               "hostname": stack.hostname}
 
     return list(stack.get_resource(**_lookup))[0]
 
@@ -142,7 +142,7 @@ def run(stackargs):
                              types="str")
 
     stack.parse.add_optional(key="config_network",
-                             choices=["private","public"],
+                             choices=["private", "public"],
                              default="private",
                              types="str")
 
@@ -153,7 +153,7 @@ def run(stackargs):
     stack.add_execgroup("config0-hub:::aws_storage::config_vol")
 
     # Add substack
-    stack.add_substack("config0-hub:::tf_executor")
+    stack.add_substack('config0-hub:::tf_executor')
 
     # Initialize Variables in stack
     stack.init_variables()
@@ -181,7 +181,7 @@ def run(stackargs):
                        terraform_type="aws_volume_attachment",
                        docker_runtime=stack.terraform_docker_runtime)
 
-    tf.include(maps={"ec2_instance_id":"instance_id"})
+    tf.include(maps={"ec2_instance_id": "instance_id"})
 
     tf.include(keys=["instance_id",
                      "id"])
@@ -203,26 +203,26 @@ def run(stackargs):
     private_key = _get_private_key(stack)
     host_info = _get_host_info(stack)
 
-    env_vars = { "STATEFUL_ID": stack.random_id(size=10),
-        "DOCKER_EXEC_ENV" : stack.ansible_docker_runtime,
-        "ANS_VAR_volume_fstype" : stack.volume_fstype,
-        "ANS_VAR_volume_mountpoint" : stack.volume_mountpoint,
-        "ANS_VAR_private_key" : private_key,
-        "METHOD" : "create",
-        "ANS_VAR_exec_ymls": "entry_point/20-format.yml,entry_point/30-mount.yml"}
+    env_vars = {"STATEFUL_ID": stack.random_id(size=10)}
+    env_vars["DOCKER_EXEC_ENV"] = stack.ansible_docker_runtime
+    env_vars["ANS_VAR_volume_fstype"] = stack.volume_fstype
+    env_vars["ANS_VAR_volume_mountpoint"] = stack.volume_mountpoint
+    env_vars["ANS_VAR_private_key"] = private_key
+    env_vars["METHOD"] = "create"
+    env_vars["ANS_VAR_exec_ymls"] = "entry_point/20-format.yml,entry_point/30-mount.yml"
 
     if stack.get_attr("config_network") == "private":
         env_vars["ANS_VAR_host_ips"] = host_info["private_ip"]
     else:
         env_vars["ANS_VAR_host_ips"] = host_info["public_ip"]
 
-    human_description = 'format/mount vol on instance_id "{}" fstype {} mountpoint {}'.format(stack.instance_id,stack.volume_fstype,stack.volume_mountpoint)
-
-    inputargs = { "display": True,
-                  "human_description" : human_description,
-                  "env_vars" : json.dumps(env_vars),
-                  "stateful_id" : env_vars["STATEFUL_ID"],
-                  "automation_phase" : "infrastructure"}
+    inputargs = {"display": True}
+    inputargs["human_description"] = 'format/mount vol on instance_id "{}" fstype {} mountpoint {}'.format(stack.instance_id,
+                                                                                                           stack.volume_fstype,
+                                                                                                           stack.volume_mountpoint)
+    inputargs["env_vars"] = json.dumps(env_vars)
+    inputargs["stateful_id"] = env_vars["STATEFUL_ID"]
+    inputargs["automation_phase"] = "infrastructure"
 
     stack.config_vol.insert(**inputargs)
 

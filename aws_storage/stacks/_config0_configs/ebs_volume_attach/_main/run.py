@@ -3,12 +3,11 @@ from config0_publisher.terraform import TFConstructor
 
 def _get_instance_id(stack):
 
-    _lookup ={ "must_exists": True,
-               "must_be_one" : True,
-               "resource_type" : "server",
-               "hostname" : stack.hostname,
-               "region" : stack.aws_default_region}
-
+    _lookup = {"must_exists": True}
+    _lookup["must_be_one"] = True
+    _lookup["resource_type"] = "server"
+    _lookup["hostname"] = stack.hostname
+    _lookup["region"] = stack.aws_default_region
     _info = list(stack.get_resource(**_lookup))[0]
 
     return _info["instance_id"]
@@ -16,12 +15,11 @@ def _get_instance_id(stack):
 
 def _get_volume_id(stack):
 
-    _lookup = { "must_exists": True,
-                "must_be_one" : True,
-                "name" : stack.volume_name,
-                "resource_type" : "ebs_volume",
-                "region" : stack.aws_default_region}
-
+    _lookup = {"must_exists": True}
+    _lookup["must_be_one"] = True
+    _lookup["name"] = stack.volume_name
+    _lookup["resource_type"] = "ebs_volume"
+    _lookup["region"] = stack.aws_default_region
     _info = list(stack.get_resource(**_lookup))[0]
 
     return _info["volume_id"]
@@ -57,7 +55,7 @@ def run(stackargs):
                         "tf_execgroup")
 
     # Add substack
-    stack.add_substack("config0-hub:::tf_executor")
+    stack.add_substack('config0-hub:::tf_executor')
 
     # Initialize
     stack.init_variables()
@@ -65,17 +63,13 @@ def run(stackargs):
     stack.init_substacks()
 
     if not stack.get_attr("volume_name"):
-        stack.set_variable("volume_name",
-                           "{}-data".format(stack.hostname),
+        stack.set_variable("volume_name", "{}-data".format(stack.hostname),
                            tags="resource")
 
-    stack.set_variable("instance_id",
-                       _get_instance_id(stack),
+    stack.set_variable("instance_id", _get_instance_id(stack),
                        tags="resource,tfvar")
-
-    stack.set_variable("volume_id",
-                       _get_volume_id(stack),
-                       tags="resource,tfvar")
+    stack.set_variable("volume_id", _get_volume_id(
+        stack), tags="resource,tfvar")
 
     # use the terraform constructor (helper)
     # but this is optional
@@ -88,7 +82,7 @@ def run(stackargs):
 
     tf.include(keys=["arn"])
 
-    tf.include(maps= {"id":"arn"})
+    tf.include(maps={"id": "arn"})
 
     # finalize the tf_executor
     stack.tf_executor.insert(display=True,

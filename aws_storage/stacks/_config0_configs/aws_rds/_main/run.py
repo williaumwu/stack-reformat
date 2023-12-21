@@ -120,11 +120,10 @@ def run(stackargs):
                              types="bool")
 
     # add execgroup
-    stack.add_execgroup("config0-hub:::aws_storage::rds",
-                        "tf_execgroup")
+    stack.add_execgroup("config0-hub:::aws_storage::rds", "tf_execgroup")
 
     # add substack
-    stack.add_substack("config0-hub:::tf_executor")
+    stack.add_substack('config0-hub:::tf_executor')
 
     # initialize
     stack.init_variables()
@@ -185,8 +184,8 @@ def run(stackargs):
                        resource_type="rds",
                        terraform_type="aws_db_instance")
 
-    tf.include(maps={"db_id":"arn",
-                     "id":"arn"})
+    tf.include(maps={"db_id": "arn",
+                     "id": "arn"})
 
     tf.include(keys=["arn",
                      "address",
