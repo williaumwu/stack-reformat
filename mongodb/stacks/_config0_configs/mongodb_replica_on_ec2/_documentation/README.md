@@ -1,10 +1,23 @@
 **Description**
+This process involves creating a MongoDB Replica on AWS using EC2 instances. The stack assumes the usage of Ubuntu operating systems, as it utilizes the Ubuntu EC2 stacks.
 
-  Creates a MongoDB Replica on AWS with Ec2 VMs.  This stack assumes Ubuntu OSes since it calls the Ubuntu ec2 stacks. 
+To set up the MongoDB Replica, the following steps are typically followed:
+
+ - Provisioning EC2 Instances: EC2 instances running Ubuntu OS are created on AWS. These instances serve as the virtual machines (VMs) for hosting the MongoDB Replica.
+
+ - Installing MongoDB: MongoDB, the NoSQL database system, is installed on each of the EC2 instances. This involves downloading and configuring MongoDB to run on the Ubuntu OS.
+
+ - Configuring Replica Set: The MongoDB instances are configured to form a replica set. This involves designating one instance as the primary node and the others as secondary nodes. The primary node handles write operations, while the secondary nodes replicate data from the primary node and handle read operations.
+
+ - Establishing Connectivity: The EC2 instances are configured with appropriate security groups and network settings to ensure connectivity between the MongoDB replica set and other components or applications that need to interact with it.
+
+In summary, this process involves creating a MongoDB Replica on AWS using EC2 instances running Ubuntu OS. By configuring a replica set, data can be replicated across multiple instances for improved data availability and fault tolerance.
 
 **Infrastructure**
 
-  If the network and other arguments are in the Config0 resources database (e.g. VPC created with Config0 stacks), users can use "selectors" as shown in the example below.  Otherwise, users can explicitly input the variables for arguments such as vpc_id, subnet_ids, and security group ids. There is notably an option to use spot instances. This option may fail if the price is too low, or no capacity. use this accordingly
+If the necessary network and other arguments are stored in the Config0 resources database, such as a VPC created using Config0 stacks, users can utilize "selectors" to reference those resources when configuring their setup. However, if the required information is not available in the resources database, users have the option to explicitly input variables like vpc_id, subnet_ids, and security_group_ids for the respective arguments.
+
+It's worth noting that an additional option is available to utilize spot instances. Spot instances are instances that are purchased at a lower price when there is excess capacity in the AWS cloud. However, it's important to exercise caution when using spot instances, as there is a possibility of failure if the spot price is too low or if there is no available capacity at the desired price.
 
 **Required**
 

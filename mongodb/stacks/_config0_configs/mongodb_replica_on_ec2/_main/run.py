@@ -4,8 +4,6 @@ class Main(newSchedStack):
 
         newSchedStack.__init__(self, stackargs)
 
-        # tags="sshkey,pem,keyfile,bastion,create,cleanup")
-
         # Add default variables
         self.parse.add_required(key="mongodb_cluster",
                                 types="str",
@@ -291,11 +289,6 @@ class Main(newSchedStack):
             arguments = self._get_create_arguments()
             arguments["hostname"] = hostname
             arguments["volume_name"] = volume_name  # ref 45304958324
-
-            # testtest333
-            self.stack.logger.debug("*"*32)
-            self.stack.logger.json(arguments)
-            self.stack.logger.debug("*"*32)
 
             inputargs = {"arguments": arguments,
                          "automation_phase":"infrastructure",

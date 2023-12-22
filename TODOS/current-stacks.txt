@@ -242,10 +242,6 @@
 ./ubuntu/stacks/_config0_configs/install_ubuntu_docker/_documentation/metadata.yml
 ./ubuntu/stacks/_config0_configs/install_ubuntu_docker/_main/run.py
 
-./ubuntu/stacks/_config0_configs/bootstrap_ed/_documentation/README.md
-./ubuntu/stacks/_config0_configs/bootstrap_ed/_documentation/metadata.yml
-./ubuntu/stacks/_config0_configs/bootstrap_ed/_main/run.py
-
 ./ubuntu/stacks/_config0_configs/ec2_ubuntu/_documentation/README.md
 ./ubuntu/stacks/_config0_configs/ec2_ubuntu/_documentation/metadata.yml
 ./ubuntu/stacks/_config0_configs/ec2_ubuntu/_main/run.py
@@ -341,4 +337,10 @@
 ./mongodb/stacks/_config0_configs/mongodb_replica_on_ec2/_documentation/README.md
 ./mongodb/stacks/_config0_configs/mongodb_replica_on_ec2/_documentation/metadata.yml
 ./mongodb/stacks/_config0_configs/mongodb_replica_on_ec2/_main/run.py
+
+DONE:
+
+./ubuntu/stacks/_config0_configs/bootstrap_ed/_documentation/README.md
+./ubuntu/stacks/_config0_configs/bootstrap_ed/_documentation/metadata.yml
+./ubuntu/stacks/_config0_configs/bootstrap_ed/_main/run.py
 
