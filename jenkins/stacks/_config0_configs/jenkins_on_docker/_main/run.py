@@ -69,7 +69,6 @@ def run(stackargs):
                 "ANSIBLE_EXEC_YMLS": "install.yml"}
 
     human_description= "Install Jenkins for Ansible"
-
     inputargs = {"display": True,
                  "human_description": human_description,
                  "env_vars": json.dumps(env_vars.copy()),
@@ -85,7 +84,6 @@ def run(stackargs):
                      "jenkins_url": "https://{}".format(public_ip),
                      "jenkins_user": "admin"}
 
-
     if stack.publish_private_key:
         _publish_vars["private_key_b64"] = _private_key
 
@@ -98,7 +96,6 @@ def run(stackargs):
                  "ssh_key_name": stack.ssh_key_name}
 
     human_description = "Publish jenkins admin init password"
-
     inputargs = {"arguments": arguments,
                  "automation_phase": "infrastructure",
                  "human_description": human_description}

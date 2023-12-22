@@ -6,33 +6,52 @@ class Main(newSchedStack):
 
         # Add default variables
         self.parse.add_required(key="ci_environment")
-        self.parse.add_required(key="parent_id",default="null")
-        self.parse.add_required(key="visibility_level",default="public")
+        self.parse.add_required(key="parent_id",
+                                default="null")
+
+        self.parse.add_required(key="visibility_level",
+                                default="public")
 
         self.parse.add_required(key="vpc_id")
         self.parse.add_required(key="vpc_name")
         self.parse.add_required(key="subnet_ids")
         self.parse.add_required(key="sg_id")
-        self.parse.add_required(key="bastion_sg_id",default="null")
-        self.parse.add_required(key="instance_type",default="t3.micro") 
-        self.parse.add_required(key="disksize",default="20") 
+        self.parse.add_required(key="bastion_sg_id",
+                                default="null")
+
+        self.parse.add_required(key="instance_type",
+                                default="t3.micro")
+
+        self.parse.add_required(key="disksize",
+                                default="20")
 
         self.parse.add_required(key="docker_host") 
-        self.parse.add_required(key="src_build_groups",default="config0-hub:::gitlab::runner,config0-hub:::gitlab::runner-autoscaling")
+        self.parse.add_required(key="src_build_groups",
+                                default="config0-hub:::gitlab::runner,config0-hub:::gitlab::runner-autoscaling")
+
         self.parse.add_required(key="docker_repo_name")
 
         self.parse.add_required(key="gitlab_runners_token_hash")
         self.parse.add_required(key="gitlab_runner_aws_access_key")
         self.parse.add_required(key="gitlab_runner_aws_secret_key")
 
-        self.parse.add_optional(key="suffix_id",default="null")
-        self.parse.add_optional(key="suffix_length",default="4")  
+        self.parse.add_optional(key="suffix_id",
+                                default="null")
 
-        self.parse.add_optional(key="aws_default_region",default="us-west-1")
-        self.parse.add_optional(key="aws_account_id",default="null")  # use inputvars if possible
+        self.parse.add_optional(key="suffix_length",
+                                default="4")
 
-        self.parse.add_optional(key="cloud_tags_hash",default="null")
-        self.parse.add_optional(key="bucket_acl",default="private")
+        self.parse.add_optional(key="aws_default_region",
+                                default="us-west-1")
+
+        self.parse.add_optional(key="aws_account_id",
+                                default="null")  # use inputvars if possible
+
+        self.parse.add_optional(key="cloud_tags_hash",
+                                default="null")
+
+        self.parse.add_optional(key="bucket_acl",
+                                default="private")
 
         # Add substack
         self.stack.add_substack("config0-hub:::gitlab_subgroup")
@@ -80,10 +99,17 @@ class Main(newSchedStack):
 
     def _set_ec2_params(self):
 
-        self.stack.set_variable("ssh_key_name","{}-ssh_key".format(self.stack.docker_host))
-        self.stack.set_variable("role_name","{}-role".format(self.stack.docker_host))
-        self.stack.set_variable("iam_instance_profile","{}-profile".format(self.stack.docker_host))
-        self.stack.set_variable("iam_role_policy_name","{}-policy".format(self.stack.docker_host))
+        self.stack.set_variable("ssh_key_name",
+                                "{}-ssh_key".format(self.stack.docker_host))
+
+        self.stack.set_variable("role_name",
+                                "{}-role".format(self.stack.docker_host))
+
+        self.stack.set_variable("iam_instance_profile",
+                                "{}-profile".format(self.stack.docker_host))
+
+        self.stack.set_variable("iam_role_policy_name",
+                                "{}-policy".format(self.stack.docker_host))
 
     def run_sshkey(self):
 
@@ -93,14 +119,15 @@ class Main(newSchedStack):
 
         overide_values = {"key_name": self.stack.ssh_key_name}
         default_values = {"aws_default_region": self.stack.aws_default_region}
-        human_description = "Create and upload ssh key name {}".format(self.stack.ssh_key_name)
 
+        human_description = "Create and upload ssh key name {}".format(self.stack.ssh_key_name)
         inputargs = {"default_values": default_values,
                      "overide_values": overide_values,
                      "automation_phase": "infrastructure",
                      "human_description": human_description}
 
-        return self.stack.new_ec2_ssh_key.insert(display=True,**inputargs)
+        return self.stack.new_ec2_ssh_key.insert(display=True,
+                                                 **inputargs)
 
     def run_s3(self):
 
@@ -118,13 +145,13 @@ class Main(newSchedStack):
                            "force_destroy": "true" }
 
         human_description =  "Create s3 bucket {}".format(s3_bucket)
-
         inputargs = {"default_values": default_values,
                      "overide_values": overide_values,
                      "automation_phase": "infrastructure",
                      "human_description": human_description}
 
-        return self.stack.aws_s3_bucket.insert(display=True,**inputargs)
+        return self.stack.aws_s3_bucket.insert(display=True,
+                                               **inputargs)
 
     def run_subgroup(self):
 
@@ -136,13 +163,13 @@ class Main(newSchedStack):
                            "visibility_level":self.stack.visibility_level }
 
         human_description= "Add subgroup {}".format(overide_values["group_name"])
-
         inputargs = {"default_values": default_values,
                      "overide_values": overide_values,
                      "automation_phase": "infrastructure",
                      "human_description": human_description}
 
-        return self.stack.gitlab_subgroup.insert(display=True,**inputargs)
+        return self.stack.gitlab_subgroup.insert(display=True,
+                                                 **inputargs)
 
     def _get_gitlab_runner_toml(self):
 
@@ -196,12 +223,12 @@ LogFormat = "text"
                            "resource_type": "server"}
 
         human_description = "Destroying docker_host {}".format(self.stack.docker_host)
-
         inputargs = {"override_values": override_values,
                      "automation_phase": "infrastructure",
                      "human_description": human_description}
 
-        return self.stack.delete_resource.insert(display=True,**inputargs)
+        return self.stack.delete_resource.insert(display=True,
+                                                 **inputargs)
 
     def _get_aws_account_id(self):
 
@@ -250,7 +277,8 @@ LogFormat = "text"
             inputargs = { "default_values":default_values,
                           "overide_values":overide_values}
 
-            self.stack.docker_build_ssh.insert(display=True,**inputargs)
+            self.stack.docker_build_ssh.insert(display=True,
+                                               **inputargs)
 
         return self._cleanup()
 
@@ -266,13 +294,13 @@ LogFormat = "text"
         default_values = {"aws_default_region":self.stack.aws_default_region}
 
         human_description = "Create IAM role for {}".format(self.stack.docker_host)
-
         inputargs = {"default_values": default_values,
                      "override_values": override_values,
                      "automation_phase": "infrastructure",
                      "human_description": human_description}
 
-        return self.stack.aws_iam_role.insert(display=True,**inputargs)
+        return self.stack.aws_iam_role.insert(display=True,
+                                              **inputargs)
 
     def run_docker_host(self):
 
@@ -299,13 +327,13 @@ LogFormat = "text"
                            "sg_id":self.stack.bastion_sg_id}
 
         human_description = "Create EC2 admin {}".format(self.stack.docker_host)
-
         inputargs = {"default_values": default_values,
                      "override_values": override_values,
                      "automation_phase": "infrastructure",
                      "human_description": human_description}
 
-        return self.stack.ec2_ubuntu_admin.insert(display=True,**inputargs)
+        return self.stack.ec2_ubuntu_admin.insert(display=True,
+                                                  **inputargs)
 
     #def run_fargate_runner_manager(self):
     #    self.stack.init_variables()

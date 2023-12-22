@@ -7,13 +7,23 @@ def run(stackargs):
 
     # Add default variables
     stack.parse.add_required(key="group_name")
-    stack.parse.add_required(key="parent_id",default="null")
-    stack.parse.add_required(key="visibility_level",default="public")
+    stack.parse.add_required(key="parent_id",
+                             default="null")
 
-    stack.parse.add_optional(key="group_path",default='null')
-    stack.parse.add_optional(key="stateful_id",default="_random")
-    stack.parse.add_optional(key="docker_exec_env",default="elasticdev/terraform-run-env:1.3.7")
-    stack.parse.add_optional(key="publish_to_saas",default="null")
+    stack.parse.add_required(key="visibility_level",
+                             default="public")
+
+    stack.parse.add_optional(key="group_path",
+                             default='null')
+
+    stack.parse.add_optional(key="stateful_id",
+                             default="_random")
+
+    stack.parse.add_optional(key="docker_exec_env",
+                             default="elasticdev/terraform-run-env:1.3.7")
+
+    stack.parse.add_optional(key="publish_to_saas",
+                             default="null")
 
     # Add execgroup
     stack.add_execgroup("config0-hub:::gitlab::subgroup")
@@ -48,8 +58,8 @@ def run(stackargs):
     docker_env_fields_keys.remove("METHOD")
 
     env_vars["DOCKER_ENV_FIELDS"] = ",".join(docker_env_fields_keys)
-    human_description= 'Creating subgroup "{}"'.format(stack.group_name)
 
+    human_description= 'Creating subgroup "{}"'.format(stack.group_name)
     inputargs = {"display": True,
                  "env_vars": json.dumps(env_vars),
                  "stateful_id": stack.stateful_id,
@@ -75,7 +85,6 @@ def run(stackargs):
                       "publish_keys_hash": stack.b64_encode(keys_to_publish)}
 
     human_description = "Publish resource info for {}".format(stack.resource_type)
-
     inputargs = {"default_values": default_values,
                  "overide_values": overide_values,
                  "automation_phase": "infrastructure",

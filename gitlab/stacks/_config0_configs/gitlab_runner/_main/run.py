@@ -1,3 +1,7 @@
+########################################################################
+# example
+########################################################################
+#
 #{
 #  "concurrent": 4,
 #  "check_interval": 0,
@@ -214,13 +218,27 @@ def run(stackargs):
     # Add default variables
     stack.parse.add_required(key="gitlab_group_name")  # gitlab group name
 
-    stack.parse.add_required(key="runner_docker_image",default="alpine")
-    stack.parse.add_required(key="runner_concurrent",default="4")
-    stack.parse.add_required(key="s3_bucket",default="4")
-    stack.parse.add_required(key="aws_default_region",default="us-east-1")
-    stack.parse.add_required(key="aws_zone",default="a")
-    stack.parse.add_required(key="spot_price",default="0.05")
-    stack.parse.add_required(key="block_duration_minutes",default="60")
+    stack.parse.add_required(key="runner_docker_image",
+                             default="alpine")
+
+    stack.parse.add_required(key="runner_concurrent",
+                             default="4")
+
+    stack.parse.add_required(key="s3_bucket",
+                             default="4")
+
+    stack.parse.add_required(key="aws_default_region",
+                             default="us-east-1")
+
+    stack.parse.add_required(key="aws_zone",
+                             default="a")
+
+    stack.parse.add_required(key="spot_price",
+                             default="0.05")
+
+    stack.parse.add_required(key="block_duration_minutes",
+                             default="60")
+
     stack.parse.add_required(key="vpc_id")  # we can query this resources through selector
     stack.parse.add_required(key="subnet_ids")  # we can query this resources through selector
     stack.parse.add_required(key="sg_id")  # we can query this resources through selector
@@ -228,10 +246,14 @@ def run(stackargs):
     stack.parse.add_required(key="gitlab_token")
     stack.parse.add_required(key="gitlab_runner_aws_access_key")
     stack.parse.add_required(key="gitlab_runner_aws_secret_key")
-    stack.parse.add_optional(key="gitlab_runner_autoscaling_hash",default="null")
+    stack.parse.add_optional(key="gitlab_runner_autoscaling_hash",
+                             default="null")
 
-    stack.parse.add_optional(key="stateful_id",default="_random")
-    stack.parse.add_optional(key="docker_exec_env",default="elasticdev/terraform-run-env:1.3.7")
+    stack.parse.add_optional(key="stateful_id",
+                             default="_random")
+
+    stack.parse.add_optional(key="docker_exec_env",
+                             default="elasticdev/terraform-run-env:1.3.7")
 
     # Add execgroup
     stack.add_execgroup("config0-hub:::gitlab::subgroup")
@@ -244,4 +266,5 @@ def run(stackargs):
     stack.set_variable("subnet_id",stack.subnet_ids.split(",")[0])
 
     # temp file
-    stack.set_variable("gitlab_runner_config_file",os.path.join("/tmp",stack.random_id()))
+    stack.set_variable("gitlab_runner_config_file",
+                       os.path.join("/tmp",stack.random_id()))

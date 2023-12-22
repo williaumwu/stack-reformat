@@ -223,7 +223,6 @@ def run(stackargs):
         arguments.update(_arguments)
 
     human_description = "Instruction: Creates a Server on Ec2"
-
     inputargs = {"arguments": arguments,
                  "automation_phase":"infrastructure",
                  "human_description": human_description}
@@ -238,7 +237,6 @@ def run(stackargs):
                                           output="dict")
 
         human_description = "Bootstraps host to Jiffy database"
-
         inputargs = {"arguments": arguments,
                      "automation_phase":"infrastructure",
                      "human_description": human_description}

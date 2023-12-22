@@ -63,7 +63,6 @@ def run(stackargs):
                                       output="dict")
 
     human_description = "create ssh key name {}".format(stack.key_name)
-
     inputargs = {"arguments": arguments,
                  "automation_phase": "infrastructure",
                  "human_description": human_description}
@@ -75,7 +74,6 @@ def run(stackargs):
                                       output="dict")
 
     human_description =  "pubkey {} to {}".format(stack.key_name, stack.repo)
-
     inputargs = {"arguments": arguments,
                  "automation_phase": "infrastructure",
                  "human_description": human_description}

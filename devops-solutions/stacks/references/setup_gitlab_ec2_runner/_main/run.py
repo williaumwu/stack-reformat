@@ -233,7 +233,6 @@ gitlab-runner restart
                            "sg_id":self.stack.bastion_sg_id}
 
         human_description = "Create EC2 {}".format(self.stack.hostname)
-
         inputargs = {"default_values": default_values,
                      "overide_values": overide_values,
                      "automation_phase": "infrastructure",
@@ -304,8 +303,8 @@ gitlab-runner restart
 
         overide_values = { "key_name":ssh_key_name }
         default_values = { "aws_default_region":self.stack.aws_default_region }
-        human_description = "Create and upload ssh key name {}".format(ssh_key_name)
 
+        human_description = "Create and upload ssh key name {}".format(ssh_key_name)
         inputargs = {"default_values": default_values,
                      "overide_values": overide_values,
                      "automation_phase": "infrastructure",
@@ -326,8 +325,8 @@ gitlab-runner restart
                            "policy_name": name}
 
         default_values = {"aws_default_region":self.stack.aws_default_region}
-        human_description = "Create IAM role for {}".format(self.stack.ci_environment)
 
+        human_description = "Create IAM role for {}".format(self.stack.ci_environment)
         inputargs = {"default_values": default_values,
                      "overide_values": overide_values,
                      "automation_phase": "infrastructure",
@@ -346,7 +345,6 @@ gitlab-runner restart
         default_values = {"aws_default_region":self.stack.aws_default_region}
 
         human_description = "Create s3 bucket {}".format(s3_bucket)
-
         overide_values = {"bucket": s3_bucket,
                            "acl": self.stack.bucket_acl,
                            "cloud_tags_hash":cloud_tags_hash,
@@ -369,14 +367,14 @@ gitlab-runner restart
                           "visibility_level": self.stack.visibility_level}
 
         human_description = "Add subgroup {}".format(overide_values["group_name"])
-
         inputargs = {"default_values": default_values,
                      "overide_values": overide_values,
                      "automation_phase": "infrastructure",
                      "human_description": human_description}
 
 
-        return self.stack.gitlab_subgroup.insert(display=True,**inputargs)
+        return self.stack.gitlab_subgroup.insert(display=True,
+                                                 **inputargs)
 
     def run(self):
     

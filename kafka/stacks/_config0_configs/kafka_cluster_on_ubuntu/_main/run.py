@@ -68,18 +68,24 @@ def run(stackargs):
                              default="elasticdev/ansible-run-env")
 
     # Add host group
-    stack.add_hostgroups("config0-hub:::ubuntu::18.04-docker","install_docker")
-    stack.add_hostgroups("config0-hub:::ansible::ubuntu-18.04","install_python")
-    stack.add_hostgroups("config0-hub:::kafka::ubuntu_vendor_setup","ubuntu_vendor_setup")
-    stack.add_hostgroups("config0-hub:::kafka::ubuntu_vendor_init_cluster","ubuntu_vendor_init_cluster")
+    stack.add_hostgroups("config0-hub:::ubuntu::18.04-docker",
+                         "install_docker")
+
+    stack.add_hostgroups("config0-hub:::ansible::ubuntu-18.04",
+                         "install_python")
+
+    stack.add_hostgroups("config0-hub:::kafka::ubuntu_vendor_setup",
+                         "ubuntu_vendor_setup")
+
+    stack.add_hostgroups("config0-hub:::kafka::ubuntu_vendor_init_cluster",
+                         "ubuntu_vendor_init_cluster")
 
     # Initialize 
     stack.init_variables()
     stack.init_hostgroups()
 
-    human_description = "Install Docker on bastion {}".format(stack.bastion_hostname)
-
     # install docker on bastion hosts
+    human_description = "Install Docker on bastion {}".format(stack.bastion_hostname)
     inputargs = {"display": True,
                  "human_description": human_description,
                  "automation_phase": "infrastructure",
@@ -121,9 +127,8 @@ def run(stackargs):
                                                           stack)
     host_ips.extend(kafka_control_center_ips)
 
-    human_description = "Install Python for Ansible"
-
     # install python on hosts for ansible
+    human_description = "Install Python for Ansible"
     env_vars = {"METHOD": "create",
                 "STATEFUL_ID": stack.random_id(size=10),
                 "ANS_VAR_private_key": private_key,

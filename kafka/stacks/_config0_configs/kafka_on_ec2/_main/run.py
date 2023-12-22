@@ -181,7 +181,6 @@ class Main(newSchedStack):
                       "aws_default_region": self.stack.aws_default_region}
 
         human_description= "Create and upload ssh key name {}".format(stack.ssh_key_name)
-
         inputargs = {"arguments": arguments,
                      "automation_phase": "infrastructure",
                      "human_description": human_description}
@@ -241,16 +240,12 @@ class Main(newSchedStack):
             if self.stack.spot_max_price:
                 arguments["spot_max_price"] = self.stack.spot_max_price
 
-        human_description = "Creating bastion config hostname {} on ec2".format(self.stack.bastion_hostname)
-
-        # inputargs = {"arguments": arguments }
-
-        # testtest777
         try:
             self.stack.logger.json(arguments)
         except:
             self.stack.logger.debug(arguments)
 
+        human_description = "Creating bastion config hostname {} on ec2".format(self.stack.bastion_hostname)
         inputargs = {"arguments": arguments,
                      "automation_phase": "infrastructure",
                      "human_description": human_description}
@@ -306,9 +301,9 @@ class Main(newSchedStack):
 
         self.stack.unset_parallel()
 
-        # hello
         arguments = self.stack.get_tagged_vars(tag="kafka",
                                                output="dict")
+
         arguments["zookeeper_hosts"] = zookeeper_hosts
         arguments["broker_hosts"] = broker_hosts
         arguments["schema_registry_hosts"] = schema_registry_hosts
@@ -343,7 +338,6 @@ class Main(newSchedStack):
         if self.stack.bastion_destroy:
 
             human_description = "Destroying bastion config hostname {} on ec2".format(self.stack.bastion_hostname)
-
             inputargs = {"arguments": arguments,
                          "automation_phase": "infrastructure",
                          "human_description": human_description}

@@ -7,14 +7,15 @@ def run(stackargs):
     stack.parse.add_required(key="hostname")
 
     # Add host group
-    stack.add_hostgroups("config0-hub:::ubuntu::18.04-docker","install_docker")
+    stack.add_hostgroups("config0-hub:::ubuntu::18.04-docker",
+                         "install_docker")
 
     # Initialize 
     stack.init_variables()
     stack.init_hostgroups()
 
-    human_description = "Install Docker on hostname {}".format(stack.hostname)
     # install docker
+    human_description = "Install Docker on hostname {}".format(stack.hostname)
     inputargs = {"display": True,
                  "human_description": human_description,
                  "automation_phase": "infrastructure",

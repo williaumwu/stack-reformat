@@ -128,11 +128,6 @@ def run(stackargs):
 
     ssm_obj = { "GITHUB_TOKEN": stack.github_token }
 
-
-
-
-
-
     # use the terraform constructor (helper)
     # but this is optional
     tf = TFConstructor(stack=stack,

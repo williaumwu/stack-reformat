@@ -57,17 +57,6 @@ def run(stackargs):
         _subnet_id = random.choice(_subnet_ids)
         stack.set_variable("subnet_id",_subnet_id)
 
-    # security groups
-    # arguments = {"vpc_id":stack.vpc_id}
-    # arguments["ssh_key_name"] = stack.ssh_key_name
-    # arguments["aws_default_region"] = stack.aws_default_region
-    # arguments["instance_type"] = stack.instance_type
-    # arguments["disksize"] = stack.disksize
-    # arguments["hostname"] = stack.hostname
-    # arguments["register_to_db"] = False
-    # arguments["subnet_id"] = stack.subnet_id
-    # arguments["security_group_ids"] = stack.sg_id
-
     arguments = {"vpc_id": stack.vpc_id,
                  "ssh_key_name": stack.ssh_key_name,
                  "aws_default_region": stack.aws_default_region,
@@ -112,7 +101,6 @@ def run(stackargs):
         arguments["cloud_tags_hash"] = stack.cloud_tags_hash
 
     human_description = "Creating config hostname {} on ec2".format(stack.hostname)
-
     inputargs = {"arguments":arguments,
                  "automation_phase" : "infrastructure",
                  "human_description" : human_description}
@@ -146,7 +134,6 @@ def run(stackargs):
                  "prefix_key": "ec2-ubuntu-admin"}
 
     human_description = "Publish resource info for {}".format(stack.resource_type)
-
     inputargs = {"arguments": arguments,
                  "automation_phase": "infrastructure",
                  "human_description": human_description}
