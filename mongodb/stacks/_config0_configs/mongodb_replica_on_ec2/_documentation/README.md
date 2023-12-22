@@ -21,15 +21,15 @@ It's worth noting that an additional option is available to utilize spot instanc
 
 **Required**
 
-| argument      | description                            | var type | default      |
-| ------------- | -------------------------------------- | -------- | ------------ |
-| mongodb_cluster   | the name of the mongodb cluster       | string   | None         |
-| num_of_replicas   | the number of replicas in the mongodb cluster       | string   | 1         |
-| vpc_id | the vpc id | string   | None       |
-| subnet_ids   | a subnet for the VMs is selected from a list of the provided subnet_ids  | string in csv   | None         |
-| sg_id   | the security group id for the VMs       | string   | None         |
-| bastion_subnet_ids   | the subnet_ids to select a subnet_id for the bastion host       | string in csv  | None         |
-| bastion_sg_id   | the security group id for the bastion host       | string   | None         |
+| argument      | description                            | var type      | default      |
+| ------------- | -------------------------------------- |---------------| ------------ |
+| mongodb_cluster   | the name of the mongodb cluster       | string        | None         |
+| num_of_replicas   | the number of replicas in the mongodb cluster       | integer       | 1         |
+| vpc_id | the vpc id | string        | None       |
+| subnet_ids   | a subnet for the VMs is selected from a list of the provided subnet_ids  | string in csv | None         |
+| sg_id   | the security group id for the VMs       | string        | None         |
+| bastion_subnet_ids   | the subnet_ids to select a subnet_id for the bastion host       | string in csv | None         |
+| bastion_sg_id   | the security group id for the bastion host       | string        | None         |
 
 **Optional**
 
