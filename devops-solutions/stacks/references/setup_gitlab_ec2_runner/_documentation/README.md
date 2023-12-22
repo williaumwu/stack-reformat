@@ -1,10 +1,11 @@
 **Description**
-  - The Codebuild CI is expected to built with stack: config0-publish:::setup_codebuild_ci
-    __config0-publish:::setup_codebuild_ci .
-  - This stack adds a repository to automatically build on commits
+  - This stack sets up Gitlab CI
+  - It mimics the portable and ease of use like a CircleCI or TravisCI, but running in your AWS account with Gitlab runners.
+  - Currently NOT FULLY FUNCTIONAL 
+    - Issue is with Gitlab setup on a non-private/enterprise Gitlab setup
+    - Gitlab runners are not being launched correctly with docker-machine
 
 **Infrastructure**
-
 
 **Required**
 
