@@ -1,6 +1,9 @@
-./do/stacks/_config0_configs/do_ssh_upload/_documentation/README.md
 ./do/stacks/_config0_configs/do_ssh_upload/_documentation/metadata.yml
+
+./do/stacks/_config0_configs/do_ssh_upload/_documentation/README.md
 ./do/stacks/_config0_configs/do_ssh_upload/_main/run.py
+
+git checkout doc/do_ssh_upload
 
 ./do/stacks/_config0_configs/doks/_documentation/README.md
 ./do/stacks/_config0_configs/doks/_documentation/metadata.yml
