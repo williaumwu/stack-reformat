@@ -35,13 +35,13 @@ class Main(newSchedStack):
         self.parse.add_optional(key="bucket_acl",default="private")
 
         # Add substack
-        self.stack.add_substack('config0-hub:::gitlab_subgroup')
-        self.stack.add_substack('config0-hub:::aws_s3_bucket')
-        self.stack.add_substack('config0-hub:::new_ec2_ssh_key')
-        self.stack.add_substack('config0-hub:::aws_iam_role')
-        self.stack.add_substack('config0-hub:::ec2_ubuntu_admin')
-        self.stack.add_substack('config0-hub:::docker_build_ssh')
-        self.stack.add_substack('config0-hub:::delete_resource')
+        self.stack.add_substack("config0-hub:::gitlab_subgroup")
+        self.stack.add_substack("config0-hub:::aws_s3_bucket")
+        self.stack.add_substack("config0-hub:::new_ec2_ssh_key")
+        self.stack.add_substack("config0-hub:::aws_iam_role")
+        self.stack.add_substack("config0-hub:::ec2_ubuntu_admin")
+        self.stack.add_substack("config0-hub:::docker_build_ssh")
+        self.stack.add_substack("config0-hub:::delete_resource")
 
         self.stack.init_substacks()
     
@@ -93,11 +93,12 @@ class Main(newSchedStack):
 
         overide_values = {"key_name": self.stack.ssh_key_name}
         default_values = {"aws_default_region": self.stack.aws_default_region}
+        human_description = "Create and upload ssh key name {}".format(self.stack.ssh_key_name)
 
         inputargs = {"default_values": default_values,
                      "overide_values": overide_values,
                      "automation_phase": "infrastructure",
-                     "human_description": 'Create and upload ssh key name {}'.format(self.stack.ssh_key_name)}
+                     "human_description": human_description}
 
         return self.stack.new_ec2_ssh_key.insert(display=True,**inputargs)
 
@@ -115,11 +116,13 @@ class Main(newSchedStack):
                            "acl": self.stack.bucket_acl,
                            "cloud_tags_hash":cloud_tags_hash,
                            "force_destroy": "true" }
- 
+
+        human_description =  "Create s3 bucket {}".format(s3_bucket)
+
         inputargs = {"default_values": default_values,
                      "overide_values": overide_values,
                      "automation_phase": "infrastructure",
-                     "human_description": 'Create s3 bucket {}'.format(s3_bucket)}
+                     "human_description": human_description}
 
         return self.stack.aws_s3_bucket.insert(display=True,**inputargs)
 
@@ -132,10 +135,12 @@ class Main(newSchedStack):
         overide_values = { "group_name": self._get_gitlab_group_name(),
                            "visibility_level":self.stack.visibility_level }
 
+        human_description= "Add subgroup {}".format(overide_values["group_name"])
+
         inputargs = {"default_values": default_values,
                      "overide_values": overide_values,
                      "automation_phase": "infrastructure",
-                     "human_description": 'Add subgroup {}'.format(overide_values["group_name"])}
+                     "human_description": human_description}
 
         return self.stack.gitlab_subgroup.insert(display=True,**inputargs)
 
@@ -190,9 +195,11 @@ LogFormat = "text"
                            "hostname": self.stack.docker_host,
                            "resource_type": "server"}
 
+        human_description = "Destroying docker_host {}".format(self.stack.docker_host)
+
         inputargs = {"override_values": override_values,
                      "automation_phase": "infrastructure",
-                     "human_description": 'Destroying docker_host {}'.format(self.stack.docker_host)}
+                     "human_description": human_description}
 
         return self.stack.delete_resource.insert(display=True,**inputargs)
 
@@ -252,17 +259,18 @@ LogFormat = "text"
         self.stack.init_variables()
         self._set_ec2_params()
 
-        overide_values = { "role_name":self.stack.role_name,
+        overide_values = {"role_name":self.stack.role_name,
                            "iam_instance_profile":self.stack.iam_instance_profile,
-                           "iam_role_policy_name":self.stack.iam_role_policy_name
-                           }
+                           "iam_role_policy_name":self.stack.iam_role_policy_name}
 
-        default_values = { "aws_default_region":self.stack.aws_default_region }
+        default_values = {"aws_default_region":self.stack.aws_default_region}
+
+        human_description = "Create IAM role for {}".format(self.stack.docker_host)
 
         inputargs = {"default_values": default_values,
                      "override_values": override_values,
                      "automation_phase": "infrastructure",
-                     "human_description": 'Create IAM role for {}'.format(self.stack.docker_host)}
+                     "human_description": human_description}
 
         return self.stack.aws_iam_role.insert(display=True,**inputargs)
 
@@ -274,27 +282,28 @@ LogFormat = "text"
 
         user_data_hash = self.stack.b64_encode('echo "cloud-init done"')
 
-        override_values = { "hostname":self.stack.docker_host,
+        override_values = {"hostname":self.stack.docker_host,
                            "spot": True,
                            "ip_key": "public_ip",
                            "user_data_hash": user_data_hash,
                            "ssh_key_name":self.stack.ssh_key_name,
                            "iam_instance_profile":self.stack.iam_instance_profile,
-                           "publish_to_saas":True }
+                           "publish_to_saas":True}
 
-        default_values = { "vpc_name":self.stack.vpc_name,
+        default_values = {"vpc_name":self.stack.vpc_name,
                            "vpc_id":self.stack.vpc_id,
                            "subnet_ids":self.stack.subnet_ids,
                            "size": self.stack.instance_type,
                            "disksize": self.stack.disksize,
                            "aws_default_region":self.stack.aws_default_region,
-                           "sg_id":self.stack.bastion_sg_id,
-                           }
+                           "sg_id":self.stack.bastion_sg_id}
+
+        human_description = "Create EC2 admin {}".format(self.stack.docker_host)
 
         inputargs = {"default_values": default_values,
                      "override_values": override_values,
                      "automation_phase": "infrastructure",
-                     "human_description": 'Create EC2 admin {}'.format(self.stack.docker_host)}
+                     "human_description": human_description}
 
         return self.stack.ec2_ubuntu_admin.insert(display=True,**inputargs)
 

@@ -13,9 +13,10 @@ def run(stackargs):
     stack.init_variables()
     stack.init_hostgroups()
 
+    human_description = "Install Docker on hostname {}".format(stack.hostname)
     # install docker
     inputargs = {"display": True,
-                 "human_description": "Install Docker on hostname {}".format(stack.hostname),
+                 "human_description": human_description,
                  "automation_phase": "infrastructure",
                  "hostname": stack.hostname,
                  "groups": stack.install_docker}

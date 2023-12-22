@@ -53,7 +53,7 @@ def run(stackargs):
                         "tf_execgroup")
 
     # Add substack
-    stack.add_substack('config0-hub:::tf_executor')
+    stack.add_substack("config0-hub:::tf_executor")
 
     # Initialize Variables in stack
     stack.init_variables()
@@ -127,14 +127,6 @@ def run(stackargs):
         raise Exception("cannot retrieve github_token from inputargs")
 
     ssm_obj = { "GITHUB_TOKEN": stack.github_token }
-
-
-
-
-
-
-
-
 
 
 

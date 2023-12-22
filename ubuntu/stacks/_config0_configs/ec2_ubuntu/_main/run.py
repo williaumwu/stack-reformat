@@ -8,8 +8,8 @@ def _insert_volume_params(stack):
     if not stack.get_attr("volume_name"):
         return 
 
-    arguments = { "volume_size": stack.volume_size,
-                  "volume_name": stack.volume_name }
+    arguments = {"volume_size": stack.volume_size,
+                  "volume_name": stack.volume_name}
 
     # minimal to create the disk
     # to optionally format and mount volume
@@ -52,7 +52,7 @@ def run(stackargs):
                              default="true")
 
     stack.parse.add_optional(key="config_network",
-                             choices=["private", "public"],
+                             choices=["private","public"],
                              tags="server",
                              default="public")
 
@@ -157,8 +157,8 @@ def run(stackargs):
                              types="str")
 
     # Add substacks
-    stack.add_substack('config0-hub:::bootstrap_ed')
-    stack.add_substack('config0-hub:::ec2_server')
+    stack.add_substack("config0-hub:::bootstrap_ed")
+    stack.add_substack("config0-hub:::ec2_server")
 
     # init the stack namespace
     stack.init_variables()
@@ -226,7 +226,7 @@ def run(stackargs):
 
     inputargs = {"arguments": arguments,
                  "automation_phase":"infrastructure",
-                 "human_description": human_description }
+                 "human_description": human_description}
 
     stack.ec2_server.insert(display=None, 
                             **inputargs)
@@ -241,7 +241,7 @@ def run(stackargs):
 
         inputargs = {"arguments": arguments,
                      "automation_phase":"infrastructure",
-                     "human_description": human_description }
+                     "human_description": human_description}
 
         stack.bootstrap_ed.insert(display=None, **inputargs)
 

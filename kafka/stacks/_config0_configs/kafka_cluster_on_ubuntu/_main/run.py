@@ -77,9 +77,11 @@ def run(stackargs):
     stack.init_variables()
     stack.init_hostgroups()
 
+    human_description = "Install Docker on bastion {}".format(stack.bastion_hostname)
+
     # install docker on bastion hosts
     inputargs = {"display": True,
-                 "human_description": "Install Docker on bastion {}".format(stack.bastion_hostname),
+                 "human_description": human_description,
                  "automation_phase": "infrastructure",
                  "hostname": stack.bastion_hostname,
                  "groups": stack.install_docker}
@@ -119,6 +121,8 @@ def run(stackargs):
                                                           stack)
     host_ips.extend(kafka_control_center_ips)
 
+    human_description = "Install Python for Ansible"
+
     # install python on hosts for ansible
     env_vars = {"METHOD": "create",
                 "STATEFUL_ID": stack.random_id(size=10),
@@ -127,7 +131,7 @@ def run(stackargs):
                 "ANS_VAR_host_ips": ",".join(host_ips)}
 
     inputargs = {"display": True,
-                 "human_description": 'Install Python for Ansible',
+                 "human_description": human_description,
                  "env_vars": json.dumps(env_vars),
                  "stateful_id": env_vars["STATEFUL_ID"],
                  "automation_phase": "infrastructure",
@@ -143,6 +147,8 @@ def run(stackargs):
     # base env variables
     stateful_id = stack.random_id(size=10)
 
+    human_description = "Setting up Ansible"
+
     base_env_vars = {"METHOD": "create",
                      "docker_exec_env".upper(): stack.ansible_docker_exec_env,
                      "STATEFUL_ID": stateful_id,
@@ -156,7 +162,6 @@ def run(stackargs):
                      "ANS_VAR_kafka_control_center": ",".join(kafka_control_center_ips)}
 
     # deploy Ansible files
-    human_description = "Setting up Ansible"
     inputargs = {"display": True,
                  "human_description": human_description,
                  "env_vars": json.dumps(base_env_vars.copy()),

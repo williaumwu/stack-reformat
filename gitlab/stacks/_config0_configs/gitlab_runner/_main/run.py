@@ -74,23 +74,21 @@
 
 def _get_cache_config(stack):
 
-    s3 = { "ServerAddress": "s3.amazonaws.com",
+    s3 = {"ServerAddress": "s3.amazonaws.com",
            "AccessKey": stack.gitlab_runner_aws_access_key,
            "SecretKey": stack.gitlab_runner_aws_secret_key,
            "BucketName": stack.s3_bucket,
-           "BucketLocation": stack.aws_default_region
-           }
+           "BucketLocation": stack.aws_default_region}
 
-    cache = { "Type": "s3",
+    cache = {"Type": "s3",
               "Shared": True,
-              "s3": s3
-              }
+              "s3": s3}
 
     return cache
 
 def _get_machine_options(stack):
 
-    MachineOptions = [ "amazonec2-access-key={}".format(stack.gitlab_runner_aws_access_key),
+    MachineOptions = ["amazonec2-access-key={}".format(stack.gitlab_runner_aws_access_key),
                        "amazonec2-secret-key={}".format(stack.gitlab_runner_aws_secret_key),
                        "amazonec2-region={}".format(stack.aws_default_region),
                        "amazonec2-vpc-id={}".format(stack.vpc_id),
@@ -102,17 +100,15 @@ def _get_machine_options(stack):
                        "amazonec2-instance-type=t2.medium",
                        "amazonec2-request-spot-instance=true",
                        "amazonec2-spot-price={}".format(int(stack.spot_price)),
-                       "amazonec2-block-duration-minutes={}".format(int(stack.block_duration_minutes))
-                       ]
+                       "amazonec2-block-duration-minutes={}".format(int(stack.block_duration_minutes))]
 
-    machine = { "MachineDriver": "amazonec2",
+    machine = {"MachineDriver": "amazonec2",
                 "MachineName": "gitlab-ci-machine-%s",
                 "OffPeakTimezone": "",
                 "OffPeakIdleCount": 0,
                 "OffPeakIdleTime": 0,
                 "IdleCount": 0,
-                "MachineOptions": MachineOptions
-                }
+                "MachineOptions": MachineOptions}
 
     return machine
 
@@ -128,7 +124,7 @@ def _get_autoscaling(stack):
 
     if autoscaling: return autoscaling
 
-    autoscaling = [ { "Periods": [ "* * 9-17 * * mon-fri *"],
+    autoscaling = [{"Periods": [ "* * 9-17 * * mon-fri *"],
                       "IdleCount": 5,
                       "IdleTime": 3600,
                       "Timezone": "UTC"
@@ -146,7 +142,7 @@ def _get_gitlab_runner_toml(stack):
     
     import toml
 
-    runner = { "name": "gitlab-runner-autoscaler",
+    runner = {"name": "gitlab-runner-autoscaler",
                "url": "https://gitlab.com",
                "token": stack.gitlab_token,
                "executor": "docker+machine",
@@ -158,17 +154,15 @@ def _get_gitlab_runner_toml(stack):
                            "shm_size": 0
                            },
                "cache": stack._get_cache_config(stack),
-               "machine": stack._get_machine_options(stack),
-               }
+               "machine": stack._get_machine_options(stack)}
 
     autoscaling = stack._get_autoscaling(stack)
 
     if autoscaling: runner["autoscaling"] = autoscaling
 
-    values = { "concurrent": int(stack.runner_concurrent),
+    values = {"concurrent": int(stack.runner_concurrent),
                "check_interval": 0,
-               "runners": [ runner ]
-               }
+               "runners": [ runner ]}
 
     with open(stack.gitlab_runner_config_file,"w") as _f:
         toml.dump(values,_f )
