@@ -42,8 +42,8 @@ def run(stackargs):
     stack.parse.add_optional(key="cloud_tags_hash",default=None,types="str")
 
     # Add substack
-    stack.add_substack('config0-hub:::ec2_server')
-    stack.add_substack('config0-hub:::config0-core::publish_resource')
+    stack.add_substack("config0-hub:::ec2_server")
+    stack.add_substack("config0-hub:::config0-core::publish_resource")
 
     # Initialize 
     stack.init_variables()
@@ -57,16 +57,17 @@ def run(stackargs):
         _subnet_id = random.choice(_subnet_ids)
         stack.set_variable("subnet_id",_subnet_id)
 
-    # security groups
-    arguments = {"vpc_id":stack.vpc_id}
-    arguments["ssh_key_name"] = stack.ssh_key_name
-    arguments["aws_default_region"] = stack.aws_default_region
-    arguments["instance_type"] = stack.instance_type
-    arguments["disksize"] = stack.disksize
-    arguments["hostname"] = stack.hostname
-    arguments["register_to_db"] = False
-    arguments["subnet_id"] = stack.subnet_id
-    arguments["security_group_ids"] = stack.sg_id
+    arguments = {"vpc_id": stack.vpc_id,
+                 "ssh_key_name": stack.ssh_key_name,
+                 "aws_default_region": stack.aws_default_region,
+                 "instance_type": stack.instance_type,
+                 "disksize": stack.disksize,
+                 "hostname": stack.hostname,
+                 "register_to_db": False,
+                 "subnet_id": stack.subnet_id,
+                 "security_group_ids": stack.sg_id}
+
+
 
     if stack.get_attr("ami"):
         arguments["ami"] = stack.ami
@@ -99,9 +100,10 @@ def run(stackargs):
     if stack.get_attr("cloud_tags_hash"):
         arguments["cloud_tags_hash"] = stack.cloud_tags_hash
 
-    inputargs = {"arguments":arguments}
-    inputargs["automation_phase"] = "infrastructure"
-    inputargs["human_description"] = "Creating config hostname {} on ec2".format(stack.hostname)
+    human_description = "Creating config hostname {} on ec2".format(stack.hostname)
+    inputargs = {"arguments":arguments,
+                 "automation_phase" : "infrastructure",
+                 "human_description" : human_description}
 
     stack.ec2_server.insert(display=True,**inputargs)
 
@@ -131,9 +133,10 @@ def run(stackargs):
                  "publish_keys_hash": stack.b64_encode(keys_to_publish),
                  "prefix_key": "ec2-ubuntu-admin"}
 
+    human_description = "Publish resource info for {}".format(stack.resource_type)
     inputargs = {"arguments": arguments,
                  "automation_phase": "infrastructure",
-                 "human_description": 'Publish resource info for {}'.format(stack.resource_type)}
+                 "human_description": human_description}
 
     stack.publish_resource.insert(display=True,**inputargs)
 

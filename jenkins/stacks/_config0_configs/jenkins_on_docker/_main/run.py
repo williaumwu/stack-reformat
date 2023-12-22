@@ -44,7 +44,7 @@ def run(stackargs):
 
     # Add execgroup
     stack.add_execgroup("config0-hub:::jenkins::on_docker")
-    stack.add_substack('config0-hub:::config0-core::publish_host_file')
+    stack.add_substack("config0-hub:::config0-core::publish_host_file")
 
     # Initialize
     stack.init_variables()
@@ -68,8 +68,9 @@ def run(stackargs):
                 "ANS_VAR_exec_ymls": "install.yml",
                 "ANSIBLE_EXEC_YMLS": "install.yml"}
 
+    human_description= "Install Jenkins for Ansible"
     inputargs = {"display": True,
-                 "human_description": 'Install Jenkins for Ansible',
+                 "human_description": human_description,
                  "env_vars": json.dumps(env_vars.copy()),
                  "stateful_id": stateful_id,
                  "automation_phase": "infrastructure",
@@ -83,7 +84,6 @@ def run(stackargs):
                      "jenkins_url": "https://{}".format(public_ip),
                      "jenkins_user": "admin"}
 
-
     if stack.publish_private_key:
         _publish_vars["private_key_b64"] = _private_key
 
@@ -95,9 +95,10 @@ def run(stackargs):
                  "hostname": stack.hostname,
                  "ssh_key_name": stack.ssh_key_name}
 
+    human_description = "Publish jenkins admin init password"
     inputargs = {"arguments": arguments,
                  "automation_phase": "infrastructure",
-                 "human_description": 'Publish jenkins admin init password'}
+                 "human_description": human_description}
 
     stack.publish_host_file.insert(display=True, **inputargs)
 

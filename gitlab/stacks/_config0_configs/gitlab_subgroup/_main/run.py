@@ -7,17 +7,27 @@ def run(stackargs):
 
     # Add default variables
     stack.parse.add_required(key="group_name")
-    stack.parse.add_required(key="parent_id",default="null")
-    stack.parse.add_required(key="visibility_level",default="public")
+    stack.parse.add_required(key="parent_id",
+                             default="null")
 
-    stack.parse.add_optional(key="group_path",default='null')
-    stack.parse.add_optional(key="stateful_id",default="_random")
-    stack.parse.add_optional(key="docker_exec_env",default="elasticdev/terraform-run-env:1.3.7")
-    stack.parse.add_optional(key="publish_to_saas",default="null")
+    stack.parse.add_required(key="visibility_level",
+                             default="public")
+
+    stack.parse.add_optional(key="group_path",
+                             default='null')
+
+    stack.parse.add_optional(key="stateful_id",
+                             default="_random")
+
+    stack.parse.add_optional(key="docker_exec_env",
+                             default="elasticdev/terraform-run-env:1.3.7")
+
+    stack.parse.add_optional(key="publish_to_saas",
+                             default="null")
 
     # Add execgroup
     stack.add_execgroup("config0-hub:::gitlab::subgroup")
-    stack.add_substack('config0-hub:::config0-core::publish_resource')
+    stack.add_substack("config0-hub:::config0-core::publish_resource")
 
     # Initialize Variables in stack
     stack.init_variables()
@@ -41,7 +51,7 @@ def run(stackargs):
                 "TF_VAR_parent_id": stack.parent_id,
                 "TF_VAR_visibility_level": stack.visibility_level,
                 "METHOD": "create",
-                "RESOURCE_TAGS": "{}".format(stack.resource_type),}
+                "RESOURCE_TAGS": "{}".format(stack.resource_type)}
 
     docker_env_fields_keys = list(env_vars.keys())
     docker_env_fields_keys.append("GITLAB_TOKEN")
@@ -49,10 +59,11 @@ def run(stackargs):
 
     env_vars["DOCKER_ENV_FIELDS"] = ",".join(docker_env_fields_keys)
 
+    human_description= 'Creating subgroup "{}"'.format(stack.group_name)
     inputargs = {"display": True,
                  "env_vars": json.dumps(env_vars),
                  "stateful_id": stack.stateful_id,
-                 "human_description": 'Creating subgroup "{}"'.format(stack.group_name)}
+                 "human_description": human_description}
 
     stack.subgroup.insert(**inputargs)
 
@@ -73,10 +84,11 @@ def run(stackargs):
     default_values = {"resource_type": stack.resource_type,
                       "publish_keys_hash": stack.b64_encode(keys_to_publish)}
 
+    human_description = "Publish resource info for {}".format(stack.resource_type)
     inputargs = {"default_values": default_values,
                  "overide_values": overide_values,
                  "automation_phase": "infrastructure",
-                 "human_description": 'Publish resource info for {}'.format(stack.resource_type)}
+                 "human_description": human_description}
 
     stack.publish_resource.insert(display=True,**inputargs)
 
