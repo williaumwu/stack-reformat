@@ -1,0 +1,23 @@
+- mongodb_replica_on_ec2
+  - ec2_ubuntu
+    - bootstrap_ed
+    - ec2_server
+      - ebs_volume
+        - tf_executor
+          - output_resource_to_ui
+        - ebs_modify
+          - tf_executor
+          - output_resource_to_ui
+  - create_mongodb_pem
+  - create_mongodb_keyfile
+  - mongodb_replica_ubuntu
+      - ebs_volume_attach
+        - tf_executor
+        - output_resource_to_ui
+  - delete_resource
+  - new_ec2_ssh_key
+      - new_ssh_key
+      - ec2_ssh_upload
+   - tf_executor
+     - output_resource_to_ui
+  - publish_resource
