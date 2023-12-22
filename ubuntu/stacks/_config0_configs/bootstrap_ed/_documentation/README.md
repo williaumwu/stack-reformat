@@ -20,8 +20,8 @@ In summary, bootstrapping a server to the Config0 platform facilitates the estab
 
 **Optional**
 
-| argument     | description                                                                                      | var type | default   |
-|--------------|--------------------------------------------------------------------------------------------------|----------|-----------|
-| ssh_key_name | the ssh key name use to authenticate to server                                                   | string   | None      |
-| ip_key       | the ip_key refers to private or public networks (public_ip/private_ip)                           | string   | public_ip |
-| user         | the user to log into the server with | string   | ubuntu    |
+| argument     | description                                                                                      | var type             | default   |
+|--------------|--------------------------------------------------------------------------------------------------|----------------------|-----------|
+| ssh_key_name | the ssh key name use to authenticate to server                                                   | string               | None      |
+| ip_key       | the ip_key refers to private or public networks                           | public_ip/private_ip | public_ip |
+| user         | the user to log into the server with | string               | ubuntu    |

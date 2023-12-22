@@ -33,27 +33,35 @@ It's worth noting that an additional option is available to utilize spot instanc
 
 **Optional**
 
-| argument           | description                            | var type |  default      |
-| ------------- | -------------------------------------- | -------- | ------------ |
-| spot   | the option to use spot intances. (buyer be aware)    | boolean   | None        |
-| ami   | the ami image used for mongodb instances      | string   | None        |
-| ami_filter   | the ami filter used to search for an image as a base for mongodb instances      | string   | None        |
-| ami_owner   | the ami owner used to search for an image as a base for mongodb instances      | string   | None        |
-| bastion_ami   | the ami image used for the bastion config host      | string   | None          |
-| bastion_ami_filter   | the ami filter used to search for an image as a base for the bastion host     | string   | None        |
-| bastion_ami_owner   | the ami owner used to search for an image as a base for the bastion host      | string   | None        |
-| aws_default_region   | the aws region                | string   | us-east-1         |
-| hostname_random | generates random hostname base for the VM instances    | string   | master       |
-| bastion_config_destroy   | destroys the bastion configuration host after configuration/build is finished | string   | true         |
-| instance_type | the instance_type for the VMs | string   | t3.micro       |
-| disksize | the disksize for the VM | string   | None       |
-| mongodb_username | the master mongodb username    | string   | -random-       |
-| mongodb_password | the master mongodb password    | string   | -random-       |
-| volume_size | the volume size for mongodb data | string   | 100       |
-| volume_mountpoint | the volume mountpoint for mongodb data | string   | /var/lib/mongodb       |
-| volume_fstype | the volume fileystem type for mongodb data | string   | xfs       |
-| tags | the tags for the mongodb cluster in the Config0 resources database | string   | None       |
-| labels | the labels for the mongodb cluster in the Config0 resources database | string   | None       |
+| argument               | description                                                                   | var type | default          |
+|------------------------|-------------------------------------------------------------------------------|----------|------------------|
+| mongodb_version        | the mongodb version to install                                                | string   | 4.2              |
+| config_network         | the network to push configuration to mongodb hosts                            | private/public  | private          |
+| spot                   | the option to use spot intances. (buyer be aware)                             | boolean  | None             |
+| spot_type              | the option to set spot type for spot instances                                | string   | persistent       |
+| spot_max_price         | the option to set spot max price spot instances                               | string   | None             |
+| ami                    | the ami image used for mongodb instances                                      | string   | None             |
+| ami_filter             | the ami filter used to search for an image as a base for mongodb instances    | string   | None             |
+| ami_owner              | the ami owner used to search for an image as a base for mongodb instances     | string   | None             |
+| bastion_ami            | the ami image used for the bastion config host                                | string   | None             |
+| bastion_ami_filter     | the ami filter used to search for an image as a base for the bastion host     | string   | None             |
+| bastion_ami_owner      | the ami owner used to search for an image as a base for the bastion host      | string   | None             |
+| aws_default_region     | the aws region                                                                | string   | us-east-1        |
+| hostname_random        | generates random hostname base for the VM instances                           | string   | master           |
+| bastion_config_destroy | destroys the bastion configuration host after configuration/build is finished | string   | true             |
+| instance_type          | the instance_type for the VMs                                                 | string   | t3.micro         |
+| disksize               | the disksize for the VM                                                       | string   | None             |
+| mongodb_username       | the master mongodb username                                                   | string   | -random-         |
+| mongodb_password       | the master mongodb password                                                   | string   | -random-         |
+| volume_size            | the volume size for mongodb data                                              | string   | 100              |
+| volume_mountpoint      | the volume mountpoint for mongodb data                                        | string   | /var/lib/mongodb |
+| volume_fstype          | the volume fileystem type for mongodb data                                    | string   | xfs              |
+| tags                   | the tags for the mongodb cluster in the Config0 resources database            | string   | None             |
+| labels                 | the labels for the mongodb cluster in the Config0 resources database          | string   | None             |
+| cloud_tags_hash | the tags for the resources in the cloud as base64                             | string  | None             |
+| publish_to_saas   | publish info of db to Config0 UI                                              | boolean   | True             |
+
+
 
 **Sample entry**
 ```
