@@ -12,12 +12,12 @@ def run(stackargs):
                              types="str")
 
     stack.parse.add_optional(key="hash_key",
-                             default='_id',
+                             default="_id",
                              tags="resource,db,tfvar",
                              types="str")
 
     stack.parse.add_optional(key="billing_mode",
-                             default='PAY_PER_REQUEST',
+                             default="PAY_PER_REQUEST",
                              tags="resource,db,tfvar",
                              types="str")
 
@@ -27,10 +27,11 @@ def run(stackargs):
                              types="str")
 
     # Add execgroup
-    stack.add_execgroup("config0-hub:::aws_storage::dynamodb", "tf_execgroup")
+    stack.add_execgroup("config0-hub:::aws_storage::dynamodb",
+                        "tf_execgroup")
 
     # Add substack
-    stack.add_substack('config0-hub:::tf_executor')
+    stack.add_substack("config0-hub:::tf_executor")
 
     # Initialize Variables in stack
     stack.init_variables()
@@ -52,7 +53,7 @@ def run(stackargs):
                      "name",
                      "ttl"])
 
-    tf.include(maps={"id": "arn"})
+    tf.include(maps={"id":"arn"})
 
     tf.output(keys=["billing_mode",
                     "arn",

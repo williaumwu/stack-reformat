@@ -6,14 +6,21 @@ def run(stackargs):
     stack = newStack(stackargs)
 
     # Add default variables
-    stack.parse.add_required(key="name", default="null", types="str")
-    stack.parse.add_required(key="docker_repo", default="null", types="str")
+    stack.parse.add_required(key="name",
+                             default="null",
+                             types="str")
+
+    stack.parse.add_required(key="docker_repo",
+                             default="null",
+                             types="str")
+
     stack.parse.add_optional(key="aws_default_region",
-                             default="eu-west-1", types="str")
+                             default="eu-west-1",
+                             types="str")
 
     # Add shelloutconfig dependencies
-    stack.add_shelloutconfig(
-        'config0-hub:::aws_storage::ecr_repo', "ecr_repo_script")
+    stack.add_shelloutconfig('config0-hub:::aws_storage::ecr_repo',
+                             "ecr_repo_script")
 
     # Initialize Variables in stack
     stack.init_variables()
@@ -25,7 +32,7 @@ def run(stackargs):
         name = stack.docker_repo
     else:
         msg = "We need either name or docker_repo for creating the ecr_repo"
-        stack.ehandle.NeedRtInput(message=msg)
+        stack.ehandle.NeedRtInput(message= msg)
 
     # Check if ECR repo exists for docker images
     docker_repo = stack.check_resource(name=name,
@@ -34,18 +41,19 @@ def run(stackargs):
 
     if not docker_repo:
 
-        stack.env_vars = {"INSERT_IF_EXISTS": True}
-        stack.env_vars["AWS_DEFAULT_REGION"] = stack.aws_default_region
-        stack.env_vars["NAME"] = stack.name
-        stack.env_vars["METHOD"] = "create"
+        stack.env_vars = {"INSERT_IF_EXISTS": True,
+                          "AWS_DEFAULT_REGION" : stack.aws_default_region,
+                          "NAME" : stack.name,
+                          "METHOD" : "create"}
 
-        inputargs = {"display": True}
-        inputargs["human_description"] = 'Creating AWS ecr_repo'
-        inputargs["env_vars"] = json.dumps(stack.env_vars)
-        inputargs["automation_phase"] = "infrastructure"
-        inputargs["retries"] = 2
-        inputargs["timeout"] = 180
-        inputargs["wait_last_run"] = 2
+        inputargs = {"display": True,
+                     "human_description" : 'Creating AWS ecr_repo',
+                     "env_vars" : json.dumps(stack.env_vars),
+                     "automation_phase" : "infrastructure",
+                     "retries" : 2,
+                     "timeout" : 180,
+                     "wait_last_run" : 2}
+
         stack.ecr_repo_script.resource_exec(**inputargs)
 
     else:

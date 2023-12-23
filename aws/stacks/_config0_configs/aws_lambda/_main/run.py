@@ -82,7 +82,8 @@ def run(stackargs):
                              types="str")
 
     # Add execgroup
-    stack.add_execgroup("config0-hub:::aws::add_lambda", "tf_execgroup")
+    stack.add_execgroup("config0-hub:::aws::add_lambda",
+                        "tf_execgroup")
 
     # Add substack
     stack.add_substack('config0-hub:::tf_executor')

@@ -31,11 +31,11 @@ def run(stackargs):
                              types="str")
 
     # Add execgroup
-    stack.add_execgroup(
-        "config0-hub:::aws_storage::ssm_parameter_store", "tf_execgroup")
+    stack.add_execgroup("config0-hub:::aws_storage::ssm_parameter_store",
+                        "tf_execgroup")
 
     # Add substack
-    stack.add_substack('config0-hub:::tf_executor')
+    stack.add_substack("config0-hub:::tf_executor")
 
     # Initialize Variables in stack
     stack.init_variables()
@@ -43,8 +43,8 @@ def run(stackargs):
     stack.init_substacks()
 
     if not stack.get_attr("ssm_description"):
-        stack.set_variable(
-            "ssm_description", "The ssm parameter for key = {}".format(stack.ssm_key))
+        stack.set_variable("ssm_description",
+                           "The ssm parameter for key = {}".format(stack.ssm_key))
 
     # use the terraform constructor (helper)
     # but this is optional
@@ -61,7 +61,7 @@ def run(stackargs):
                      "type",
                      "id"])
 
-    tf.include(maps={"ssm_ref": "name"})
+    tf.include(maps= {"ssm_ref": "name"})
 
     tf.output(keys=["key_id",
                     "tier",

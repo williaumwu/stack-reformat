@@ -256,7 +256,8 @@ def run(stackargs):
                              types="str")
 
     # Add execgroup
-    stack.add_execgroup("config0-hub:::aws::codebuild", "tf_execgroup")
+    stack.add_execgroup("config0-hub:::aws::codebuild",
+                        "tf_execgroup")
 
     # Add substack
     stack.add_substack('config0-hub:::tf_executor')
