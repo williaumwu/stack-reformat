@@ -18,15 +18,24 @@ This stack utilizes:
 
 **Required**
 
-| argument      | description                            | var type | default      |
-| ------------- | -------------------------------------- | -------- | ------------ |
-| TBD   | TBD                 | string   | None         |
+| argument       | description                            | var type | default      |
+| -------------- | -------------------------------------- | -------- | ------------ |
+| ci_environment | environment name for the project   | string   | None         |
 
 **Optional**
 
-| argument           | description                            | var type |  default      |
-| ------------- | -------------------------------------- | -------- | ------------ |
-| TBD   | TBD                 | string   | None         |
+| argument            | description                                        | var type | default   |
+| ------------------- | -------------------------------------------------- | -------- | --------- |
+| aws_default_region  | default aws region                                 |string    | us-west-1 |
+| bucket_acl          | bucket access control list mode                    |string    | private |
+| bucket_expire_days  | bucket retention days                              |int       | 7 |
+| cloud_tags_hash     | the tags for the resources in the cloud as base64  |string    | None |
+| lambda_layers       | lambda amazon resource name                        |string    | arn:aws:lambda:eu-west-1:553035198032:layer:git-lambda2:8 |
+| runtime             | lambda function runtime language                   |string    | python3.9 |
+| suffix_id           | help-add-description-2023                          |string    | None |
+| suffix_length       | help-add-description-2023                          |int       | 4 |
+
+help-add-description-2023 aws_default_region vs lambda_layers are in different regions
 
 **Sample entry**
 ```
