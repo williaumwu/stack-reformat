@@ -1,6 +1,6 @@
 **Description**
 
-  - The stack generates ssh_key and uploads it to digitalocean.
+  - This stack generates an SSH key and uploads it to DigitalOcean.
 
 **Required**
 

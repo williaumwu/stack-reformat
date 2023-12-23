@@ -1,9 +1,10 @@
 **Description**
-  - The stack creates EKS in an existing VPC created in a config0.yml launch yaml.
+
+  - This stack provisions an EKS cluster within an existing VPC.
 
 **Infrastructure**
 
-  - expects an existing VPC created in a config0.yml launch yaml. the stack will query the Config0 resources table to get the VPC parameters
+  - This stack assumes that the VPC parameters are present in the Config0 resource database.
 
 **Required**
 
