@@ -46,22 +46,6 @@
 ./aws_eks/stacks/_config0_configs/publish_eks_info/_documentation/metadata.yml
 ./aws_eks/stacks/_config0_configs/publish_eks_info/_main/run.py
 
-./devops-solutions/stacks/_config0_configs/setup_codebuild_ci/_documentation/README.md
-./devops-solutions/stacks/_config0_configs/setup_codebuild_ci/_documentation/metadata.yml
-./devops-solutions/stacks/_config0_configs/setup_codebuild_ci/_main/run.py
-
-./devops-solutions/stacks/_config0_configs/add_codebuild_ci/_documentation/README.md
-./devops-solutions/stacks/_config0_configs/add_codebuild_ci/_documentation/metadata.yml
-./devops-solutions/stacks/_config0_configs/add_codebuild_ci/_main/run.py
-
-./kafka/stacks/_config0_configs/kafka_on_ec2/_documentation/README.md
-./kafka/stacks/_config0_configs/kafka_on_ec2/_documentation/metadata.yml
-./kafka/stacks/_config0_configs/kafka_on_ec2/_main/run.py
-
-./kafka/stacks/_config0_configs/kafka_cluster_on_ubuntu/_documentation/README.md
-./kafka/stacks/_config0_configs/kafka_cluster_on_ubuntu/_documentation/metadata.yml
-./kafka/stacks/_config0_configs/kafka_cluster_on_ubuntu/_main/run.py
-
 ./gitlab/stacks/_config0_configs/setup_gitlab_fargate_runner/_documentation/README.md
 ./gitlab/stacks/_config0_configs/setup_gitlab_fargate_runner/_documentation/metadata.yml
 ./gitlab/stacks/_config0_configs/setup_gitlab_fargate_runner/_main/run.py
@@ -343,4 +327,20 @@ DONE:
 ./mongodb/stacks/_config0_configs/mongodb_replica_on_ec2/_documentation/README.md
 ./mongodb/stacks/_config0_configs/mongodb_replica_on_ec2/_documentation/metadata.yml
 ./mongodb/stacks/_config0_configs/mongodb_replica_on_ec2/_main/run.py
+
+./kafka/stacks/_config0_configs/kafka_on_ec2/_documentation/README.md
+./kafka/stacks/_config0_configs/kafka_on_ec2/_documentation/metadata.yml
+./kafka/stacks/_config0_configs/kafka_on_ec2/_main/run.py
+
+./kafka/stacks/_config0_configs/kafka_cluster_on_ubuntu/_documentation/README.md
+./kafka/stacks/_config0_configs/kafka_cluster_on_ubuntu/_documentation/metadata.yml
+./kafka/stacks/_config0_configs/kafka_cluster_on_ubuntu/_main/run.py
+
+./devops-solutions/stacks/_config0_configs/setup_codebuild_ci/_documentation/README.md
+./devops-solutions/stacks/_config0_configs/setup_codebuild_ci/_documentation/metadata.yml
+./devops-solutions/stacks/_config0_configs/setup_codebuild_ci/_main/run.py
+
+./devops-solutions/stacks/_config0_configs/add_codebuild_ci/_documentation/README.md
+./devops-solutions/stacks/_config0_configs/add_codebuild_ci/_documentation/metadata.yml
+./devops-solutions/stacks/_config0_configs/add_codebuild_ci/_main/run.py
 

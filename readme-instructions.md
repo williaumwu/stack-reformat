@@ -23,3 +23,15 @@
 
 - ./mongodb/stacks/_config0_configs/mongodb_replica_on_ec2/_documentation/README.md
 - ./mongodb/stacks/_config0_configs/mongodb_replica_on_ec2/_main/run.py
+
+## suggestions:
+
+for variables that are already used in the repository, you can do a grep search
+
+for example: 
+
+if you see the variable __aws_default_region__ you can use grep to see if is already in another README file:
+
+```
+grep -r aws_default_region -A 2 -B 2
+```

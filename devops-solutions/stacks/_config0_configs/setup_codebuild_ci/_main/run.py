@@ -17,7 +17,7 @@ class Main(newSchedStack):
 
         self.parse.add_optional(key="aws_default_region",
                                 types="str",
-                                default="us-west-1")
+                                default="eu-west-1")
 
         self.parse.add_optional(key="cloud_tags_hash",
                                 types="str")

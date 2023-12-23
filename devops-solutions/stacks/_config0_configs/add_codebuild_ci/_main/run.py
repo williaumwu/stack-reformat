@@ -72,6 +72,7 @@ class Main(newSchedStack):
                                 default="master")
 
         self.parse.add_required(key="ci_environment")
+
         # this is required to make the buckets unique
         self.parse.add_optional(key="suffix_id",
                                 types="str")
