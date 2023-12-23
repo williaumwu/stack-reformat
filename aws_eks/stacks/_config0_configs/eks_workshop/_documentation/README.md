@@ -28,4 +28,3 @@
 | eks_node_desired_capacity   | the desired capacity of the eks cluster               | string   | 1         |
 | eks_instance_type   | the instance_type for the ec2 instance used to get through the workshop| string   | t3.micro         |
 | disksize   | the disksize for the ec2 instance used to get through the workshop| string   | 25         |
-
