@@ -12,10 +12,23 @@
 
 | argument               | description                                                                    | var type | default      |
 |------------------------|--------------------------------------------------------------------------------| -------- | ------------ |
-| tbd                    | tbd                                              | string   | None         |
+| bastion_hostname       | hostname for the bastion used to install and configure kafka on VMs    | string   | None         |
+| kafka_cluster          | name of the kafka cluster                                              | string   | None         |
+| ssh_key_name           | name of the ssh_key_name to use for the VMs                            | string   | None         |
+| aws_default_region     | default aws region                                                     | string   | help-add-description-2023         |
+| zookeeper_hosts        | name of the zookeeper host                                             | string   | None         |
+| broker_hosts           | name of the kafka broker                                               | string   | None         |
+| schema_registry_hosts  | name of the schema registry host                                       | string   | None         |
+| connect_hosts          | help-add-description-2023                                              | string   | None         |
+| rest_hosts             | name of the REST proxy host                                            | string   | None         |
+| ksql_hosts             | name of the KafkaSQL host                                              | string   | None         |
+| control_center_hosts   | name of the kafka control center                                       | string   | None         |
 
 **Optional**
 
 | argument               | description                                                                    | var type | default      |
 |------------------------|--------------------------------------------------------------------------------| -------- | ------------ |
-| tbd                    | tbd                                              | string   | None         |
+| vm_username                 | username for the VM.  e.g. ec2 for AWS linux        | string  | ubuntu                                |
+| publish_to_saas             | publish or print vm info to saas ui                 | boolean | null                                  |
+| terraform_docker_exec_env   | docker container for terraform execution            | string  | elasticdev/terraform-run-env:1.3.7    |
+| ansible_docker_exec_env     | docker container for ansible execution              | string  | elasticdev/ansible-run-env            |
