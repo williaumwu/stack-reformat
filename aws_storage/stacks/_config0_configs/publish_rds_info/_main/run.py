@@ -5,13 +5,24 @@ def run(stackargs):
 
     # add variables
     stack.parse.add_required(key="db_instance_name")
-    stack.parse.add_required(key="db_root_user", default="null")
-    stack.parse.add_required(key="db_root_password", default="null")
 
-    stack.parse.add_optional(key="db_name", default="null")
-    stack.parse.add_optional(key="db_user", default="null")
-    stack.parse.add_optional(key="db_password", default="null")
-    stack.parse.add_optional(key="publish_creds", default="null")
+    stack.parse.add_required(key="db_root_user",
+                             default="null")
+
+    stack.parse.add_required(key="db_root_password",
+                             default="null")
+
+    stack.parse.add_optional(key="db_name",
+                             default="null")
+
+    stack.parse.add_optional(key="db_user",
+                             default="null")
+
+    stack.parse.add_optional(key="db_password",
+                             default="null")
+
+    stack.parse.add_optional(key="publish_creds",
+                             default="null")
 
     # init the stack namespace
     stack.init_variables()
@@ -46,7 +57,10 @@ def run(stackargs):
                  "engine",
                  "engine_version"]
 
-    _public_var = stack.dict_to_dict(keys2pass, {}, _info, addNone=None)
+    _public_var = stack.dict_to_dict(keys2pass,
+                                     {},
+                                     _info,
+                                     addNone=None)
 
     db_endpoint = _info.get("endpoint")
 

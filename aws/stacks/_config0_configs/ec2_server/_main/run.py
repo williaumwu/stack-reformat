@@ -150,7 +150,8 @@ def run(stackargs):
                              default="private")
 
     # Add shelloutconfig dependencies
-    stack.add_shelloutconfig('config0-hub:::aws::ec2_server', "ec2_server")
+    stack.add_shelloutconfig('config0-hub:::aws::ec2_server',
+                             "ec2_server")
 
     # substacks for volumes
     stack.add_substack('config0-hub:::ebs_volume')
@@ -192,7 +193,6 @@ def run(stackargs):
 
     # Set environment variables for the shellout
     # to create the server
-    
     stack.env_vars = stack.get_tagged_vars(tag="env_var",
                                            uppercase=True,
                                            output="dict")
@@ -212,7 +212,7 @@ def run(stackargs):
     stack.verify_variables()
 
     inputargs = stack.get_tagged_vars(tag="ec2_server",
-                                   output="dict")
+                                      output="dict")
 
     inputargs = {"display": True,
                  "human_description": 'Create an EC2 server hostname "{}"'.format(stack.hostname),
@@ -250,28 +250,3 @@ def run(stackargs):
                             **inputargs)
 
     return stack.get_results()
-
-    ####################################################
-    # attach, format and mount minimally
-    # volume_mountpoint and volume_fstype
-    # testtest333
-    # if you want to configure volume below
-    ####################################################
-    #if not stack.get_attr("volume_mountpoint"):
-    #    return stack.get_results()
-
-    #if not stack.get_attr("volume_fstype"):
-    #    return stack.get_results()
-
-    ## attach, format, and mount volume
-    #arguments = stack.get_tagged_vars(tag="ebs_config",
-    #                                  output="dict")
-
-    #inputargs = {"arguments": arguments}
-    #inputargs["automation_phase"] = "infrastructure"
-    #inputargs["human_description"] = "Format and attach fileystem on volume {}".format(
-    #    stack.volume_name)
-
-    #stack.ebs_modify.insert(display=None, **inputargs)
-
-    #return stack.get_results()

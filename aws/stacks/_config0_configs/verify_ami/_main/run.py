@@ -8,13 +8,21 @@ def run(stackargs):
     stack.parse.add_required(key="name")
 
     stack.parse.add_required(key="config_env", 
-                             choices=["private", "public"], 
+                             choices=["private",
+                                      "public"],
                              default="private")
 
-    stack.parse.add_optional(key="aws_default_region", default="us-east-1")
-    stack.parse.add_optional(key="wait_last_run", default=60)
-    stack.parse.add_optional(key="retries", default=20)
-    stack.parse.add_optional(key="timeout", default=1800)
+    stack.parse.add_optional(key="aws_default_region",
+                             default="us-east-1")
+
+    stack.parse.add_optional(key="wait_last_run",
+                             default=60)
+
+    stack.parse.add_optional(key="retries",
+                             default=20)
+
+    stack.parse.add_optional(key="timeout",
+                             default=1800)
 
     # Add shelloutconfigs
     stack.add_shelloutconfig('config0-hub:::aws::ec2_ami')
