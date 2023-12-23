@@ -1,9 +1,6 @@
 ./do/stacks/_config0_configs/do_ssh_upload/_documentation/metadata.yml
-
 ./do/stacks/_config0_configs/do_ssh_upload/_documentation/README.md
 ./do/stacks/_config0_configs/do_ssh_upload/_main/run.py
-
-git checkout doc/do_ssh_upload
 
 ./do/stacks/_config0_configs/doks/_documentation/README.md
 ./do/stacks/_config0_configs/doks/_documentation/metadata.yml
@@ -233,10 +230,6 @@ git checkout doc/do_ssh_upload
 ./config0_core/stacks/_config0_configs/delete_resources_by_time/_documentation/metadata.yml
 ./config0_core/stacks/_config0_configs/delete_resources_by_time/_main/run.py
 
-./jenkins/stacks/_config0_configs/jenkins_on_docker/_documentation/README.md
-./jenkins/stacks/_config0_configs/jenkins_on_docker/_documentation/metadata.yml
-./jenkins/stacks/_config0_configs/jenkins_on_docker/_main/run.py
-
 ./ubuntu/stacks/_config0_configs/ec2_ubuntu_admin/_documentation/README.md
 ./ubuntu/stacks/_config0_configs/ec2_ubuntu_admin/_documentation/metadata.yml
 ./ubuntu/stacks/_config0_configs/ec2_ubuntu_admin/_main/run.py
@@ -329,6 +322,16 @@ git checkout doc/do_ssh_upload
 ./mongodb/stacks/_config0_configs/mongodb_replica_ubuntu/_documentation/metadata.yml
 ./mongodb/stacks/_config0_configs/mongodb_replica_ubuntu/_main/run.py
 
+DONE:
+
+./ubuntu/stacks/_config0_configs/bootstrap_ed/_documentation/README.md
+./ubuntu/stacks/_config0_configs/bootstrap_ed/_documentation/metadata.yml
+./ubuntu/stacks/_config0_configs/bootstrap_ed/_main/run.py
+
+./jenkins/stacks/_config0_configs/jenkins_on_docker/_documentation/README.md
+./jenkins/stacks/_config0_configs/jenkins_on_docker/_documentation/metadata.yml
+./jenkins/stacks/_config0_configs/jenkins_on_docker/_main/run.py
+
 ./mongodb/stacks/_config0_configs/create_mongodb_keyfile/_documentation/README.md
 ./mongodb/stacks/_config0_configs/create_mongodb_keyfile/_documentation/metadata.yml
 ./mongodb/stacks/_config0_configs/create_mongodb_keyfile/_main/run.py
@@ -340,10 +343,4 @@ git checkout doc/do_ssh_upload
 ./mongodb/stacks/_config0_configs/mongodb_replica_on_ec2/_documentation/README.md
 ./mongodb/stacks/_config0_configs/mongodb_replica_on_ec2/_documentation/metadata.yml
 ./mongodb/stacks/_config0_configs/mongodb_replica_on_ec2/_main/run.py
-
-DONE:
-
-./ubuntu/stacks/_config0_configs/bootstrap_ed/_documentation/README.md
-./ubuntu/stacks/_config0_configs/bootstrap_ed/_documentation/metadata.yml
-./ubuntu/stacks/_config0_configs/bootstrap_ed/_main/run.py
 

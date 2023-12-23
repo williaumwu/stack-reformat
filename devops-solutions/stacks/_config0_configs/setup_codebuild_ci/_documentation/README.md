@@ -1,18 +1,20 @@
 **Description**
-  - This stack sets up Codebuild for CI
-  - It mimics the portable and ease of use like a CircleCI or TravisCI, but running in your AWS account.
-  - This does not configure a repository, but just the base to add repositories to build on with stack:
-    __config0-publish:::add_codebuild_ci__ .
 
-  - This stacks notably using:
-    - api gateway
-    - s3 storage
-    - lambda functions
-    - dynamodb for tracking builds and status
-    - AWS system parameter store for sensitive information
+  - This stack establishes CodeBuild for continuous integration (CI).
+  - It offers a similar level of portability and user-friendliness as CircleCI or TravisCI, but operates within your AWS account.
 
-**Infrastructure**
+This stack utilizes:
 
+  - API Gateway
+  - S3 storage
+  - Lambda functions
+  - DynamoDB for build and status tracking
+  - AWS Systems Manager Parameter Store for managing sensitive information.
+
+**Gotchas**
+
+  - This stack focuses on configuring the foundation for CodeBuild and does not set up specific repositories for building. 
+  - To add repositories, use the config0-publish:::add_codebuild_ci stack.
 
 **Required**
 
