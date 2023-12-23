@@ -1,6 +1,6 @@
 **Description**
 
-  - The stack creates a Digital Ocean managed Kubernetes cluster
+  - This stack provisions a managed Kubernetes cluster on DigitalOcean.
 
 **Required**
 

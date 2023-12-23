@@ -1,6 +1,6 @@
 **Description**
 
-  - Creates a droplet/vm on digitalocean
+  - This stack creates a Droplet/VM on DigitalOcean.
 
 **Required**
 

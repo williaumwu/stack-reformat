@@ -1,6 +1,10 @@
 **Description**
 
-  - The stack uploads existing ssh_key to digitalocean.
+  - This stack uploads an existing SSH key to DigitalOcean.
+
+**Infrastructure**
+
+  - This stack assumes that the public key of the SSH key is located in the Config0 resources database, which will be uploaded to DigitalOcean.
 
 **Required**
 
