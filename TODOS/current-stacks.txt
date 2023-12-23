@@ -270,6 +270,18 @@
 ./mongodb/stacks/_config0_configs/mongodb_replica_ubuntu/_documentation/metadata.yml
 ./mongodb/stacks/_config0_configs/mongodb_replica_ubuntu/_main/run.py
 
+./aws_eks/stacks/_config0_configs/eks_workshop/_documentation/README.md
+./aws_eks/stacks/_config0_configs/eks_workshop/_documentation/metadata.yml
+./aws_eks/stacks/_config0_configs/eks_workshop/_main/run.py
+
+./aws_eks/stacks/_config0_configs/aws_eks/_documentation/README.md
+./aws_eks/stacks/_config0_configs/aws_eks/_documentation/metadata.yml
+./aws_eks/stacks/_config0_configs/aws_eks/_main/run.py
+
+./aws_eks/stacks/_config0_configs/aws_eks_cluster/_documentation/README.md
+./aws_eks/stacks/_config0_configs/aws_eks_cluster/_documentation/metadata.yml
+./aws_eks/stacks/_config0_configs/aws_eks_cluster/_main/run.py
+
 DONE:
 
 ./ubuntu/stacks/_config0_configs/bootstrap_ed/_documentation/README.md
@@ -307,18 +319,6 @@ DONE:
 ./devops-solutions/stacks/_config0_configs/add_codebuild_ci/_documentation/README.md
 ./devops-solutions/stacks/_config0_configs/add_codebuild_ci/_documentation/metadata.yml
 ./devops-solutions/stacks/_config0_configs/add_codebuild_ci/_main/run.py
-
-./aws_eks/stacks/_config0_configs/eks_workshop/_documentation/README.md
-./aws_eks/stacks/_config0_configs/eks_workshop/_documentation/metadata.yml
-./aws_eks/stacks/_config0_configs/eks_workshop/_main/run.py
-
-./aws_eks/stacks/_config0_configs/aws_eks/_documentation/README.md
-./aws_eks/stacks/_config0_configs/aws_eks/_documentation/metadata.yml
-./aws_eks/stacks/_config0_configs/aws_eks/_main/run.py
-
-./aws_eks/stacks/_config0_configs/aws_eks_cluster/_documentation/README.md
-./aws_eks/stacks/_config0_configs/aws_eks_cluster/_documentation/metadata.yml
-./aws_eks/stacks/_config0_configs/aws_eks_cluster/_main/run.py
 
 ./do/stacks/_config0_configs/do_ssh_upload/_documentation/metadata.yml
 ./do/stacks/_config0_configs/do_ssh_upload/_documentation/README.md
