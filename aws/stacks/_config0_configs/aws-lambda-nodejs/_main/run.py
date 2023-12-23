@@ -120,6 +120,7 @@ def run(stackargs):
                  "automation_phase": "infrastructure",
                  "human_description": 'Create lambda function for {}'.format(stack.lambda_name)}
 
-    stack.aws_lambda.insert(display=True, **inputargs)
+    stack.aws_lambda.insert(display=True,
+                            **inputargs)
 
     return stack.get_results()

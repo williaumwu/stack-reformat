@@ -16,7 +16,7 @@ def run(stackargs):
                              types="str")
 
     stack.parse.add_optional(key="hash_key",
-                             default='_id',
+                             default="_id",
                              tags="tfvar",
                              types="str")
 
@@ -26,11 +26,11 @@ def run(stackargs):
                              types="str")
 
     # Add execgroup
-    stack.add_execgroup(
-        "config0-hub:::aws_storage::dynamodb_item", "tf_execgroup")
+    stack.add_execgroup("config0-hub:::aws_storage::dynamodb_item",
+                        "tf_execgroup")
 
     # Add substack
-    stack.add_substack('config0-hub:::tf_executor')
+    stack.add_substack("config0-hub:::tf_executor")
 
     # Initialize Variables in stack
     stack.init_variables()
@@ -50,7 +50,7 @@ def run(stackargs):
                      "id",
                      "timeout"])
 
-    tf.include(maps={"name": "table_name"})
+    tf.include(maps={"name":"table_name"})
 
     # finalize the tf_executor
     stack.tf_executor.insert(display=True,

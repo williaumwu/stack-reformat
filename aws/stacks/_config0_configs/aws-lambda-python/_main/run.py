@@ -11,17 +11,31 @@ def run(stackargs):
     stack.parse.add_required(key="s3_bucket")
 
     stack.parse.add_optional(key="s3_key")
-    stack.parse.add_optional(key="handler", default="app.handler")
-    stack.parse.add_optional(key="runtime", default="python3.9")
-    stack.parse.add_optional(key="memory_size", default="256")
-    stack.parse.add_optional(key="lambda_timeout", default="900")
+
+    stack.parse.add_optional(key="handler",
+                             default="app.handler")
+
+    stack.parse.add_optional(key="runtime",
+                             default="python3.9")
+
+    stack.parse.add_optional(key="memory_size",
+                             default="256")
+
+    stack.parse.add_optional(key="lambda_timeout",
+                             default="900")
+
     stack.parse.add_optional(key="lambda_layers")
     stack.parse.add_optional(key="policy_template_hash")
 
-    stack.parse.add_optional(key="aws_default_region", default="us-east-1")
+    stack.parse.add_optional(key="aws_default_region",
+                             default="us-east-1")
+
     stack.parse.add_optional(key="lambda_env_vars_hash")
     stack.parse.add_optional(key="cloud_tags_hash")
-    stack.parse.add_optional(key="stateful_id", default="_random")
+
+    stack.parse.add_optional(key="stateful_id",
+                             default="_random")
+
     stack.parse.add_optional(key="debug")
 
     # declare execution groups
@@ -97,6 +111,7 @@ def run(stackargs):
                       "automation_phase": "infrastructure",
                       "human_description": human_description })
 
-    stack.aws_lambda.insert(display=True, **inputargs)
+    stack.aws_lambda.insert(display=True,
+                            **inputargs)
 
     return stack.get_results()
