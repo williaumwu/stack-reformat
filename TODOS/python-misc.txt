@@ -1,8 +1,4 @@
-terraform/shellouts/_config0_configs/resource_wrapper
-docker/shellouts/_config0_configs/simple_exec
-docker/shellouts/_config0_configs/copy_cmd_script
-docker/shellouts/_config0_configs/run_dockerfile
-docker/shellouts/_config0_configs/create_dockerfile
+
 kafka/shellouts/_config0_configs/create_ansible_hosts
 kafka/shellouts/_config0_configs/create_ansible_replica_hosts
 aws/shellouts/_config0_configs/codebuild-srcfile
@@ -21,3 +17,12 @@ ansible/shellouts/_config0_configs/write_hosts
 ansible/shellouts/_config0_configs/resource_wrapper
 mongodb/shellouts/_config0_configs/create_keys
 mongodb/shellouts/_config0_configs/create_ansible_replica_hosts
+
+DONE
+
+terraform/shellouts/_config0_configs/resource_wrapper  # need to redo bc major script
+docker/shellouts/_config0_configs/simple_exec
+docker/shellouts/_config0_configs/copy_cmd_script
+docker/shellouts/_config0_configs/run_dockerfile
+docker/shellouts/_config0_configs/create_dockerfile
+

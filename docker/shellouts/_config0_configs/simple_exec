@@ -38,11 +38,15 @@ def run_cmd(cmd,exit_error=False):
 
     exitcode = p.returncode
 
-    if exitcode == 0: return True
+    if exitcode == 0: 
+        return True
 
     print('FAILED: executing cmd "{}" failed'.format(cmd))
     print("exitcode {}".format(exitcode))
-    if exit_error: exit(exitcode)
+
+    if exit_error: 
+        exit(exitcode)
+
     return False
 
 def run(**kwargs):
@@ -71,7 +75,8 @@ def run(**kwargs):
     if docker_env_fields and docker_env_file:
         with open(docker_env_file,"w") as f:
             for docker_env_field in docker_env_fields:
-                if not os.environ.get(docker_env_field.upper()): continue
+                if not os.environ.get(docker_env_field.upper()): 
+                    continue
                 f.write("{}={}".format(docker_env_field.upper(),
                                        os.environ[docker_env_field.upper()]))
 
