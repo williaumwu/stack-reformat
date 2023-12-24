@@ -49,16 +49,23 @@ def run(**kwargs):
 
     docker_image = os.environ.get("DOCKER_IMAGE",
                                   "elasticdev/terraform-run-env")
+
     docker_env_file = os.environ.get("DOCKER_ENV_FILE",
                                      ".env")
+
     docker_env_fields = os.environ.get("DOCKER_ENV_FIELDS")
+
     share_dir = os.environ.get("SHARE_DIR",
                                "/var/tmp/share")
+
     stateful_id = os.environ["STATEFUL_ID"]
 
     stateful_path = os.path.join(share_dir,
                                  stateful_id)
-    if os.path.exist(stateful_path): os.system("rm -rf {}".format(stateful_path))
+
+    if os.path.exist(stateful_path):
+        os.system("rm -rf {}".format(stateful_path))
+
     os.system("mkdir -p {}".format(stateful_path))
 
     if docker_env_fields and docker_env_file:
@@ -81,8 +88,6 @@ def run(**kwargs):
     if not status:
         msg = "ERROR: cmd = {} failed!".format(cmd)
         raise Exception(msg)
-        # fixfix777
-        #exit(exitcode)
 
 if __name__ == '__main__':
     run()

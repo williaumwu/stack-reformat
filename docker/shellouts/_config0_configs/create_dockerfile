@@ -41,6 +41,7 @@ class DockerFileCreation(object):
 
         self.docker_file = os.environ.get("DOCKER_FILE",
                                           "Dockerfile")
+
         self.docker_file_dir = os.environ.get("DOCKER_FILE_DIR")
         self.docker_file_folder = os.environ.get("DOCKER_FILE_FOLDER")
 
@@ -60,6 +61,7 @@ class DockerFileCreation(object):
         
         cmd = "cp -rp {} {}/.env".format(self.docker_env_file,
                                          self.docker_build_dir)
+
         run_cmd(cmd,
                 exit_error=True)
 
@@ -70,6 +72,7 @@ class DockerFileCreation(object):
 
         self.docker_file_dir = os.path.join(self.docker_file_dir,
                                             self.docker_file_folder)
+
         os.environ["DOCKER_FILE_DIR"] = self.docker_file_dir
 
         print("The Dockerfile directory is located: {}".format(self.docker_file_idr))
@@ -81,6 +84,7 @@ class DockerFileCreation(object):
         #############################################################
         self.docker_file = "{}/{}".format(self.docker_file_dir,
                                           self.docker_file)
+
         print("The Dockerfile is located: {}".format(self.docker_file))
 
         self.docker_run_cmds = os.environ.get("DOCKER_RUN_COMMANDS")
@@ -155,6 +159,7 @@ class DockerFileCreation(object):
         #############################################################
         self.docker_file = "{}/{}".format(os.path.dirname(self.docker_template_file),
                                           self.docker_file)
+
         print("The Dockerfile is located: {}".format(self.docker_file))
         
         #############################################################
@@ -196,6 +201,7 @@ class DockerFileCreation(object):
         else:
             self.docker_file = "{}/{}".format(self.docker_file_dir,
                                               self.docker_file)
+
             print('WARNING: Did not create the Dockerfile from either Template or from Scratch')
             print('Using Dockerfile here: {}'.format(self.docker_file))
             
@@ -207,13 +213,12 @@ class DockerFileCreation(object):
         # Get the DOCKER_REPO to build the local path from the Dockerfile
         _docker_elements = self.docker_image.split(":")
         repo_name = _docker_elements[0]
-        # fixfix777
-        #DOCKER_REPO_TAG = _docker_elements[1]
         docker_elements = repo_name.split("/")
-        # fixfix777
-        #DOCKER_REGISTRY = docker_elements[0]
-        #USERNAME = docker_elements[1]
         DOCKER_REPO = docker_elements[2]
+
+        # DOCKER_REPO_TAG = _docker_elements[1]
+        # DOCKER_REGISTRY = docker_elements[0]
+        # USERNAME = docker_elements[1]
 
         docker_file_dir = os.path.dirname(self.docker_file)
         docker_file_name = os.path.basename(self.docker_file)
@@ -223,14 +228,13 @@ class DockerFileCreation(object):
             for _file in os.listdir(docker_file_dir):
                 _path = os.path.join(self.docker_build_dir,
                                      _file)
+
                 if not os.path.exists(os.path.join(_path)): continue
                 cmds.append("rm -rf {}".format(_path))
 
             cmds.append("cp -rT {} {}".format(docker_file_dir,self.docker_build_dir))
 
         cmds.append("cd {}; docker build -t {} . -f {}".format(self.docker_build_dir,DOCKER_REPO,docker_file_name))
-        # fixfix777
-        #cmds.append("cd {}; docker build -t {} {} -f {}".format(self.docker_build_dir,DOCKER_REPO,self.docker_build_dir,self.docker_file))
 
         for cmd in cmds:
             status = run_cmd(cmd,
@@ -239,8 +243,6 @@ class DockerFileCreation(object):
             if not status:
                 msg = "ERROR: cmd = {} failed!".format(cmd)
                 raise Exception(msg)
-                # fixfix777
-                #exit(exitcode)
 
 if __name__ == '__main__':
     dockercreation = DockerFileCreation()

@@ -43,6 +43,7 @@ class DockerVarSet(object):
 
         self.docker_file = os.environ.get("DOCKER_FILE",
                                           "Dockerfile")
+
         self.docker_file_dir = os.environ.get("DOCKER_FILE_DIR")
         self.docker_file_folder = os.environ.get("DOCKER_FILE_FOLDER")
         self.docker_env_file = os.environ.get("DOCKER_ENV_FILE")
@@ -59,6 +60,7 @@ class DockerVarSet(object):
         
         cmd = "cp -rp {} {}/.env".format(self.docker_env_file,
                                          self.docker_build_dir)
+
         run_cmd(cmd,
                 exit_error=True)
 
@@ -69,6 +71,7 @@ class DockerVarSet(object):
 
         self.docker_file_dir = os.path.join(self.docker_file_dir,
                                             self.docker_file_folder)
+
         os.environ["DOCKER_FILE_DIR"] = self.docker_file_dir
 
         print("The Dockerfile directory is located: {}".format(self.docker_file_idr))
@@ -87,8 +90,6 @@ class DockerVarSet(object):
         if not os.path.exists(self.docker_file): 
             msg = "ERROR: Cannot find Dockerfile expected here: \n\t{}".format(self.docker_file)
             raise Exception(msg)
-            # fixfix777
-            #exit(5)
 
         docker_file_dir = os.path.dirname(self.docker_file)
         docker_file_name = os.path.basename(self.docker_file)
@@ -98,6 +99,7 @@ class DockerVarSet(object):
             for _file in os.listdir(docker_file_dir):
                 _path = os.path.join(self.docker_build_dir,
                                      _file)
+
                 if not os.path.exists(os.path.join(_path)): continue
                 cmds.append("rm -rf {}".format(_path))
 
@@ -114,8 +116,6 @@ class DockerVarSet(object):
             if not status:
                 msg = "ERROR: cmd = {} failed!".format(cmd)
                 raise Exception(msg)
-                # fixfix777
-                #exit(exitcode)
 
 if __name__ == '__main__':
     dockervarset = DockerVarSet()
