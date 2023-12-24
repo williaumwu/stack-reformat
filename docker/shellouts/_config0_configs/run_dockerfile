@@ -66,8 +66,11 @@ class DockerVarSet(object):
 
     def set_dockfile_dir(self):
 
-        if not self.docker_file_dir: self.docker_file_dir = self.docker_build_dir
-        if not self.docker_file_folder: return
+        if not self.docker_file_dir:
+            self.docker_file_dir = self.docker_build_dir
+
+        if not self.docker_file_folder:
+            return
 
         self.docker_file_dir = os.path.join(self.docker_file_dir,
                                             self.docker_file_folder)
@@ -100,7 +103,9 @@ class DockerVarSet(object):
                 _path = os.path.join(self.docker_build_dir,
                                      _file)
 
-                if not os.path.exists(os.path.join(_path)): continue
+                if not os.path.exists(os.path.join(_path)):
+                    continue
+
                 cmds.append("rm -rf {}".format(_path))
 
             cmds.append("cp -rT {} {}".format(docker_file_dir,
@@ -111,8 +116,10 @@ class DockerVarSet(object):
                                                                docker_file_name))
 
         for cmd in cmds:
+
             status = run_cmd(cmd,
                              exit_error=None)
+
             if not status:
                 msg = "ERROR: cmd = {} failed!".format(cmd)
                 raise Exception(msg)

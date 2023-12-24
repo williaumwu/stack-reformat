@@ -74,6 +74,7 @@ def run(**kwargs):
                 if not os.environ.get(docker_env_field.upper()): continue
                 f.write("{}={}".format(docker_env_field.upper(),
                                        os.environ[docker_env_field.upper()]))
+
         cmd = 'docker run --env-file {} -it --rm -v {}:{} {}'.format(docker_env_file,
                                                                      stateful_path,
                                                                      share_dir,

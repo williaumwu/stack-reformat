@@ -229,7 +229,9 @@ class DockerFileCreation(object):
                 _path = os.path.join(self.docker_build_dir,
                                      _file)
 
-                if not os.path.exists(os.path.join(_path)): continue
+                if not os.path.exists(os.path.join(_path)):
+                    continue
+
                 cmds.append("rm -rf {}".format(_path))
 
             cmds.append("cp -rT {} {}".format(docker_file_dir,self.docker_build_dir))

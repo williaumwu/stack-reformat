@@ -94,7 +94,8 @@ class Config0ResourceTFVars(object):
 
         self.terraform_type = self.tf_settings.get("terraform_type")
 
-        # ResourceCmdHelper is not terraform aware so we map it resource accordingly
+        # ResourceCmdHelper is not terraform aware
+        # so we map it resource accordingly
         if self.tf_settings.get("tf_exec_postscript_path"):
             self.postscript_path = self.tf_settings["tf_exec_postscript_path"]
         elif self.tf_settings.get("tf_exec_postscript"):
@@ -644,7 +645,8 @@ class Main(ResourceCmdHelper,Config0ResourceTFVars):
 
     def _create_docker_env_file(self):
 
-        # note: self.docker_env_file is set by "_get_docker_env_filepath" in ResourceCmdHelper
+        # note: self.docker_env_file is set by
+        # "_get_docker_env_filepath" in ResourceCmdHelper
         if not self.build_env_vars.items():
             return 
 
@@ -695,8 +697,10 @@ class Main(ResourceCmdHelper,Config0ResourceTFVars):
 
         share_dir = kwargs.get("share_dir",
                                self.share_dir)
+
         run_share_dir = kwargs.get("run_share_dir",
                                    self.run_share_dir)
+
         docker_env_file = kwargs.get("docker_env_file",
                                      self.docker_env_file)
 
@@ -1136,14 +1140,18 @@ class CodebuildParams:
 
         self.method = kwargs.get("method",
                                  "create")
+
         self.build_timeout = int(kwargs.get("build_timeout",
                                             1800))
+
         self.build_env_vars = kwargs.get("build_env_vars")
         self.ssm_name = kwargs.get("ssm_name")
         self.remote_stateful_bucket = kwargs.get("remote_stateful_bucket")
         self.codebuild_basename = kwargs.get("codebuild_basename")
+
         self.codebuild_role = kwargs.get("codebuild_role",
                                          "config0-assume-poweruser")
+
         self.skip_env_vars = [ "AWS_SECRET_ACCESS_KEY" ]
 
         if not self.build_env_vars:
