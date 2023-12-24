@@ -1,3 +1,4 @@
+| argument | description | var type | default |
 | ------------- | -------------------------------------- | -------- | ------------ |
 | acl | acl for bucket | private/public | private |
 | active | webhook is active or not | true | None |
