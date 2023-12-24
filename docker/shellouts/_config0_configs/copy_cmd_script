@@ -8,7 +8,11 @@ from subprocess import STDOUT
 def run_cmd(cmd):
 
     print("Executing {}".format(cmd))
-    process = Popen(cmd,shell=True,bufsize=0,stdout=PIPE,stderr=STDOUT)
+    process = Popen(cmd,
+                    shell=True,
+                    bufsize=0,
+                    stdout=PIPE,
+                    stderr=STDOUT)
 
     line = process.stdout.readline()
 
