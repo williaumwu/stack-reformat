@@ -7,7 +7,7 @@
 
 | argument      | description                            | var type | default      |
 | ------------- | -------------------------------------- | -------- | ------------ |
-| eks_cluster   | name of the eks                 | string   | None         |
+| eks_cluster   | name given to the eks cluster          | string   | None         |
 
 **Example - called in a stack**
 ```
