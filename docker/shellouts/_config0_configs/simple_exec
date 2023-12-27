@@ -24,7 +24,9 @@ def run_cmd(cmd,exit_error=False):
 
     print('executing cmd "{}"'.format(cmd))
 
-    p = subprocess.Popen(cmd, shell=True, stderr=subprocess.PIPE)
+    p = subprocess.Popen(cmd,
+                         shell=True,
+                         stderr=subprocess.PIPE)
 
     while True:
         out = p.stderr.read(1)
@@ -36,39 +38,62 @@ def run_cmd(cmd,exit_error=False):
 
     exitcode = p.returncode
 
-    if exitcode == 0: return True
+    if exitcode == 0: 
+        return True
 
     print('FAILED: executing cmd "{}" failed'.format(cmd))
     print("exitcode {}".format(exitcode))
-    if exit_error: exit(exitcode)
+
+    if exit_error: 
+        exit(exitcode)
+
     return False
 
 def run(**kwargs):
 
-    docker_image = os.environ.get("DOCKER_IMAGE","elasticdev/terraform-run-env")
-    docker_env_file = os.environ.get("DOCKER_ENV_FILE",".env")
+    docker_image = os.environ.get("DOCKER_IMAGE",
+                                  "elasticdev/terraform-run-env")
+
+    docker_env_file = os.environ.get("DOCKER_ENV_FILE",
+                                     ".env")
+
     docker_env_fields = os.environ.get("DOCKER_ENV_FIELDS")
-    share_dir = os.environ.get("SHARE_DIR","/var/tmp/share")
+
+    share_dir = os.environ.get("SHARE_DIR",
+                               "/var/tmp/share")
+
     stateful_id = os.environ["STATEFUL_ID"]
 
-    stateful_path = os.path.join(share_dir,stateful_id)
-    if os.path.exist(stateful_path): os.system("rm -rf {}".format(stateful_path))
+    stateful_path = os.path.join(share_dir,
+                                 stateful_id)
+
+    if os.path.exist(stateful_path):
+        os.system("rm -rf {}".format(stateful_path))
+
     os.system("mkdir -p {}".format(stateful_path))
 
     if docker_env_fields and docker_env_file:
         with open(docker_env_file,"w") as f:
             for docker_env_field in docker_env_fields:
-                if not os.environ.get(docker_env_field.upper()): continue
-                f.write("{}={}".format(docker_env_field.upper(),os.environ[docker_env_field.upper()]))
-        cmd = 'docker run --env-file {} -it --rm -v {}:{} {}'.format(docker_env_file,stateful_path,share_dir,docker_image)
-    else:
-        cmd = 'docker run -it --rm -v {}:{} {}'.format(stateful_path,share_dir,docker_image)
+                if not os.environ.get(docker_env_field.upper()): 
+                    continue
+                f.write("{}={}".format(docker_env_field.upper(),
+                                       os.environ[docker_env_field.upper()]))
 
-    status = run_cmd(cmd,exit_error=None)
+        cmd = 'docker run --env-file {} -it --rm -v {}:{} {}'.format(docker_env_file,
+                                                                     stateful_path,
+                                                                     share_dir,
+                                                                     docker_image)
+    else:
+        cmd = 'docker run -it --rm -v {}:{} {}'.format(stateful_path,
+                                                       share_dir,
+                                                       docker_image)
+
+    status = run_cmd(cmd,
+                     exit_error=None)
     if not status:
         msg = "ERROR: cmd = {} failed!".format(cmd)
         raise Exception(msg)
-        #exit(exitcode)
 
 if __name__ == '__main__':
     run()
