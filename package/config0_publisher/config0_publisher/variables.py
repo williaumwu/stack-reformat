@@ -30,6 +30,19 @@ from jiffycommon.py2to3_common import py2and3_return_none
 from jiffycommon.loggerly import set_log
 
 def get_init_var_type(value):
+    """
+    Get the type of a variable.
+
+    Args:
+        value: The variable to get the type of.
+
+    Returns:
+        The type of the variable as a string.
+
+    Raises:
+        ValueError: If the variable is of an unsupported type.
+
+    """
 
     boolean = [ "None",
                 "none",
@@ -76,18 +89,32 @@ def get_init_var_type(value):
 
 
 class EvaluateVar(object):
+    """
+    This class provides methods for evaluating variables.
+
+    Args:
+        value (Any): The variable to evaluate.
+
+    Attributes:
+        classname (str): The name of the class.
+        logger (loguru.logger): A logger for the class.
+        bool_none (list): A list of strings that represent None or null values.
+        bool_false (list): A list of strings that represent False values.
+        bool_true (list): A list of strings that represent True values.
+
+    """
 
     def __init__(self):
+        """
+        Initialize the class.
+        """
 
         self.classname = 'EvaluateVar'
 
         self.logger = set_log(self.classname,
                               logcategory="general")
 
-        # revisit 3542353245
-        # the boolean types need to cover
-        # boolean for things like Terraform
-        # and Ansible
+        # revisit 3542353245 the boolean types need to cover boolean for things like Terraform and Ansible
         self.bool_none = [ "None",
                            "none",
                            "null",
@@ -106,6 +133,18 @@ class EvaluateVar(object):
                            True ]
 
     def _set_init_var(self):
+        """
+        Set the initial variable.
+
+        This function sets the initial variable and its type. It also sets the current variable to the initial variable.
+
+        Args:
+            self: The object instance.
+            init_value (Any): The initial variable.
+
+        Returns:
+            None.
+        """
 
         self.results["provided"]["value"] = self.init_value
         self.results["current"]["value"] = self.init_value
@@ -121,6 +160,12 @@ class EvaluateVar(object):
             raise Exception("self.init_value not set")
 
     def is_float(self):
+        """
+        Check if the current variable is a float.
+
+        Returns:
+            True if the current variable is a float, False otherwise.
+        """
 
         self._check_value_is_set()
 
@@ -141,13 +186,19 @@ class EvaluateVar(object):
         return py2and3_return_true()
     
     def is_integer(self):
+        """
+        Check if the current variable is an integer.
+
+        Returns:
+            True if the current variable is an integer, False otherwise.
+        """
 
         self._check_value_is_set()
     
         if isinstance(self.results["check"]["value"],int):
             return py2and3_return_true()
     
-        if self.results["check"]["value"] in [ "0", 0 ]: 
+        if self.results["check"]["value"] in ["0", 0]:
 
             self.results["current"]["type"] = "int"
             self.results["current"]["value"] = "0"
@@ -157,7 +208,7 @@ class EvaluateVar(object):
 
             return py2and3_return_true()
 
-        if self.results["check"]["value"] in [ "1", 1 ]: 
+        if self.results["check"]["value"] in ["1", 1]:
 
             self.results["current"]["value"] = "1"
             self.results["current"]["type"] = "int"
@@ -172,7 +223,7 @@ class EvaluateVar(object):
         except:
             first_character = None
 
-        if first_character in [ "0", 0 ]: 
+        if first_character in ["0", 0]:
             return py2and3_return_false()
 
         try:
@@ -187,6 +238,18 @@ class EvaluateVar(object):
         return py2and3_return_true()
 
     def check_none(self,value):
+        """
+        Check if the value is None or null.
+
+        Args:
+            value: The value to check.
+
+        Returns:
+            True if the value is None or null, False otherwise.
+
+        Raises:
+            ValueError: If the value is of an unsupported type.
+        """
 
         try:
             _value = str(value)
@@ -197,19 +260,44 @@ class EvaluateVar(object):
             return py2and3_return_true()
 
     def check_bool(self,value):
+        """
+        Check if the value is a boolean.
+
+        Args:
+            value: The value to check.
+
+        Returns:
+            True if the value is a boolean, False if it is None or null, or None if the value is neither.
+
+        Raises:
+            ValueError: If the value is of an unsupported type.
+        """
 
         if str(value) in self.bool_true:
-            return py2and3_return_results("bool",True)
+            return py2and3_return_results("bool",
+                                          True)
 
         if str(value) in self.bool_false:
-            return py2and3_return_results("bool",False)
+            return py2and3_return_results("bool",
+                                          False)
 
         if str(value) in self.bool_none:
-            return py2and3_return_results("bool",None)
+            return py2and3_return_results("bool",
+                                          None)
 
-        return py2and3_return_results(None,None)
+        return py2and3_return_results(None,
+                                      None)
 
     def is_bool(self):
+        """
+        Check if the current variable is a boolean.
+
+        Returns:
+            True if the current variable is a boolean, False if it is None or null, or None if the value is neither.
+
+        Raises:
+            ValueError: If the value is of an unsupported type.
+        """
 
         self._check_value_is_set()
 
@@ -232,6 +320,12 @@ class EvaluateVar(object):
             return py2and3_return_true()
 
     def is_str(self):
+        """
+        Check if the current variable is a string.
+
+        Returns:
+            True if the current variable is a string, False otherwise.
+        """
 
         self._check_value_is_set()
 
@@ -243,6 +337,21 @@ class EvaluateVar(object):
         return py2and3_return_none()
 
     def init_results(self,**kwargs):
+        """
+        Initialize the results dictionary.
+
+        Args:
+            self: The object instance.
+            kwargs: Optional keyword arguments.
+
+        Keyword Args:
+            value (Any): The initial variable.
+            default (Any): The default value.
+            default_type (str): The default type.
+
+        Returns:
+            None.
+        """
 
         self.results = { "current": {},
                          "check": {},
@@ -263,8 +372,25 @@ class EvaluateVar(object):
             self.results["default_type"] = kwargs["default_type"]
 
     def _update_objiter(self,**kwargs):
+        """
+        Update the iterable object to have string elements rather than at times containing unicode.
 
-        update_iterobj = kwargs.get("update_iterobj",True)
+        Args:
+            self: The object instance.
+            kwargs: Optional keyword arguments.
+
+        Keyword Args:
+            update_iterobj (bool): Whether to update the iterable object or not. Defaults to True.
+
+        Returns:
+            The updated iterable object.
+
+        Raises:
+            ValueError: If the iterable object cannot be updated.
+        """
+
+        update_iterobj = kwargs.get("update_iterobj",
+                                    True)
 
         if not update_iterobj:
             return py2and3_return_results(self.init_value)
@@ -279,13 +405,25 @@ class EvaluateVar(object):
         #return py2and3_return_results(json.dumps(new_obj))
 
     def get(self,**kwargs):
+        """
+        Get the current variable.
 
-        # update iterobj to have string elements
-        # rather than at times contain unicode
+        Args:
+            self: The object instance.
+            kwargs: Optional keyword arguments.
+
+        Keyword Args:
+            user_specified_type (str): The type specified by the user.
+
+        Returns:
+            The current variable.
+
+        """
+
+        # update iterobj to have string elements rather than at times contain unicode
         self.init_results(**kwargs)
 
-        # if user specified type in list of "types" in variable
-        # types list, we leave them "types" format if possible
+        # if user specified type in list of "types" in variable types list, we leave them "types" format if possible
         if kwargs.get("user_specified_type"):
             self.results["user_specified_type"] = kwargs["user_specified_type"]
             return py2and3_return_results(self.results["provided"]["type"])
@@ -320,9 +458,7 @@ class EvaluateVar(object):
         if init_type:
             self.results["check"]["type"] = init_type
 
-        # check value will always be a str
-        # or dict/list.  it is needed
-        # because True => 1, and False => 0
+        # check value will always be a str or dict/list.  it is needed because True => 1, and False => 0
 
         if self.is_bool():
             self.results["primary_check"] = True
@@ -343,6 +479,20 @@ class EvaluateVar(object):
         return py2and3_return_results("__unknown_variable_type__")
 
     def set(self,key=None,**kwargs):
+        """
+        Set the current variable.
+
+        Args:
+            self: The object instance.
+            key (str): The key to set.
+            kwargs: Optional keyword arguments.
+
+        Keyword Args:
+            value (Any): The value to set.
+
+        Returns:
+            The updated results.
+        """
         
         self.get(**kwargs)
 
@@ -358,6 +508,20 @@ class EvaluateVar(object):
 class SyncClassVarsHelper:
 
     def __init__(self,**kwargs):
+        """
+        Initialize the class.
+
+        Args:
+            self: The object instance.
+            kwargs: Optional keyword arguments.
+
+        Keyword Args:
+            variables (list): A list of variables.
+            must_exists (list): A list of variables that must exist.
+            non_nullable (list): A list of variables that cannot be null or None.
+            inputargs (dict): A dictionary of input arguments.
+            default_values (dict): A dictionary of default values.
+        """
 
         variables = kwargs.get("variables")
         must_exists = kwargs.get("must_exists")
@@ -406,6 +570,23 @@ class SyncClassVarsHelper:
             self.class_vars["app_dir"] = self.app_dir
 
     def set_variables(self):
+        """
+        Set the variables.
+
+        This function sets the variables based on the following rules:
+
+        1. If the variable is prefixed with the os environment prefix and is in the input arguments, set the variable to the input argument value.
+        2. If the variable is in the input arguments, set the variable to the input argument value.
+        3. If the variable is in the os environment, set the variable to the os environment value.
+        4. If the variable is prefixed with the os environment prefix and is in the default values, set the variable to the default value.
+        5. If the variable is in the default values, set the variable to the default value.
+
+        Args:
+            self: The object instance.
+
+        Returns:
+            None.
+        """
 
         if not self._variables:
             return
@@ -424,6 +605,19 @@ class SyncClassVarsHelper:
                 self.class_vars[_env_var.lower()] = self._default_values[_env_var]  # we convert to lowercase
 
     def set_default_values(self):
+        """
+        Set the default values.
+
+        This function sets the default values for variables based on the following rules:
+
+        1. If the variable is in the default values, set the variable to the default value.
+
+        Args:
+            self: The object instance.
+
+        Returns:
+            None.
+        """
 
         if not self._default_values:
             return
@@ -436,6 +630,12 @@ class SyncClassVarsHelper:
             self.class_vars[_k.lower()] = _v
                     
     def eval_must_exists(self):
+        """
+        Check that all required variables have been set.
+
+        Raises:
+            Exception: If a required variable has not been set.
+        """
 
         if not self._must_exists:
             return
@@ -448,6 +648,12 @@ class SyncClassVarsHelper:
             raise Exception(f"class var {_k} must be set")
 
     def eval_non_nullable(self):
+        """
+        Check if any non-nullable variables are None or null.
+
+        Raises:
+            Exception: If a non-nullable variable is None or null.
+        """
 
         if not self._non_nullable:
             return
@@ -460,6 +666,24 @@ class SyncClassVarsHelper:
             raise Exception(f"class var {_k} cannot be null/None")
 
     def set(self,init=None):
+        """
+        Set the variables and default values.
+
+        This function sets the variables and default values based on the following rules:
+
+        1. If the variable is prefixed with the os environment prefix and is in the input arguments, set the variable to the input argument value.
+        2. If the variable is in the input arguments, set the variable to the input argument value.
+        3. If the variable is in the os environment, set the variable to the os environment value.
+        4. If the variable is prefixed with the os environment prefix and is in the default values, set the variable to the default value.
+        5. If the variable is in the default values, set the variable to the default value.
+
+        Args:
+            self: The object instance.
+            init (bool): Whether to evaluate the must exists and non nullable variables or not. Defaults to False.
+
+        Returns:
+            None.
+        """
 
         self.set_variables()
         self.set_default_values()

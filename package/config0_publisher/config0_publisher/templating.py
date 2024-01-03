@@ -17,10 +17,21 @@ import re
 from time import sleep
 
 def list_template_files(rootdir,split_dir=None):
-
-    '''
+    """
     list files with .ja2 suffix for templating
-    '''
+
+    Parameters
+    ----------
+    rootdir : str
+        root directory to search for template files
+    split_dir : str, optional
+        directory name used for splitting rootdir, by default None
+
+    Returns
+    -------
+    list
+        list of template files
+    """
 
     if not split_dir: 
         try:

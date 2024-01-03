@@ -23,6 +23,24 @@ from config0_publisher.utilities import id_generator
 
 
 class GcloudCli(ResourceCmdHelper):
+    """
+    This class provides a helper for interacting with the gcloud command line interface.
+
+    Args:
+        app_name (str): The name of the application.
+
+    Attributes:
+        classname (str): The name of the class.
+        logger (Config0Logger): A logger for the class.
+        file_config (dict): A dictionary of file configuration.
+        file_config_loc (str): The location of the file configuration.
+        tempdir (OnDiskTmpDir): A temporary directory for the class.
+        resource_tags_keys (list): A list of resource tag keys.
+        share_dir (str): The shared directory.
+        stateful_dir (str): The stateful directory.
+        docker_image (str): The docker image.
+        output (list): A list of output.
+    """
 
     def __init__(self,**kwargs):
 
@@ -31,6 +49,7 @@ class GcloudCli(ResourceCmdHelper):
 
         self.classname = 'GcloudCli'
         self.logger = Config0Logger(self.classname)
+        # fixfix777
         self.logger.debug("Instantiating %s" % self.classname)
         self.file_config = None
         self.file_config_loc = None
@@ -41,7 +60,8 @@ class GcloudCli(ResourceCmdHelper):
                                     "job_instance_id",
                                     "job_id" ]
 
-        self.share_dir = os.environ.get("SHARE_DIR","/var/tmp/share")
+        self.share_dir = os.environ.get("SHARE_DIR",
+                                        "/var/tmp/share")
 
         self.stateful_dir = os.path.join(self.share_dir,
                                          id_generator(8))
@@ -50,6 +70,21 @@ class GcloudCli(ResourceCmdHelper):
         self.output = []
 
     def get_tags(self):
+        """
+        This function returns a list of tags to be applied to the resource.
+
+        The tags are constructed by concatenating the following values:
+            - gcloud_region
+            - product
+            - provider
+            - values of resource_tags_keys if present in the inputargs
+
+        Args:
+            None
+
+        Returns:
+            list: A list of tags to be applied to the resource.
+        """
 
         tags = [ self.gcloud_region, 
                  self.product, 
@@ -65,11 +100,31 @@ class GcloudCli(ResourceCmdHelper):
         self.tempdir = OnDiskTmpDir()
 
     def write_file_config(self):
+        """
+        Writes the file configuration to a file.
+
+        Args:
+            None
+
+        Returns:
+            None
+        """
 
         with open(self.file_config_loc, 'w') as _file:
-            _file.write(json.dumps(self.file_config,indent=4))
+            _file.write(json.dumps(self.file_config,
+                                   indent=4))
 
     def parse_set_env_vars(self,env_vars,upper_case=True):
+        """
+        This function sets the inputargs based on the environment variables.
+
+        Args:
+            env_vars (list): A list of environment variables.
+            upper_case (bool, optional): A boolean indicating whether the environment variables are in upper case. Defaults to True.
+
+        Returns:
+            None
+        """
 
         self.inputargs = {}
 
@@ -84,6 +139,21 @@ class GcloudCli(ResourceCmdHelper):
                 self.inputargs[env_var] = os.environ[env_var.upper()]
 
     def get_resource_tags(self,**kwargs):
+        """
+        This function returns a list of tags to be applied to the resource.
+
+        The tags are constructed by concatenating the following values:
+            - gcloud_region
+            - product
+            - provider
+            - values of resource_tags_keys if present in the inputargs
+
+        Args:
+            kwargs (dict): A dictionary of keyword arguments.
+
+        Returns:
+            list: A list of tags to be applied to the resource.
+        """
 
         name = kwargs.get("name")
         if not name: name = self.inputargs.get("name")
@@ -91,32 +161,52 @@ class GcloudCli(ResourceCmdHelper):
         tags = "["
 
         if name: 
-            tags = tags + "{"+"Key={},Value={}".format("Name",name)+"}"
+            tags = tags + "{"+"Key={},Value={}".format("Name",
+                                                       name)+"}"
         
         for key_eval in self.resource_tags_keys:
 
             if not self.inputargs.get(key_eval): 
                 continue
 
-            tags = tags + ",{"+"Key={},Value={}".format(key_eval,self.inputargs[key_eval])+"}"
+            tags = tags + ",{"+"Key={},Value={}".format(key_eval,
+                                                        self.inputargs[key_eval])+"}"
 
         tags = tags + "]"
 
         return tags
 
     def get_region(self):
+        """
+        Set the gcloud region based on the inputargs or default to us-west1
+        """
 
         self.gcloud_region = self.inputargs.get("gcloud_region")
 
         if not self.gcloud_region or self.gcloud_region == "None": 
             self.gcloud_region = "us-west1"
 
+        # fixfix777
         self.logger.debug('Region set to "{}"'.format(self.gcloud_region))
 
     #################################################################################################################
     # non docker execution
 
     def _get_init_credentials_cmds(self):
+        """
+        This function returns a list of commands to initialize the gcloud credentials.
+
+        The commands are:
+
+        1. gcloud auth activate-service-account --key-file=<google_application_credentials>
+        2. gcloud config set project <gcloud_project>
+
+        Args:
+            None
+
+        Returns:
+            list: A list of commands to initialize the gcloud credentials.
+        """
 
         self.set_required()
         cmds = [ "gcloud auth activate-service-account --key-file={}".format(self.google_application_credentials) ]
@@ -125,24 +215,49 @@ class GcloudCli(ResourceCmdHelper):
         return cmds
 
     def set_credentials(self):
+        """
+        This function sets the gcloud credentials.
+
+        Args:
+            None
+
+        Returns:
+            None
+        """
 
         cmds = self._get_init_credentials_cmds()
 
         for cmd in cmds:
-            results = self.execute(cmd,output_to_json=None,exit_error=True)
+            results = self.execute(cmd,
+                                   output_to_json=None,
+                                   exit_error=True)
             output = results.get("output")
+            # fixfix777
             if output: self.logger.debug(output)
 
-            self.add_output(cmd=cmd,remove_empty=True,**results)
+            self.add_output(cmd=cmd,
+                            remove_empty=True,
+                            **results)
 
     #################################################################################################################
     # docker execution
 
     def cleanup_docker_run(self):
+        """
+        This function cleans up any docker resources created during the docker run.
+
+        Args:
+            None
+
+        Returns:
+            None
+        """
 
         if hasattr(self,"gcloud_container_name") and self.gcloud_container_name:
-            cmd = [ "docker rm -fv {} 2>&1 > /dev/null".format(self.gcloud_container_name) ]
-            self.execute(cmd,exit_error=False,output_to_json=None)
+            cmd = ["docker rm -fv {} 2>&1 > /dev/null".format(self.gcloud_container_name)]
+            self.execute(cmd,
+                         exit_error=False,
+                         output_to_json=None)
 
         if hasattr(self,"filename") and self.filename:
             os.system("rm -rf {}".format(self.filename))
@@ -151,6 +266,21 @@ class GcloudCli(ResourceCmdHelper):
             self.tempdir.delete()
 
     def init_docker_run(self):
+        """
+        This function initializes the docker run for interacting with gcloud.
+
+        Steps:
+        1. Pulls the docker image.
+        2. Removes any existing gcloud containers.
+        3. Runs the commands to initialize the gcloud credentials.
+        4. Sets the gcloud project.
+
+        Args:
+            None
+
+        Returns:
+            bool: A boolean indicating whether the docker run was successful.
+        """
 
         self.gcloud_container_name = id_generator(8)
 
@@ -169,18 +299,32 @@ class GcloudCli(ResourceCmdHelper):
 
         for cmd in cmds:
 
-            results = self.execute(cmd,output_to_json=None,exit_error=False)
+            results = self.execute(cmd,
+                                   output_to_json=None,
+                                   exit_error=False)
             status = results.get("status")
             output = results.get("output")
+            # fixfix777
             if output: self.logger.debug(output)
   
-            self.add_output(cmd=cmd,remove_empty=True,**results)
+            self.add_output(cmd=cmd,
+                            remove_empty=True,
+                            **results)
 
             if not status: return False
 
         return True
 
     def write_cloud_creds(self):
+        """
+        This function writes the gcloud credentials to a file.
+
+        Args:
+            None
+
+        Returns:
+            str: The location of the gcloud credentials file.
+        """
     
         project_id = os.environ.get("GCLOUD_PROJECT")
         private_key_id = os.environ.get("GCLOUD_PRIVATE_KEY_ID")
@@ -189,40 +333,51 @@ class GcloudCli(ResourceCmdHelper):
         client_email = os.environ.get("GCLOUD_CLIENT_EMAIL")
         client_x509_cert_url = os.environ.get("GCLOUD_CLIENT_X509_CERT_URL")
     
-        if not project_id: 
+        if not project_id:
+            # fixfix777
             self.logger.debug("GCLOUD_PROJECT is required for write credentials")
             return
     
-        if not private_key_id: 
+        if not private_key_id:
+            # fixfix777
             self.logger.debug("GCLOUD_PRIVATE_KEY_ID is required for write credentials")
             return
     
-        if not private_key: 
+        if not private_key:
+            # fixfix777
             self.logger.debug("GCLOUD_PRIVATE_KEY is required for write credentials")
             return
     
-        if not client_id: 
+        if not client_id:
+            # fixfix777
             self.logger.debug("GCLOUD_CLIENT_ID is required for write credentials")
             return
     
-        if not client_email: 
+        if not client_email:
+            # fixfix777
             self.logger.debug("GCLOUD_CLIENT_EMAIL is required for write credentials")
             return
     
-        if not client_x509_cert_url: 
+        if not client_x509_cert_url:
+            # fixfix777
             self.logger.debug("GCLOUD_CLIENT_X509_CERT_URL is required for write credentials")
             return
     
         if not hasattr(self,"tempdir") or not self.tempdir:
             self.set_ondisktmp()
 
-        self.google_application_credentials = os.path.join(self.stateful_dir,".creds","gcloud.json")
+        self.google_application_credentials = os.path.join(self.stateful_dir,
+                                                           ".creds",
+                                                           "gcloud.json")
 
         creds_dir = os.path.dirname(self.google_application_credentials)
     
-        auth_uri = os.environ.get("GCLOUD_AUTH_URI","https://accounts.google.com/o/oauth2/auth")
-        token_uri = os.environ.get("GCLOUD_TOKEN_URI","https://oauth2.googleapis.com/token")
-        auth_provider = os.environ.get("GCLOUD_AUTH_PROVIDER","https://www.googleapis.com/oauth2/v1/certs")
+        auth_uri = os.environ.get("GCLOUD_AUTH_URI",
+                                  "https://accounts.google.com/o/oauth2/auth")
+        token_uri = os.environ.get("GCLOUD_TOKEN_URI",
+                                   "https://oauth2.googleapis.com/token")
+        auth_provider = os.environ.get("GCLOUD_AUTH_PROVIDER",
+                                       "https://www.googleapis.com/oauth2/v1/certs")
     
         values = { "type": "service_account",
                    "auth_uri": auth_uri,
@@ -236,11 +391,14 @@ class GcloudCli(ResourceCmdHelper):
                    "client_x509_cert_url": client_x509_cert_url,
                    }
     
-        json_object = json.dumps(values,indent=2).replace('\\\\','\\')
+        json_object = json.dumps(values,
+                                 indent=2).replace('\\\\',
+                                                   '\\')
     
         if not os.path.exists(creds_dir):
             os.system("mkdir -p {}".format(creds_dir))
-          
+
+        # fixfix777
         self.logger.debug("gcloud directory {} ...".format(self.google_application_credentials))
     
         # Writing to sample.json 
@@ -250,6 +408,17 @@ class GcloudCli(ResourceCmdHelper):
         return self.google_application_credentials
 
     def set_required(self):
+        """
+        This function sets the required environmental variables.
+
+        Steps:
+        1. Writes the gcloud credentials to a file.
+        2. Reads the gcloud credentials from the file or the environmental variables.
+        3. Reads the gcloud project from the file or the environmental variables.
+
+        Returns:
+            bool: A boolean indicating whether the required environmental variables are set.
+        """
 
         self.google_application_credentials = self.write_cloud_creds()
 

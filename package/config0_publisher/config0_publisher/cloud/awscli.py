@@ -21,6 +21,21 @@ from config0_publisher.resource_manage import ResourceCmdHelper
 from config0_publisher.utilities import to_json
 
 class AwsCli(ResourceCmdHelper):
+    """
+    This class provides a helper for interacting with the AWS CLI.
+
+    Args:
+        app_name (str): The name of the application.
+
+    Attributes:
+        classname (str): The name of the class.
+        logger (Config0Logger): A logger for the class.
+        file_config (dict): A dictionary of configuration options.
+        file_config_loc (str): The location of the configuration file.
+        tempdir (OnDiskTmpDir): A temporary directory object.
+        resource_tags_keys (list): A list of resource tag keys.
+
+    """
 
     def __init__(self,**kwargs):
 
@@ -29,6 +44,8 @@ class AwsCli(ResourceCmdHelper):
 
         self.classname = 'AwsCli'
         self.logger = Config0Logger(self.classname)
+
+        # fixfix777
         self.logger.debug("Instantiating %s" % self.classname)
         self.file_config = None
         self.file_config_loc = None
@@ -39,6 +56,12 @@ class AwsCli(ResourceCmdHelper):
                                     "job_id" ]
 
     def get_tags(self):
+        """
+        This function returns a list of tags to be applied to the resource.
+
+        Returns:
+            list: A list of tags.
+        """
 
         tags = [ self.aws_default_region, 
                  self.product, 
@@ -54,14 +77,36 @@ class AwsCli(ResourceCmdHelper):
         return tags
 
     def set_ondisktmp(self):
+        """
+        Sets the temporary directory object.
+
+        Returns:
+            None
+        """
         self.tempdir = OnDiskTmpDir()
 
     def write_file_config(self):
+        """
+        Writes the file configuration to a file.
+
+        Args:
+            None
+
+        Returns:
+            None
+        """
 
         with open(self.file_config_loc, 'w') as _file:
-            _file.write(json.dumps(self.file_config,indent=4))
+            _file.write(json.dumps(self.file_config,
+                                   indent=4))
 
     def _get_add_tags(self):
+        """
+        This function attempts to convert the input argument "tags" to JSON. If the conversion is successful, the function returns the JSON object. If the conversion fails, or if the "tags" argument is not provided, the function returns None.
+
+        Returns:
+            dict: The JSON object, or None if the conversion fails or if the "tags" argument is not provided.
+        """
 
         try:
             add_tags = to_json(self.inputargs.get("tags"))
@@ -73,6 +118,15 @@ class AwsCli(ResourceCmdHelper):
         return add_tags
 
     def get_resource_tags(self,**kwargs):
+        """
+        This function returns a list of tags to be applied to the resource.
+
+        Args:
+            kwargs (dict): A dictionary of keyword arguments.
+
+        Returns:
+            list: A list of tags.
+        """
 
         name = kwargs.get("name")
         if not name: name = self.inputargs.get("name")
@@ -107,6 +161,17 @@ class AwsCli(ResourceCmdHelper):
                                        self.aws_default_region)
 
     def get_region(self):
+        """
+        Sets the AWS region to be used by the AWS CLI.
+
+        The AWS region can be set using the "aws_default_region" input argument. If the input argument is not provided, the default region is set to "us-east-1". If the input argument is set to "None", the default region is set to "us-east-1".
+
+        Args:
+            None
+
+        Returns:
+            None
+        """
 
         self.aws_default_region = self.inputargs.get("aws_default_region")
 
@@ -116,4 +181,5 @@ class AwsCli(ResourceCmdHelper):
         if self.aws_default_region == "None": 
             self.aws_default_region = "us-east-1"
 
+        # fixfix777
         self.logger.debug('Region set to "{}"'.format(self.aws_default_region))

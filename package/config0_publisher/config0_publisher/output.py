@@ -1,6 +1,18 @@
 from config0_publisher.utilities import to_json
 
 def convert_config0_output_to_values(output):
+    """
+    Convert the output of a Config0 Publisher to a JSON string.
+
+    Args:
+        output (str): The output of the Config0 Publisher.
+
+    Returns:
+        Union[str, None]: The JSON string representation of the Config0 output, or None if the conversion fails.
+
+    Raises:
+        ValueError: If the output is not in the expected format.
+    """
 
     record_on = None
     values = []

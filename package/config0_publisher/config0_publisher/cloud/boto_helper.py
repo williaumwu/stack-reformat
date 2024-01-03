@@ -18,6 +18,7 @@ import os
 from config0_publisher.loggerly import Config0Logger
 import boto.ec2
 
+# fixfix777
 #import random
 #import sys
 #import logging
@@ -43,17 +44,31 @@ class EC2_connections(object):
     """
 
     def __init__(self,**kwargs):
+        """
+        Initialize the EC2_connections class.
+
+        Args:
+            **kwargs: Optional arguments.
+        """
 
         self.classname = 'EC2_connections'
         self.logger = Config0Logger(self.classname)
+
+        # fixfix777
         self.logger.debug("Instantiating %s" % self.classname)
         self.aws_default_region = os.environ["AWS_DEFAULT_REGION"]
         self.aws_access_key_id = os.environ["AWS_ACCESS_KEY_ID"]
         self.aws_secret_access_key = os.environ["AWS_SECRET_ACCESS_KEY"]
 
     def _set_conn(self):
+        """
+        simple method to establish a connection to a region
 
-        '''simple method to establish a connection to a region'''
+        Establish a connection to the EC2 region.
+
+        Returns:
+            A boto EC2 connection.
+        """
 
         self.conn = boto.ec2.connect_to_region(self.aws_default_region,
                                                aws_access_key_id=self.aws_access_key_id,
@@ -62,8 +77,14 @@ class EC2_connections(object):
         return self.conn
 
     def _regions_list(self):
+        """
+        list the regions for ec2 related actions
 
-        '''list the regions for ec2 related actions'''
+        List the available EC2 regions.
+
+        Returns:
+            A list of boto EC2 regions.
+        """
 
         regions = boto.ec2.regions()
 

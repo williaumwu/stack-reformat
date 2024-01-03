@@ -26,6 +26,17 @@ from time import time
 from zipfile import ZipFile
 
 def zip_file(filename,srcfile=".env",filedirectory=None):
+    """
+    Compresses a file or directory into a zip file.
+
+    Args:
+        filename (str): The name of the zip file to create.
+        srcfile (str, optional): The file or directory to compress. Defaults to ".env".
+        filedirectory (str, optional): The directory where the file or directory is located. Defaults to the current working directory.
+
+    Returns:
+        None: Returns nothing.
+    """
   
     pwd = os.getcwd()
 
@@ -44,7 +55,17 @@ def zip_file(filename,srcfile=".env",filedirectory=None):
                                                      dstfile))))
 
 def list_all_files(rootdir,ignores=[ ".pyc$", ".swp$"]):
+    """
+    This function returns a list of all files in a directory and its subdirectories.
 
+    Args:
+        rootdir (str): The root directory to search.
+        ignores (list, optional): A list of regular expressions to ignore files. Defaults to [".pyc$", ".swp$"].
+
+    Returns:
+        list: A list of all files in the directory and its subdirectories.
+
+    """
     fileList = []
 
     if not os.path.exists(rootdir): 
@@ -55,11 +76,13 @@ def list_all_files(rootdir,ignores=[ ".pyc$", ".swp$"]):
         tempList = []
 
         for file in files:
-            f = os.path.join(root,file)
+            f = os.path.join(root,
+                             file)
             tempList.append(f)
 
         for d in subFolders:
-            g = os.path.join(root,d)
+            g = os.path.join(root,
+                             d)
             tempList.append(g)
 
         if not tempList:
@@ -74,7 +97,8 @@ def list_all_files(rootdir,ignores=[ ".pyc$", ".swp$"]):
             add = True
 
             for ignore in ignores:
-                if re.search(ignore,file):
+                if re.search(ignore,
+                             file):
                     add = False
                     break
 
@@ -84,7 +108,23 @@ def list_all_files(rootdir,ignores=[ ".pyc$", ".swp$"]):
     return fileList
 
 def count_files_targz(file_path):
+    """
+    Counts the number of files in a compressed tar.gz file.
 
+    Args:
+        file_path (str): The path to the compressed tar.gz file.
+
+    Returns:
+        int: The number of files in the compressed tar.gz file.
+
+    Raises:
+        FileNotFoundError: If the file does not exist.
+        NotADirectoryError: If the file is not a directory.
+        IsADirectoryError: If the file is a directory.
+        PermissionError: If the user does not have permission to access the file.
+        ValueError: If the file is not a valid tar.gz file.
+
+    """
     count = 0
 
     with tarfile.open(file_path, 'r:gz') as tar:
@@ -95,8 +135,24 @@ def count_files_targz(file_path):
     return count
 
 def targz(srcdir,dstdir,filename,verbose=True):
+    """
+    This will tar a file to a new location
 
-    '''This will tar a file to a new location'''
+    This function will tar a file or directory to a new location.
+
+    Args:
+        srcdir (str): The path to the file or directory to compress.
+        dstdir (str): The path to the directory where the compressed file will be saved.
+        filename (str): The name of the compressed file.
+        verbose (bool, optional): A boolean value indicating whether to display verbose output. Defaults to True.
+
+    Returns:
+        str: The path to the compressed file.
+
+    Raises:
+        Exception: If the source directory does not exist or if the compression process fails.
+
+    """
 
     if verbose:
         flags = "cvf"
@@ -125,9 +181,22 @@ def targz(srcdir,dstdir,filename,verbose=True):
     return tarfile
 
 def un_targz(directory,name,newlocation,striplevel=None):
+    """
+    This will untar a file to a new location
 
-    '''This will untar a file to a new location'''
+    Args:
+        directory (str): The directory where the tar.gz file is located.
+        name (str): The name of the tar.gz file.
+        newlocation (str): The directory where the contents of the tar.gz file will be extracted.
+        striplevel (int, optional): The number of directory levels to strip from the archive.
+            Defaults to None.
 
+    Returns:
+        str: The path to the directory where the contents of the tar.gz file were extracted.
+
+    Raises:
+        Exception: If the untar process fails.
+    """
     if "tar.gz" in name or "tgz" in name:
         filename = name
     elif os.path.exists(directory+"/"+name+".tgz"):
@@ -177,6 +246,18 @@ def un_targz(directory,name,newlocation,striplevel=None):
     return newlocation
 
 def get_file_age(file_path):
+    """
+    This function returns the age of a file in seconds.
+
+    Args:
+        file_path (str): The path to the file.
+
+    Returns:
+        int | None: The age of the file in seconds, or None if the file does not exist.
+
+    Raises:
+        ValueError: If the file path is not a string.
+    """
 
     try:
         mtime_file = int((os.stat(file_path)[-2]))

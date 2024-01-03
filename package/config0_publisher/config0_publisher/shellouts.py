@@ -23,6 +23,26 @@ import sys
 from config0_publisher.loggerly import Config0Logger as set_log
 
 def ensure_str(obj,strip=True):
+    """
+    Ensure that the input object is a string.
+
+    Parameters
+    ----------
+    obj : Any
+        The input object to be converted to a string.
+    strip : bool, optional
+        Whether to strip leading and trailing whitespace from the string, by default True.
+
+    Returns
+    -------
+    str
+        The input object converted to a string.
+
+    Raises
+    ------
+    ValueError
+        If the input object cannot be converted to a string.
+    """
 
     if not isinstance(obj,str):
         try:
@@ -45,7 +65,20 @@ def id_generator(size=6,chars=string.ascii_uppercase+string.digits):
     return ''.join(random.choice(chars) for x in range(size))
 
 def mkdir(directory):
-    '''uses the shell to make a directory.'''
+    """
+    uses the shell to make a directory.
+
+    Creates a directory using the shell command "mkdir -p".
+
+    Parameters:
+        directory (str): The path of the directory to create.
+
+    Returns:
+        bool: True if the directory was created, False otherwise.
+
+    Raises:
+        OSError: If the directory could not be created.
+    """
 
     try:
         if not os.path.exists(directory):
@@ -55,6 +88,18 @@ def mkdir(directory):
         return False
 
 def chkdir(directory):
+    """
+    Check if a directory exists.
+
+    Parameters:
+        directory (str): The path of the directory to check.
+
+    Returns:
+        bool: True if the directory exists, False otherwise.
+
+    Raises:
+        OSError: If the directory could not be checked.
+    """
 
     if not os.path.exists(directory):
         print("Directory {} does not exists".format(directory))
@@ -62,8 +107,18 @@ def chkdir(directory):
     return True
 
 def rm_rf(location):
+    """
+    uses the shell to forcefully and recursively remove a file/entire directory.
 
-    '''uses the shell to forcefully and recursively remove a file/entire directory.'''
+    Parameters:
+        location (str): The path of the file or directory to remove.
+
+    Returns:
+        bool: True if the file or directory was removed, False otherwise.
+
+    Raises:
+        OSError: If the file or directory could not be removed.
+    """
 
     if not location:
         return False
@@ -83,6 +138,35 @@ def rm_rf(location):
             return False
 
 def execute3(cmd, **kwargs):
+    """
+    Execute a shell command and return the results as a dictionary.
+
+    Parameters:
+        cmd (str): The command to execute.
+        unbuffered (bool, optional): Whether to disable buffering of stdout and stderr.
+            Defaults to False.
+        tmpdir (str, optional): The directory to use for temporary files.
+            Defaults to "/tmp".
+        output_to_json (bool, optional): Whether to attempt to convert the output to JSON.
+            Defaults to True.
+        output_queue (multiprocessing.Queue, optional): A queue to place the output into.
+        env_vars (dict, optional): A dictionary of environment variables to set.
+        unset_envs (str, optional): A comma-separated list of environment variables to unset.
+        logfile (str, optional): The path of the log file to write output to.
+        write_logfile (bool, optional): Whether to write the output to the log file.
+            Defaults to False.
+        exit_file (str, optional): The path of the file to write the exit code to.
+        print_out (bool, optional): Whether to print the output to stdout.
+            Defaults to True.
+        exit_error (bool, optional): Whether to exit with the error code if it is non-zero.
+            Defaults to True.
+
+    Returns:
+        dict: A dictionary containing the results of the execution, including stdout, stderr, and exitcode.
+
+    Raises:
+        RuntimeError: If the system command exits with a non-zero exit code.
+    """
 
     shellout_exe = ShellOutExecute(cmd,
                                    unbuffered=None,
@@ -102,6 +186,35 @@ def execute2(cmd, **kwargs):
     return execute3(cmd,**kwargs)
 
 def execute3a(cmd, **kwargs):
+    """
+    Execute a shell command and return the results as a dictionary.
+
+    Parameters:
+        cmd (str): The command to execute.
+        unbuffered (bool, optional): Whether to disable buffering of stdout and stderr.
+            Defaults to False.
+        tmpdir (str, optional): The directory to use for temporary files.
+            Defaults to "/tmp".
+        output_to_json (bool, optional): Whether to attempt to convert the output to JSON.
+            Defaults to True.
+        output_queue (multiprocessing.Queue, optional): A queue to place the output into.
+        env_vars (dict, optional): A dictionary of environment variables to set.
+        unset_envs (str, optional): A comma-separated list of environment variables to unset.
+        logfile (str, optional): The path of the log file to write output to.
+        write_logfile (bool, optional): Whether to write the output to the log file.
+            Defaults to False.
+        exit_file (str, optional): The path of the file to write the exit code to.
+        print_out (bool, optional): Whether to print the output to stdout.
+            Defaults to True.
+        exit_error (bool, optional): Whether to exit with the error code if it is non-zero.
+            Defaults to True.
+
+    Returns:
+        dict: A dictionary containing the results of the execution, including stdout, stderr, and exitcode.
+
+    Raises:
+        RuntimeError: If the system command exits with a non-zero exit code.
+    """
 
     shellout_exe = ShellOutExecute(cmd,
                                    unbuffered=None,
@@ -122,6 +235,35 @@ def execute4(cmd, **kwargs):
     return execute3a(cmd,**kwargs)
 
 def execute5(cmd, **kwargs):
+    """
+    Execute a shell command and return the results as a dictionary.
+
+    Parameters:
+        cmd (str): The command to execute.
+        unbuffered (bool, optional): Whether to disable buffering of stdout and stderr.
+            Defaults to False.
+        tmpdir (str, optional): The directory to use for temporary files.
+            Defaults to "/tmp".
+        output_to_json (bool, optional): Whether to attempt to convert the output to JSON.
+            Defaults to True.
+        output_queue (multiprocessing.Queue, optional): A queue to place the output into.
+        env_vars (dict, optional): A dictionary of environment variables to set.
+        unset_envs (str, optional): A comma-separated list of environment variables to unset.
+        logfile (str, optional): The path of the log file to write output to.
+        write_logfile (bool, optional): Whether to write the output to the log file.
+            Defaults to False.
+        exit_file (str, optional): The path of the file to write the exit code to.
+        print_out (bool, optional): Whether to print the output to stdout.
+            Defaults to True.
+        exit_error (bool, optional): Whether to exit with the error code if it is non-zero.
+            Defaults to True.
+
+    Returns:
+        dict: A dictionary containing the results of the execution, including stdout, stderr, and exitcode.
+
+    Raises:
+        RuntimeError: If the system command exits with a non-zero exit code.
+    """
 
     shellout_exe = ShellOutExecute(cmd,
                                    unbuffered=None,
@@ -135,6 +277,35 @@ def execute5(cmd, **kwargs):
     return shellout_exe.results
 
 def execute7(cmd, **kwargs):
+    """
+    Execute a shell command and return the results as a dictionary.
+
+    Parameters:
+        cmd (str): The command to execute.
+        unbuffered (bool, optional): Whether to disable buffering of stdout and stderr.
+            Defaults to False.
+        tmpdir (str, optional): The directory to use for temporary files.
+            Defaults to "/tmp".
+        output_to_json (bool, optional): Whether to attempt to convert the output to JSON.
+            Defaults to True.
+        output_queue (multiprocessing.Queue, optional): A queue to place the output into.
+        env_vars (dict, optional): A dictionary of environment variables to set.
+        unset_envs (str, optional): A comma-separated list of environment variables to unset.
+        logfile (str, optional): The path of the log file to write output to.
+        write_logfile (bool, optional): Whether to write the output to the log file.
+            Defaults to False.
+        exit_file (str, optional): The path of the file to write the exit code to.
+        print_out (bool, optional): Whether to print the output to stdout.
+            Defaults to True.
+        exit_error (bool, optional): Whether to exit with the error code if it is non-zero.
+            Defaults to True.
+
+    Returns:
+        dict: A dictionary containing the results of the execution, including stdout, stderr, and exitcode.
+
+    Raises:
+        RuntimeError: If the system command exits with a non-zero exit code.
+    """
 
     shellout_exe = ShellOutExecute(cmd,
                                    unbuffered=None,
@@ -151,9 +322,19 @@ def execute7(cmd, **kwargs):
     return shellout_exe.results
 
 def execute(cmd,unbuffered=False,logfile=None,print_out=True):
+    """
+    executes a shell command, returning status of execution,
+    standard out, and standard error
 
-    '''executes a shell command, returning status of execution,
-    standard out, and standard error'''
+    Parameters:
+        cmd (str): the command to execute
+        unbuffered (bool, optional): whether to disable buffering of stdout and stderr. Defaults to False.
+        logfile (str, optional): the path of the log file to write output to. Defaults to None.
+        print_out (bool, optional): whether to print the output to stdout. Defaults to True.
+
+    Returns:
+        tuple[int, str, str]: a tuple containing the exit code, stdout, and stderr of the executed command.
+    """
 
     inputargs = {"unbuffered":unbuffered}
 
@@ -172,8 +353,70 @@ def execute(cmd,unbuffered=False,logfile=None,print_out=True):
     return shellout_exe.results["exitcode"],shellout_exe.results["stdout"],shellout_exe.results["stderr"]
 
 class ShellOutExecute(object):
+    """
+    Execute a shell command and return the results as a dictionary.
+
+    Parameters:
+        cmd (str): The command to execute.
+        unbuffered (bool, optional): Whether to disable buffering of stdout and stderr.
+            Defaults to False.
+        tmpdir (str, optional): The directory to use for temporary files.
+            Defaults to "/tmp".
+        output_to_json (bool, optional): Whether to attempt to convert the output to JSON.
+            Defaults to True.
+        output_queue (multiprocessing.Queue, optional): A queue to place the output into.
+        env_vars (dict, optional): A dictionary of environment variables to set.
+        unset_envs (str, optional): A comma-separated list of environment variables to unset.
+        logfile (str, optional): The path of the log file to write output to.
+        write_logfile (bool, optional): Whether to write the output to the log file.
+            Defaults to False.
+        exit_file (str, optional): The path of the file to write the exit code to.
+        print_out (bool, optional): Whether to print the output to stdout.
+            Defaults to True.
+        exit_error (bool, optional): Whether to exit with the error code if it is non-zero.
+            Defaults to True.
+
+    Attributes:
+        cwd (str): The current working directory.
+        tmpdir (str): The directory to use for temporary files.
+        unbuffered (bool): Whether to disable buffering of stdout and stderr.
+        cmd (str): The command to execute.
+        output_to_json (bool): Whether to attempt to convert the output to JSON.
+        output_queue (multiprocessing.Queue): A queue to place the output into.
+        env_vars (dict): A dictionary of environment variables to set.
+        unset_envs (str): A comma-separated list of environment variables to unset.
+        logfile (str): The path of the log file to write output to.
+        logfile_handle (file): The file handle for the log file.
+        results (dict): A dictionary containing the results of the execution, including stdout, stderr, and exitcode.
+
+    Raises:
+        RuntimeError: If the system command exits with a non-zero exit code.
+    """
 
     def __init__(self, cmd, unbuffered=None, **kwargs):
+        """
+        Initialize the ShellOutExecute class.
+
+        Parameters:
+            cmd (str): The command to execute.
+            unbuffered (bool, optional): Whether to disable buffering of stdout and stderr.
+                Defaults to False.
+            tmpdir (str, optional): The directory to use for temporary files.
+                Defaults to "/tmp".
+            output_to_json (bool, optional): Whether to attempt to convert the output to JSON.
+                Defaults to True.
+            output_queue (multiprocessing.Queue, optional): A queue to place the output into.
+            env_vars (dict, optional): A dictionary of environment variables to set.
+            unset_envs (str, optional): A comma-separated list of environment variables to unset.
+            logfile (str, optional): The path of the log file to write output to.
+            write_logfile (bool, optional): Whether to write the output to the log file.
+                Defaults to False.
+            exit_file (str, optional): The path of the file to write the exit code to.
+            print_out (bool, optional): Whether to print the output to stdout.
+                Defaults to True.
+            exit_error (bool, optional): Whether to exit with the error code if it is non-zero.
+                Defaults to True.
+        """
 
         self.logger = set_log("ShellOutExecute")
 
@@ -213,6 +456,15 @@ class ShellOutExecute(object):
                         "exitcode": None}
 
     def _set_cwd(self):
+        """
+        Set the current working directory.
+
+        Returns:
+            str: The current working directory.
+
+        Raises:
+            OSError: If the current working directory could not be set.
+        """
 
         try:
             self.cwd = os.getcwd()
@@ -224,6 +476,12 @@ class ShellOutExecute(object):
         return self.cwd
 
     def _get_system_cmd(self):
+        """
+        Get the system command to execute.
+
+        Returns:
+            str: The system command to execute.
+        """
 
         cmd = '({} 2>&1 ; echo $? > {}) | tee -a {}; exit `cat {}`'.format(self.cmd,
                                                                            self.exit_file,
@@ -233,11 +491,19 @@ class ShellOutExecute(object):
         return cmd
 
     def _cleanup_system_exe(self):
+        """
+        Clean up the system executable.
+
+        :return: None
+        """
 
         os.remove(self.exit_file)
         os.remove(self.logfile)
 
     def add_unset_envs_to_cmd(self):
+        """
+        Add any unset environment variables to the command.
+        """
 
         if not self.unset_envs:
             return
@@ -248,6 +514,15 @@ class ShellOutExecute(object):
             self.cmd = "unset {}; {}".format(_env,self.cmd)
 
     def set_env_vars(self):
+        """
+        Set the environment variables.
+
+        Returns:
+            dict: The environment variables that were set.
+
+        Raises:
+            OSError: If the environment variables could not be set.
+        """
 
         if not self.env_vars:
             return
@@ -262,6 +537,7 @@ class ShellOutExecute(object):
             elif not isinstance(ev,str):
                 ev = str(ev)
 
+            # fixfix777
             if os.environ.get("JIFFY_ENHANCED_LOG") or os.environ.get("DEBUG_STATEFUL"):
                 self.logger.debug("key -> {} value -> {} type -> {}".format(ek,ev,type(ev)))
             else:
@@ -272,6 +548,7 @@ class ShellOutExecute(object):
 
         if os.environ.get("JIFFY_ENHANCED_LOG"):
 
+            # fixfix777
             self.logger.debug("#" * 32)
             self.logger.debug("# env vars set are")
 
@@ -279,17 +556,28 @@ class ShellOutExecute(object):
                               sort_keys=True,
                               indent=4)))
 
+            # fixfix777
             self.logger.debug("#" * 32)
 
         return _env_vars
 
     def print_out(self):
+        """
+        print the output of the executed command
+        """
         try:
+            # fixfix777
             self.logger.debug(self.results["output"])
         except:
             print(self.results["output"])
 
     def _convert_output_to_json(self):
+        """
+        Convert the output of the executed command to JSON if possible.
+
+        Returns:
+            bool: True if the output could be converted to JSON, False otherwise.
+        """
 
         if not self.output_to_json:
             return
@@ -300,9 +588,11 @@ class ShellOutExecute(object):
         try:
             output = json.loads(self.results["output"])
         except:
+            # fixfix777
             self.logger.debug("Could not convert output to json")
             return
 
+        # fixfix777
         self.logger.debug("output to json/dict")
 
         self.results["output"] = output
@@ -310,6 +600,14 @@ class ShellOutExecute(object):
         return True
 
     def _eval_execute(self):
+        """
+        Evaluate the results of the executed command.
+
+        This method sets the status of the results based on the exit code and sets the
+        failed_message based on the output. It also converts the output to JSON if
+        possible and places the results in the output_queue if provided.
+
+        """
 
         if self.results["exitcode"] != 0:
             self.results["status"] = False
@@ -320,6 +618,7 @@ class ShellOutExecute(object):
             self._convert_output_to_json()
 
         if self.output_queue:
+            # fixfix777
             self.logger.debug("attempting to place results in the output_queue")
             try:
                 self.output_queue.put(self.results)
@@ -327,12 +626,33 @@ class ShellOutExecute(object):
                 self.logger.error("Could not append the results to the output_queue")
 
     def set_popen_kwargs(self):
+        """
+        Set the popen_kwargs attribute of the ShellOutExecute instance.
+
+        The popen_kwargs attribute is a dictionary that is used to set the arguments
+        for the subprocess.Popen constructor. The dictionary contains the following
+        keys:
+
+        shell (bool): Whether to execute the command in a shell.
+        universal_newlines (bool): Whether to use universal newlines mode.
+        stdout (file-like object): The file-like object to use for stdout.
+        stderr (file-like object): The file-like object to use for stderr.
+
+        This method sets the popen_kwargs attribute to a dictionary with the above
+        keys and values.
+        """
 
         self.popen_kwargs = {"shell":True,
                              "universal_newlines": True,
                              "stdout":subprocess.PIPE,
                              "stderr": subprocess.STDOUT}
     def run(self):
+        """
+        Runs the command and returns the results.
+
+        Returns:
+            dict: A dictionary containing the results of the execution, including stdout, stderr, and exitcode.
+        """
 
         self.logger.debug_highlight("ShellOutExecute:::method: run")
 
@@ -358,6 +678,15 @@ class ShellOutExecute(object):
                                 **self.popen_kwargs)
 
     def _add_log_file(self,line):
+        """
+        Add a line to the log file.
+
+        Args:
+            line (str): The line to add to the log file.
+
+        Returns:
+            None
+        """
 
         if not self.logfile_handle:
             return
@@ -366,6 +695,16 @@ class ShellOutExecute(object):
         self.logfile_handle.write("\n")
 
     def _eval_log_line(self, readline, lines):
+        """
+        Add a line to the log file and optionally print it to stdout.
+
+        Args:
+            readline (bytes): The line to add to the log file.
+            lines (list): A list of lines.
+
+        Returns:
+            bool: Whether to continue reading from the process.
+        """
 
         line = ensure_str(readline, strip=True)
 
@@ -382,6 +721,19 @@ class ShellOutExecute(object):
         return True
 
     def _eval_popen_exe(self,process):
+        """
+        Evaluate the results of the executed command.
+
+        This method sets the status of the results based on the exit code and sets the
+        failed_message based on the output. It also converts the output to JSON if
+        possible and places the results in the output_queue if provided.
+
+        Args:
+            process (subprocess.Popen): The process that was executed.
+
+        Returns:
+            None
+        """
 
         lines = []
 
@@ -417,6 +769,15 @@ class ShellOutExecute(object):
 
         self._eval_execute()
     def _popen_communicate(self,process):
+        """
+        Communicate with a subprocess.Popen instance.
+
+        Args:
+            process (subprocess.Popen): The subprocess to communicate with.
+
+        Returns:
+            dict: A dictionary containing the stdout, stderr, and exitcode of the process.
+        """
 
         out, err = process.communicate()
 
@@ -427,6 +788,12 @@ class ShellOutExecute(object):
         return self.results
 
     def popen(self):
+        """
+        Runs the command and returns the results.
+
+        Returns:
+            dict: A dictionary containing the results of the execution, including stdout, stderr, and exitcode.
+        """
 
         self.logger.debug_highlight("ShellOutExecute:::method: popen")
 
@@ -440,6 +807,12 @@ class ShellOutExecute(object):
         return self.results
 
     def popen2(self):
+        """
+        Runs the command and returns the results.
+
+        Returns:
+            dict: A dictionary containing the results of the execution, including stdout, stderr, and exitcode.
+        """
 
         self.logger.debug_highlight("ShellOutExecute:::method: popen2")
 
@@ -454,6 +827,12 @@ class ShellOutExecute(object):
         return self.results
 
     def execute6(self):
+        """
+        Runs the command and returns the results.
+
+        Returns:
+            dict: A dictionary containing the results of the execution, including stdout, stderr, and exitcode.
+        """
 
         self.logger.debug_highlight("ShellOutExecute:::method: execute6")
 
@@ -466,6 +845,12 @@ class ShellOutExecute(object):
         return self.popen()
 
     def execute3(self):
+        """
+        Runs the command and returns the results.
+
+        Returns:
+            dict: A dictionary containing the results of the execution, including stdout, stderr, and exitcode.
+        """
 
         self.logger.debug_highlight("ShellOutExecute:::method: execute3")
 
@@ -479,6 +864,19 @@ class ShellOutExecute(object):
         return self.results
 
     def system(self, direct_return=True):
+        """
+        Runs the command in a subshell and returns the exit code.
+
+        Parameters:
+            direct_return (bool, optional): Whether to return the exit code directly or to calculate the return value code.
+                Defaults to True.
+
+        Returns:
+            int: The exit code of the executed command.
+
+        Raises:
+            RuntimeError: If the system command exits with a non-zero exit code.
+        """
 
         self.logger.debug_highlight("ShellOutExecute:::method: system")
 
@@ -492,6 +890,15 @@ class ShellOutExecute(object):
         return int(bin(_return_code).replace("0b", "").rjust(16, '0')[:8], 2)
 
     def _eval_exitcode(self,exitcode):
+        """
+        Convert the exitcode to an integer if possible, otherwise return the original exitcode.
+
+        Parameters:
+            exitcode (object): The exitcode to convert to an integer.
+
+        Returns:
+            int: The converted exitcode.
+        """
 
         try:
             return int(exitcode)
@@ -499,6 +906,12 @@ class ShellOutExecute(object):
             return exitcode
 
     def execute3a(self):
+        """
+        Runs the command and returns the results.
+
+        Returns:
+            dict: A dictionary containing the results of the execution, including stdout, stderr, and exitcode.
+        """
 
         self.logger.debug_highlight("ShellOutExecute:::method: execute3a")
 
@@ -510,6 +923,12 @@ class ShellOutExecute(object):
         return self.results
 
     def execute5(self):
+        """
+        Runs the command and returns the results.
+
+        Returns:
+            dict: A dictionary containing the results of the execution, including stdout, stderr, and exitcode.
+        """
 
         self.logger.debug_highlight("ShellOutExecute:::method: execute5")
 
@@ -527,6 +946,12 @@ class ShellOutExecute(object):
         return self.results
 
     def execute7(self):
+        """
+        Runs the command and returns the results.
+
+        Returns:
+            dict: A dictionary containing the results of the execution, including stdout, stderr, and exitcode.
+        """
 
         self.logger.debug_highlight("ShellOutExecute:::method: execute7")
         self.run()

@@ -18,11 +18,42 @@ from config0_publisher.utilities import print_json
 from config0_publisher.loggerly import Config0Logger
 
 class TFConstructor(object):
+    """
+    This class is a helper for publishing stacks, hostgroups, shellouts/scripts and other assets used for automation. It is used by Config0 to build and manage software and DevOps automation.
+
+    Examples include cloud infrastructure, CI/CD, and data analytics.
+
+    Copyright (C) Gary Leong - All Rights Reserved
+    Unauthorized copying of this file, via any medium is strictly prohibited
+    Proprietary and confidential
+    Written by Gary Leong  <gary@config0.com, March 11,2023
+    """
 
     def __init__(self,**kwargs):
+        """
+        Initialize the class with the following arguments:
 
+        Args:
+            stack (obj): A Config0Stack object that contains the information about the stack.
+            provider (str): The cloud provider where the resource is being created.
+            execgroup_name (str): The name of the execution group that is executing the task.
+            resource_name (str): The name of the resource being created.
+            resource_type (str): The type of resource being created.
+            terraform_type (str): The type of Terraform resource being created.
+            docker_runtime (str): The Docker image to use for running the Terraform code.
+            include_raw (bool): Whether to include the raw values in the output.
+            ssm_format (str): The format of the SSM parameter store value.
+            ssm_obj (str): The SSM parameter store object.
+            ssm_name (str): The name of the SSM parameter store value.
+            output_prefix_key (str): The prefix key for the output values.
+            include_keys (list): The list of keys to include in the output.
+            output_keys (list): The list of keys to output.
+            exclude_keys (list): The list of keys to exclude from the output.
+            maps (dict): The dictionary of keys to map.
+        """
         self.classname = 'TFConstructor'
         self.logger = Config0Logger(self.classname)
+        # fixfix777
         self.logger.debug("Instantiating %s" % self.classname)
 
         self.stack = kwargs["stack"]
@@ -32,9 +63,11 @@ class TFConstructor(object):
         self.resource_type = kwargs["resource_type"]
         self.terraform_type = kwargs["terraform_type"]
         self.docker_runtime = kwargs.get("docker_runtime")
-        self.include_raw = kwargs.get("include_raw",True)
+        self.include_raw = kwargs.get("include_raw",
+                                      True)
 
-        self.ssm_format = kwargs.get("ssm_format", ".env")
+        self.ssm_format = kwargs.get("ssm_format",
+                                     ".env")
         self.ssm_obj = kwargs.get("ssm_obj")
         self.ssm_name = kwargs.get("ssm_name")
         self.ssm_prefix = "/config0/statefuls"
@@ -57,7 +90,12 @@ class TFConstructor(object):
                                                           output="dict")
 
     def _get_ssm_value(self):
+        """
+        Get the SSM value.
 
+        Returns:
+            str: The SSM value.
+        """
         if self.ssm_format == ".env":
             return self.stack.to_envfile(self.ssm_obj,
                                          b64=True)
@@ -65,7 +103,12 @@ class TFConstructor(object):
         return self.stack.b64_encode(self.ssm_obj)
 
     def _set_ssm_name(self,value):
+        """
+        Set the SSM name.
 
+        Args:
+            value (str): The SSM value.
+        """
         if self.ssm_name:
             return
  
@@ -83,12 +126,16 @@ class TFConstructor(object):
             base_prefix = "{}".format(self.ssm_prefix)
 
         if self.ssm_format == ".env":
-            self.ssm_name = "{}.env".format(os.path.join(base_prefix,_name))
+            self.ssm_name = "{}.env".format(os.path.join(base_prefix,
+                                                         _name))
         else:
-            self.ssm_name = os.path.join(base_prefix,_name)
+            self.ssm_name = os.path.join(base_prefix,
+                                         _name)
 
     def _add_values_to_ssm(self):
-
+        """
+        Add the SSM value to the parameter store.
+        """
         if not self.ssm_obj:
             return
 
@@ -108,13 +155,17 @@ class TFConstructor(object):
                               insert_ssm=True)
 
     def _init_opt_args(self):
-
+        """
+        Initialize the optional arguments.
+        """
         include = []
 
         if not hasattr(self.stack,"docker_runtime") or not self.stack.docker_runtime:
             include.append("docker_runtime")
             if self.docker_runtime:
-                self.stack.set_variable("docker_runtime",self.docker_runtime,types="str")
+                self.stack.set_variable("docker_runtime",
+                                        self.docker_runtime,
+                                        types="str")
             else:
                 self.stack.parse.add_required(key="docker_runtime",
                                               default="elasticdev/terraform-run-env:1.3.7",
@@ -175,6 +226,13 @@ class TFConstructor(object):
                                  tags="resource,db,execgroup_inputargs,runtime_settings")
 
     def _add_to_list(self,existing_keys,keys=None):
+        """
+        Add keys to the list.
+
+        Args:
+            existing_keys (list): The existing list of keys.
+            keys (list): The keys to add.
+        """
 
         if not keys:
             return
@@ -187,6 +245,16 @@ class TFConstructor(object):
             existing_keys.append(_key)
 
     def _add_to_dict(self,existing_values,values=None):
+        """
+        Add values to an existing dictionary.
+
+        Args:
+            existing_values (dict): The existing dictionary.
+            values (dict, optional): The values to add.
+
+        Returns:
+            None: None.
+        """
 
         if not values:
             return
@@ -219,6 +287,17 @@ class TFConstructor(object):
                                  values=maps)
 
     def include(self,keys=None,values=None,maps=None):
+        """
+        Add keys, values, or maps to the include list.
+
+        Args:
+            keys (list, optional): The list of keys to include.
+            values (dict, optional): The dictionary of values to include.
+            maps (dict, optional): The dictionary of keys to map.
+
+        Returns:
+            None: None.
+        """
 
         if keys:
             self.add_include_keys(keys)
@@ -228,6 +307,16 @@ class TFConstructor(object):
             self.add_query_maps(maps=maps)
 
     def output(self,keys,prefix_key=None):
+        """
+        Add keys to the output list.
+
+        Args:
+            keys (list): The list of keys to output.
+            prefix_key (str, optional): The prefix key for the output values.
+
+        Returns:
+            None: None.
+        """
 
         if prefix_key:
             self.output_prefix_key = prefix_key
@@ -239,8 +328,14 @@ class TFConstructor(object):
         self.add_exclude_keys(keys)
 
     def get_resource_params(self):
+        """
+        This function returns the resource parameters.
 
-        resource_params = { "include_raw": self.include_raw }
+        Returns:
+            dict: The resource parameters.
+        """
+
+        resource_params = {"include_raw": self.include_raw}
 
         if self.include_keys:
             resource_params["include_keys"] = self.include_keys
@@ -254,6 +349,12 @@ class TFConstructor(object):
         return resource_params
 
     def _get_resource_settings(self):
+        """
+        This function returns the resource settings.
+
+        Returns:
+            dict: The resource settings.
+        """
 
         settings = {}
 
@@ -276,6 +377,12 @@ class TFConstructor(object):
         return settings
 
     def _get_runtime_settings(self):
+        """
+        This function returns the runtime settings.
+
+        Returns:
+            dict: The runtime settings.
+        """
 
         # docker env vars during execution
         env_vars = self.stack.get_tagged_vars(tag="runtime_settings",
@@ -288,6 +395,12 @@ class TFConstructor(object):
         return {"runtime_env_vars_hash":self.stack.b64_encode(env_vars)}
 
     def _get_tf_settings(self):
+        """
+        This function returns the Terraform settings.
+
+        Returns:
+            dict: The Terraform settings.
+        """
 
         settings = {}
 
@@ -307,6 +420,12 @@ class TFConstructor(object):
         return settings
 
     def get_inputargs(self):
+        """
+        This function returns the input arguments for the Terraform constructor.
+
+        Returns:
+            dict: The input arguments.
+        """
 
         self.stack.verify_variables()
 
@@ -340,9 +459,12 @@ class TFConstructor(object):
         if self.stack.stateful_id:
             overide_values["stateful_id"] = self.stack.stateful_id
 
-        self._add_to_dict(overide_values,tf_settings)
-        self._add_to_dict(overide_values,runtime_settings)
-        self._add_to_dict(overide_values,resource_settings)
+        self._add_to_dict(overide_values,
+                          tf_settings)
+        self._add_to_dict(overide_values,
+                          runtime_settings)
+        self._add_to_dict(overide_values,
+                          resource_settings)
 
         inputargs = { "automation_phase": "infrastructure",
                       "human_description": "invoking tf executor",
