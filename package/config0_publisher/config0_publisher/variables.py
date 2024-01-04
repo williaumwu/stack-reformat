@@ -17,17 +17,8 @@
 
 import os
 import json
-
-from time import sleep
 from ast import literal_eval
-
-#from time import sleep
-
-from jiffycommon.py2to3_common import py2and3_return_results
-from jiffycommon.py2to3_common import py2and3_return_true
-from jiffycommon.py2to3_common import py2and3_return_false
-from jiffycommon.py2to3_common import py2and3_return_none
-from jiffycommon.loggerly import set_log
+from config0_publisher.loggerly import Config0Logger
 
 def get_init_var_type(value):
     """
@@ -57,35 +48,35 @@ def get_init_var_type(value):
                 "True" ]
 
     if isinstance(value,dict):
-        return py2and3_return_results("dict")
+        return "dict"
     
     if isinstance(value,list):
-        return py2and3_return_results("list")
+        return "list"
 
     if isinstance(value,float):
-        return py2and3_return_results("float")
+        return "float"
 
     if isinstance(value,bool):
-        return py2and3_return_results("bool")
+        return "bool"
 
     if isinstance(value,int):
-        return py2and3_return_results("int")
+        return "int"
 
     try:
         str_value = str(value).strip()
     except:
-        return py2and3_return_false()
+        return False
 
     if str_value == "1":
-        return py2and3_return_results("int")
+        return "int"
 
     if str_value == "0":
-        return py2and3_return_results("int")
+        return "int"
 
     if str_value in boolean:
-        return py2and3_return_results("bool")
+        return "bool"
 
-    return py2and3_return_results("str")
+    return "str"
 
 
 class EvaluateVar(object):
@@ -111,8 +102,8 @@ class EvaluateVar(object):
 
         self.classname = 'EvaluateVar'
 
-        self.logger = set_log(self.classname,
-                              logcategory="general")
+        self.logger = Config0Logger(self.classname,
+                                    logcategory="general")
 
         # revisit 3542353245 the boolean types need to cover boolean for things like Terraform and Ansible
         self.bool_none = [ "None",
@@ -170,20 +161,20 @@ class EvaluateVar(object):
         self._check_value_is_set()
 
         if isinstance(self.results["check"]["value"],float):
-            return py2and3_return_true()
+            return True
     
         try:
             if "." not in str(self.results["check"]["value"]):
                 raise Exception("is probably an integer")
             updated_value = float(self.results["check"]["value"])
         except:
-            return py2and3_return_false()
+            return False
 
         self.results["updated"] = True
         self.results["current"]["value"] = updated_value
         self.results["current"]["type"] = "float"
 
-        return py2and3_return_true()
+        return True
     
     def is_integer(self):
         """
@@ -196,7 +187,7 @@ class EvaluateVar(object):
         self._check_value_is_set()
     
         if isinstance(self.results["check"]["value"],int):
-            return py2and3_return_true()
+            return True
     
         if self.results["check"]["value"] in ["0", 0]:
 
@@ -206,7 +197,7 @@ class EvaluateVar(object):
             if self.results["check"]["value"] != "0":
                 self.results["updated"] = True
 
-            return py2and3_return_true()
+            return True
 
         if self.results["check"]["value"] in ["1", 1]:
 
@@ -216,7 +207,7 @@ class EvaluateVar(object):
             if self.results["check"]["value"] != "1":
                 self.results["updated"] = True
 
-            return py2and3_return_true()
+            return True
 
         try:
             first_character = self.results["check"]["value"][0]
@@ -224,18 +215,18 @@ class EvaluateVar(object):
             first_character = None
 
         if first_character in ["0", 0]:
-            return py2and3_return_false()
+            return False
 
         try:
             updated_value = int(self.results["check"]["value"])
         except:
-            return py2and3_return_false()
+            return False
 
         self.results["current"]["value"] = updated_value
         self.results["current"]["type"] = "int"
         self.results["updated"] = True
 
-        return py2and3_return_true()
+        return True
 
     def check_none(self,value):
         """
@@ -254,10 +245,10 @@ class EvaluateVar(object):
         try:
             _value = str(value)
         except:
-            return py2and3_return_none()
+            return
 
         if _value in self.bool_none:
-            return py2and3_return_true()
+            return True
 
     def check_bool(self,value):
         """
@@ -274,19 +265,15 @@ class EvaluateVar(object):
         """
 
         if str(value) in self.bool_true:
-            return py2and3_return_results("bool",
-                                          True)
+            return "bool",True
 
         if str(value) in self.bool_false:
-            return py2and3_return_results("bool",
-                                          False)
+            return "bool",False
 
         if str(value) in self.bool_none:
-            return py2and3_return_results("bool",
-                                          None)
+            return "bool",None
 
-        return py2and3_return_results(None,
-                                      None)
+        return None,None
 
     def is_bool(self):
         """
@@ -305,19 +292,19 @@ class EvaluateVar(object):
             self.results["updated"] = True
             self.results["current"]["value"] = True
             self.results["current"]["type"] = "bool"
-            return py2and3_return_true()
+            return True
 
         if self.results["check"]["value"] in self.bool_false:
             self.results["updated"] = True
             self.results["current"]["value"] = False
             self.results["current"]["type"] = "bool"
-            return py2and3_return_true()
+            return True
 
         if self.results["check"]["value"] in self.bool_none:
             self.results["updated"] = True
             self.results["current"]["value"] = None
             self.results["current"]["type"] = "bool"
-            return py2and3_return_true()
+            return True
 
     def is_str(self):
         """
@@ -332,9 +319,9 @@ class EvaluateVar(object):
         if isinstance(self.results["check"]["value"],str):
             self.results["current"]["type"] = "str"
             self.results["current"]["value"] = self.results["check"]["value"]
-            return py2and3_return_true()
+            return True
 
-        return py2and3_return_none()
+        return
 
     def init_results(self,**kwargs):
         """
@@ -359,7 +346,7 @@ class EvaluateVar(object):
                          }
 
         if "value" not in kwargs:
-            return py2and3_return_none()
+            return
 
         self.init_value = kwargs["value"]
         self._set_init_var()
@@ -393,7 +380,7 @@ class EvaluateVar(object):
                                     True)
 
         if not update_iterobj:
-            return py2and3_return_results(self.init_value)
+            return self.init_value
 
         try:
             new_obj = literal_eval(json.dumps(self.init_value))
@@ -401,8 +388,7 @@ class EvaluateVar(object):
             self.logger.warn("could not update iterable object to not contain unicode")
             new_obj = self.init_value
 
-        return py2and3_return_results(new_obj)
-        #return py2and3_return_results(json.dumps(new_obj))
+        return new_obj
 
     def get(self,**kwargs):
         """
@@ -426,7 +412,7 @@ class EvaluateVar(object):
         # if user specified type in list of "types" in variable types list, we leave them "types" format if possible
         if kwargs.get("user_specified_type"):
             self.results["user_specified_type"] = kwargs["user_specified_type"]
-            return py2and3_return_results(self.results["provided"]["type"])
+            return self.results["provided"]["type"]
 
         self._check_value_is_set()
 
@@ -434,19 +420,19 @@ class EvaluateVar(object):
             self.results["current"]["value"] = self._update_objiter()
             self.results["current"]["type"] = "dict"
             self.results["initial_check"] = True
-            return py2and3_return_results("dict")
+            return "dict"
 
         if isinstance(self.init_value,list):
             self.results["current"]["value"] = self._update_objiter()
             self.results["current"]["type"] = "list"
             self.results["initial_check"] = True
-            return py2and3_return_results("list")
+            return "list"
 
         if isinstance(self.init_value,float):
             self.results["current"]["value"] = self.init_value
             self.results["current"]["type"] = "float"
             self.results["initial_check"] = True
-            return py2and3_return_results("float")
+            return "float"
 
         if isinstance(self.init_value,str):
             self.results["check"]["value"] = self.init_value
@@ -462,21 +448,21 @@ class EvaluateVar(object):
 
         if self.is_bool():
             self.results["primary_check"] = True
-            return py2and3_return_results("bool")
+            return "bool"
 
         elif self.is_float():
             self.results["primary_check"] = True
-            return py2and3_return_results("float")
+            return "float"
 
         elif self.is_integer():
             self.results["primary_check"] = True
-            return py2and3_return_results("int")
+            return "int"
 
         elif self.is_str():
             self.results["primary_check"] = True
-            return py2and3_return_results("str")
+            return "str"
 
-        return py2and3_return_results("__unknown_variable_type__")
+        return "__unknown_variable_type__"
 
     def set(self,key=None,**kwargs):
         """
@@ -500,7 +486,7 @@ class EvaluateVar(object):
             self.logger.json(msg='\n\n## key {} ##\n'.format(key),
                              data=self.results)
 
-        return py2and3_return_results(self.results)
+        return self.results
 
 
 # ref 532452352341
