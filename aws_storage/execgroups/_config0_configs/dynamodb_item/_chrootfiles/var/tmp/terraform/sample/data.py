@@ -1,4 +1,4 @@
-from jiffycommon.serialization import b64_encode
+from foo.foo import b64_encode
 
 codebuild_name = "flask-sample-private"
 git_repo = "flask-sample-private"
