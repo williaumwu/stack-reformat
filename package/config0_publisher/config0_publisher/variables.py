@@ -376,8 +376,7 @@ class EvaluateVar(object):
             ValueError: If the iterable object cannot be updated.
         """
 
-        update_iterobj = kwargs.get("update_iterobj",
-                                    True)
+        update_iterobj = kwargs.get("update_iterobj",True)
 
         if not update_iterobj:
             return self.init_value
@@ -444,7 +443,9 @@ class EvaluateVar(object):
         if init_type:
             self.results["check"]["type"] = init_type
 
-        # check value will always be a str or dict/list.  it is needed because True => 1, and False => 0
+        # check value will always be a str
+        # or dict/list.  it is needed
+        # because True => 1, and False => 0
 
         if self.is_bool():
             self.results["primary_check"] = True

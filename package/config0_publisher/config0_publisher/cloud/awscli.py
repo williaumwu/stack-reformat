@@ -181,5 +181,4 @@ class AwsCli(ResourceCmdHelper):
         if self.aws_default_region == "None": 
             self.aws_default_region = "us-east-1"
 
-        # fixfix777
         self.logger.debug('Region set to "{}"'.format(self.aws_default_region))

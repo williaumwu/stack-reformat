@@ -136,22 +136,14 @@ def convert_str2json(_object,exit_error=None):
     try:
         _object = json.loads(_object)
         status = True
-        # fixfix777
-        #logger.debug("Success: Converting str to a json")
     except:
-        # fixfix777
-        #logger.debug("Cannot convert str to a json.  Will try to eval")
         status = False
 
     if not status:
         try:
             _object = eval(_object)
-            # fixfix777
-            #logger.debug("Success: Evaluating str to a json")
         except:
             status = False
-            # fixfix777
-            #logger.debug("Cannot eval str to a json.")
             if exit_error:
                 exit(13)
 
@@ -233,7 +225,6 @@ def get_hash(data):
     try:
         calculated_hash = hashlib.md5(data).hexdigest()
     except:
-        # fixfix777
         logger.debug("Falling back to shellout md5sum for hash")
         calculated_hash = shellout_hash(data)
 
@@ -385,7 +376,6 @@ class OnDiskTmpDir(object):
             msg = "fqn_dir has not be set"
             raise Exception(msg)
 
-        # fixfix777
         self.logger.debug('Returning fqn_dir "{}"'.format(self.fqn_dir))
 
         return self.fqn_dir

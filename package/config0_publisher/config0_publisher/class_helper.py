@@ -68,6 +68,5 @@ class SetClassVarsHelper:
                 raise Exception("variable {} needs to be set".format(env_var))
 
             if self.set_default_null:
-                # fixfix777
                 self.logger.debug("set None for variable {}".format(env_var))
                 exec('self.{}=None'.format(env_var))

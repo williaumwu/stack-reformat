@@ -537,7 +537,6 @@ class ShellOutExecute(object):
             elif not isinstance(ev,str):
                 ev = str(ev)
 
-            # fixfix777
             if os.environ.get("JIFFY_ENHANCED_LOG") or os.environ.get("DEBUG_STATEFUL"):
                 self.logger.debug("key -> {} value -> {} type -> {}".format(ek,ev,type(ev)))
             else:
@@ -548,7 +547,6 @@ class ShellOutExecute(object):
 
         if os.environ.get("JIFFY_ENHANCED_LOG"):
 
-            # fixfix777
             self.logger.debug("#" * 32)
             self.logger.debug("# env vars set are")
 
@@ -556,7 +554,6 @@ class ShellOutExecute(object):
                               sort_keys=True,
                               indent=4)))
 
-            # fixfix777
             self.logger.debug("#" * 32)
 
         return _env_vars
@@ -566,7 +563,6 @@ class ShellOutExecute(object):
         print the output of the executed command
         """
         try:
-            # fixfix777
             self.logger.debug(self.results["output"])
         except:
             print(self.results["output"])
@@ -588,11 +584,9 @@ class ShellOutExecute(object):
         try:
             output = json.loads(self.results["output"])
         except:
-            # fixfix777
             self.logger.debug("Could not convert output to json")
             return
 
-        # fixfix777
         self.logger.debug("output to json/dict")
 
         self.results["output"] = output
@@ -618,7 +612,6 @@ class ShellOutExecute(object):
             self._convert_output_to_json()
 
         if self.output_queue:
-            # fixfix777
             self.logger.debug("attempting to place results in the output_queue")
             try:
                 self.output_queue.put(self.results)

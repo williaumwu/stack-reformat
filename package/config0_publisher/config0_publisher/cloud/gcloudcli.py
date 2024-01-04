@@ -161,8 +161,7 @@ class GcloudCli(ResourceCmdHelper):
         tags = "["
 
         if name: 
-            tags = tags + "{"+"Key={},Value={}".format("Name",
-                                                       name)+"}"
+            tags = tags + "{"+"Key={},Value={}".format("Name",name)+"}"
         
         for key_eval in self.resource_tags_keys:
 
@@ -304,8 +303,9 @@ class GcloudCli(ResourceCmdHelper):
                                    exit_error=False)
             status = results.get("status")
             output = results.get("output")
-            # fixfix777
-            if output: self.logger.debug(output)
+
+            if output:
+                self.logger.debug(output)
   
             self.add_output(cmd=cmd,
                             remove_empty=True,
@@ -334,32 +334,26 @@ class GcloudCli(ResourceCmdHelper):
         client_x509_cert_url = os.environ.get("GCLOUD_CLIENT_X509_CERT_URL")
     
         if not project_id:
-            # fixfix777
             self.logger.debug("GCLOUD_PROJECT is required for write credentials")
             return
     
         if not private_key_id:
-            # fixfix777
             self.logger.debug("GCLOUD_PRIVATE_KEY_ID is required for write credentials")
             return
     
         if not private_key:
-            # fixfix777
             self.logger.debug("GCLOUD_PRIVATE_KEY is required for write credentials")
             return
     
         if not client_id:
-            # fixfix777
             self.logger.debug("GCLOUD_CLIENT_ID is required for write credentials")
             return
     
         if not client_email:
-            # fixfix777
             self.logger.debug("GCLOUD_CLIENT_EMAIL is required for write credentials")
             return
     
         if not client_x509_cert_url:
-            # fixfix777
             self.logger.debug("GCLOUD_CLIENT_X509_CERT_URL is required for write credentials")
             return
     
@@ -374,8 +368,10 @@ class GcloudCli(ResourceCmdHelper):
     
         auth_uri = os.environ.get("GCLOUD_AUTH_URI",
                                   "https://accounts.google.com/o/oauth2/auth")
+
         token_uri = os.environ.get("GCLOUD_TOKEN_URI",
                                    "https://oauth2.googleapis.com/token")
+
         auth_provider = os.environ.get("GCLOUD_AUTH_PROVIDER",
                                        "https://www.googleapis.com/oauth2/v1/certs")
     
@@ -391,14 +387,11 @@ class GcloudCli(ResourceCmdHelper):
                    "client_x509_cert_url": client_x509_cert_url,
                    }
     
-        json_object = json.dumps(values,
-                                 indent=2).replace('\\\\',
-                                                   '\\')
+        json_object = json.dumps(values,indent=2).replace('\\\\','\\')
     
         if not os.path.exists(creds_dir):
             os.system("mkdir -p {}".format(creds_dir))
 
-        # fixfix777
         self.logger.debug("gcloud directory {} ...".format(self.google_application_credentials))
     
         # Writing to sample.json 

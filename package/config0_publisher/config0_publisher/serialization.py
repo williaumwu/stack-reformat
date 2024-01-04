@@ -94,8 +94,7 @@ def gz_pickle(fname, obj):
                        protocol=2)
 
 def gz_upickle(fname):
-    return pickle.load(gzip.open(fname,
-                                 "rb"))
+    return pickle.load(gzip.open(fname,"rb"))
 
 def zpickle(obj):
     """
@@ -137,9 +136,7 @@ def compress(indata):
     bytes
         The compressed data.
     """
-    outdata = zlib.compress(indata,
-                            lib.Z_BEST_COMPRESSION)
-    return outdata
+    return zlib.compress(indata,lib.Z_BEST_COMPRESSION)
 
 def uncompress(zdata):
     return zlib.decompress(zdata)  
@@ -163,8 +160,7 @@ def to_envfile(obj,b64=True):
     file_buffer = io.StringIO()
 
     for _k,_v in list(obj.items()):
-        file_buffer.write("export {}={}\n".format(_k,
-                                                  _v))
+        file_buffer.write("export {}={}\n".format(_k,_v))
 
     if not b64:
         return file_buffer.getvalue()

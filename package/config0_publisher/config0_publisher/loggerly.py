@@ -96,8 +96,7 @@ class Config0Logger(object):
 
         self.classname = 'Config0Logger'
 
-        logger = get_logger(name,
-                            **kwargs)
+        logger = get_logger(name,**kwargs)
         self.direct = logger[0]
         self.name = logger[1]
         self.aggregate_msg = None
@@ -138,7 +137,6 @@ class Config0Logger(object):
             self.direct.critical(_msg)
         elif loglevel == "info":
             self.direct.info(_msg)
-        # fixfix777
         elif loglevel == "debug":
             self.direct.debug(_msg)
         else:
@@ -316,8 +314,7 @@ def get_logger(name,**kwargs):
         if not os.path.exists(logfile): 
             os.system("touch {}".format(logfile))
 
-    formatter = kwargs.get("formatter",
-                           "module")
+    formatter = kwargs.get("formatter","module")
 
     name_handler = kwargs.get("name_handler",
                               "console,loglevel_file_handler,error_file_handler")

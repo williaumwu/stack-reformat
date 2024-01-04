@@ -18,7 +18,6 @@ import os
 from config0_publisher.loggerly import Config0Logger
 import boto.ec2
 
-# fixfix777
 #import random
 #import sys
 #import logging

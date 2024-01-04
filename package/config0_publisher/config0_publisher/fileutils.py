@@ -76,13 +76,11 @@ def list_all_files(rootdir,ignores=[ ".pyc$", ".swp$"]):
         tempList = []
 
         for file in files:
-            f = os.path.join(root,
-                             file)
+            f = os.path.join(root,file)
             tempList.append(f)
 
         for d in subFolders:
-            g = os.path.join(root,
-                             d)
+            g = os.path.join(root,d)
             tempList.append(g)
 
         if not tempList:
@@ -97,8 +95,7 @@ def list_all_files(rootdir,ignores=[ ".pyc$", ".swp$"]):
             add = True
 
             for ignore in ignores:
-                if re.search(ignore,
-                             file):
+                if re.search(ignore,file):
                     add = False
                     break
 
